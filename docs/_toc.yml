@@ -1,0 +1,7 @@
+format: jb-book
+root: temp
+parts:
+- caption: intro
+  numbered: false
+  chapters:
+  - file: temps
