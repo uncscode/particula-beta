@@ -1,5 +1,5 @@
 [project]
-name = "particula-beta"
+name = "particula_beta"
 description = "Development version of particula, containing new features and functionality."
 readme = "readme.md"
 requires-python = ">=3.9"
@@ -29,7 +29,7 @@ dependencies = [
     "matplotlib", "torch", "scikit-learn"
 ]
 
-# This is set automatically by flit using `particula.__version__`
+# This is set automatically by flit using `particula_beta.__version__`
 dynamic = ["version"]
 
 [project.urls]
