@@ -1,10 +1,11 @@
 [project]
-name = "template"
-description = "a simple, fast, and powerful template"
-readme = "readme"
-requires-python = ">=3.7"
+name = "particula-beta"
+description = "Development version of particula, containing new features and functionality."
+readme = "readme.md"
+requires-python = ">=3.9"
 license = {file = "license"}
 authors = [
+    {name = "Gorkowski", email="Gorkowski@users.noreply.github.com"},
     {name = "ngam", email="ngam@users.noreply.github.com"},
 ]
 classifiers = [
@@ -12,25 +13,36 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "License :: OSI Approved :: MIT License",
     "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
 ]
 keywords = [
-    "template",
+    "atmospheric", "particles", "climate", "aerosol", "particulate",
+    "particula", "instruments", "optics", "scattering", "absorption",
+    "new particle formation", "nucleation", "growth", "coagulation",
+    "aerosol cloud interactions", "aerosol radiation interactions",
 ]
 
-dependencies = [""]
+dependencies = [
+    "particula",
+    "numpy", "scipy<1.14.0", "pint", "hypersolver==0.0.8", "pandas",
+    "netCDF4", "shapely", "PyMieScatt", "tqdm", "pytz",
+    "matplotlib", "torch", "scikit-learn"
+]
 
-# This is set automatically by flit using `template.__version__`
+# This is set automatically by flit using `particula.__version__`
 dynamic = ["version"]
 
 [project.urls]
-homepage = "https://github.com/uncscode/template"
-repository = "https://github.com/uncscode/template"
+homepage = "https://github.com/uncscode/particula-beta"
+repository = "https://github.com/uncscode/particula-beta"
 
 [project.optional-dependencies]
 dev = [
-    "pylint", "pytest", "autopep8", "jupyterlab", "pytype",
+    "pylint", "pytest", "autopep8", "jupyterlab",
     "typing", "build", "flake8", "jupyter-book", "ghp-import",
-    "matplotlib", "numpy", "scipy",
+    "matplotlib", "pandas", "netCDF4", "shapely", "PyMieScatt",
+    "tqdm", "pytz", "torch", "mkdocs-material", "handsdown",
+    "mkdocs-jupyter",
 ]
 
 [build-system]
