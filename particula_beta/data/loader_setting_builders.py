@@ -57,10 +57,10 @@ class Loader1DSettingsBuilder(
             "data_checks",
             "data_column",
             "data_header",
-            "time_column",
             "time_format",
-            "delimiter",
+            "time_column",
             "time_shift_seconds",
+            "delimiter",
             "timezone_identifier",
         ]
         BuilderABC.__init__(self, required_parameters)
