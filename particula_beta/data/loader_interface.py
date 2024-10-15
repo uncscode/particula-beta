@@ -272,10 +272,10 @@ def get_1d_stream(
         raise TypeError("The setting parameters must be in a dictionary.")
 
     required_keys = [
-        "data_checks",
         "data_column",
-        "time_column",
+        "data_checks",
         "time_format",
+        "time_column",
         "delimiter",
         "time_shift_seconds",
         "timezone_identifier",
