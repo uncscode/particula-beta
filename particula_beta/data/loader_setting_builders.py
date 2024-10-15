@@ -190,11 +190,11 @@ class LoaderSizerSettingsBuilder(
             "data_column",
             "data_header",
             "time_column",
-            "time_format",
             "delimiter",
-            "time_shift_seconds",
+            "time_format",
             "timezone_identifier",
             "data_sizer_reader",
+            "time_shift_seconds",
         ]
         BuilderABC.__init__(self, required_parameters)
         RelativeFolderMixin.__init__(self)
