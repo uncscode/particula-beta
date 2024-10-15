@@ -6,9 +6,8 @@ import copy
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
-from particula.util import stats
+from particula.util import stats, time_manage
 from particula_beta.data.stream import StreamAveraged, Stream
-from particula.util import time_manage
 
 
 def drop_masked(stream: Stream, mask: np.ndarray) -> Stream:  # type: ignore

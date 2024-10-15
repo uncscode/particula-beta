@@ -3,10 +3,10 @@
 from typing import Optional
 import os
 import numpy as np
+from particula.util import convert
 from particula_beta.data import loader, merger
 from particula_beta.data.stream import Stream
 from particula_beta.data.lake import Lake
-from particula.util import convert
 
 
 def get_new_files(
