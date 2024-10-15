@@ -1,0 +1,22 @@
+name: stalebot
+
+on:
+  schedule:
+  - cron: '00 00 * * *'
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/stale@v9
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'This will be closed soon due to inactivity'
+        stale-pr-message: 'This will be closed soon due to inactivity'
+        stale-issue-label: 'no-issue-activity'
+        stale-pr-label: 'no-pr-activity'
