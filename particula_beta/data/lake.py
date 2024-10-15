@@ -1,9 +1,8 @@
 """creates the lake class, a collection of streams"""
 
-
 from dataclasses import dataclass, field
 from typing import Dict, Iterator, Any, Tuple
-from particula.data.stream import Stream
+from particula_beta.data.stream import Stream
 
 
 @dataclass
@@ -14,6 +13,7 @@ class Lake:
         streams (Dict[str, Stream]): A dictionary to hold streams with their
         names as keys.
     """
+
     streams: Dict[str, Stream] = field(default_factory=dict)
 
     def add_stream(self, stream: Stream, name: str) -> None:
@@ -32,7 +32,8 @@ class Lake:
             raise ValueError(f"Stream name {name} already in use")
         if not name.isidentifier():
             raise ValueError(
-                f"Stream name '{name}' is not a valid python identifier")
+                f"Stream name '{name}' is not a valid python identifier"
+            )
         self.streams[name] = stream
 
     def __getattr__(self, name: str) -> Any:

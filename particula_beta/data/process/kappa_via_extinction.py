@@ -12,7 +12,7 @@ import numpy as np
 from scipy.optimize import fminbound
 from numpy.typing import NDArray
 from particula.util import convert
-from particula.data.process import mie_bulk
+from particula_beta.data.process import mie_bulk
 
 
 def extinction_ratio_wet_dry(

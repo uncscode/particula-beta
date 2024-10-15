@@ -1,6 +1,7 @@
 """Test the integration module."""
+
 import torch
-from particula.lagrangian import integration
+from particula_beta.lagrangian import integration
 
 
 def test_integration_leapfrog():
@@ -13,6 +14,7 @@ def test_integration_leapfrog():
     expected_position = torch.tensor([1.0, 0.5, 0.0])
     expected_velocity = torch.tensor([1.0, 1.0, 0.0])
     result_position, result_velocity = integration.leapfrog(
-        position, velocity, force, mass, time_step)
+        position, velocity, force, mass, time_step
+    )
     assert torch.allclose(result_position, expected_position)
     assert torch.allclose(result_velocity, expected_velocity)

@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from particula.data.process import scattering_truncation
+from particula_beta.data.process import scattering_truncation
 
 # Global parameters for the aerosol distribution and optics
 KAPPA = 0.8
@@ -29,22 +29,23 @@ def test_get_truncated_scattering():
     theta2 = 3 * np.pi / 4  # Upper bound of angle range
 
     # Call the function under test
-    scattering_trunc, theta_trunc = \
+    scattering_trunc, theta_trunc = (
         scattering_truncation.get_truncated_scattering(
-            scattering_unpolarized, theta, theta1, theta2)
+            scattering_unpolarized, theta, theta1, theta2
+        )
+    )
 
     # expected values
     exp_scattering_trunc = np.array([4, 5, 6, 7])
-    exp_theta_trunc = np.array(
-        [1.04719755, 1.3962634, 1.74532925, 2.0943951])
+    exp_theta_trunc = np.array([1.04719755, 1.3962634, 1.74532925, 2.0943951])
 
     # verify the content of the truncated arrays more explicitly
     assert np.allclose(
         scattering_trunc, exp_scattering_trunc, atol=1e-5
-        ), "The scattering intensities do not match the expected values"
+    ), "The scattering intensities do not match the expected values"
     assert np.allclose(
         theta_trunc, exp_theta_trunc, atol=1e-5
-        ), "The theta angles do not match the expected values"
+    ), "The theta angles do not match the expected values"
 
 
 def test_trunc_mono_basic():
@@ -57,7 +58,7 @@ def test_trunc_mono_basic():
         wavelength=WAVELENGTH,
         diameter=500.0,
         discretize=False,
-        calibrated_trunc=False
+        calibrated_trunc=False,
     )
     exp_trunc_corr = 1.0984704282875792
     # Assert the type and a basic range check for the truncation correction
@@ -73,7 +74,7 @@ def test_trunc_mono_basic():
         wavelength=WAVELENGTH,
         diameter=500.0,
         discretize=True,
-        calibrated_trunc=False
+        calibrated_trunc=False,
     )
     exp_trunc_corr = 1.0984704282875792
     # Assert the type and a basic range check for the truncation correction
@@ -87,15 +88,21 @@ def test_trunc_mono_full_output():
     """Test trunc_mono with full output enabled."""
 
     # Execute the function under test with full_output enabled
-    trunc_corr, z_axis, qsca_trunc, qsca_ideal, theta1, theta2 = \
-        scattering_truncation.trunc_mono(
-            m_sphere=REFRACTIVE_INDEX_DRY,
-            wavelength=WAVELENGTH,
-            diameter=500.0,
-            discretize=False,
-            full_output=True,
-            calibrated_trunc=False
-        )  # type: ignore
+    (
+        trunc_corr,
+        z_axis,
+        qsca_trunc,
+        qsca_ideal,
+        theta1,
+        theta2,
+    ) = scattering_truncation.trunc_mono(
+        m_sphere=REFRACTIVE_INDEX_DRY,
+        wavelength=WAVELENGTH,
+        diameter=500.0,
+        discretize=False,
+        full_output=True,
+        calibrated_trunc=False,
+    )  # type: ignore
 
     # expected values
     exp_trunc_corr = 1.0984704282875792
@@ -108,12 +115,11 @@ def test_trunc_mono_full_output():
 
     # Validate the returned data structures
     assert isinstance(
-        trunc_corr, float), "Truncation correction factor should be a float"
+        trunc_corr, float
+    ), "Truncation correction factor should be a float"
     assert isinstance(z_axis, np.ndarray), "z_axis should be a numpy array"
-    assert isinstance(
-        qsca_trunc, float), "qsca_trunc should be a float"
-    assert isinstance(
-        qsca_ideal, float), "qsca_ideal should be a float"
+    assert isinstance(qsca_trunc, float), "qsca_trunc should be a float"
+    assert isinstance(qsca_ideal, float), "qsca_ideal should be a float"
     assert isinstance(theta1, np.ndarray), "theta1 should be a numpy array"
     assert isinstance(theta2, np.ndarray), "theta2 should be a numpy array"
 
@@ -132,14 +138,15 @@ def test_truncation_for_diameters():
         m_sphere=WATER_ACTIVITY_DRY,
         wavelength=WAVELENGTH,
         diameter_sizes=DIAMETERS,
-        calibrated_trunc=False
+        calibrated_trunc=False,
     )
     # Expected values
     exp_truncation_corrections = np.array([1.02127865, 1.02514909, 1.03708443])
     # Check that the output is an NDArray of the same size as the input
     # diameter_sizes
-    assert isinstance(truncation_corrections,
-                      np.ndarray), "Output should be a numpy array"
+    assert isinstance(
+        truncation_corrections, np.ndarray
+    ), "Output should be a numpy array"
     assert truncation_corrections == pytest.approx(
         exp_truncation_corrections, abs=1e-6
     )
@@ -150,20 +157,19 @@ def test_correction_for_distribution():
     an aerosol size distribution."""
 
     # Execute the function under test
-    correction_factor = \
-        scattering_truncation.correction_for_distribution(
-            m_sphere=REFRACTIVE_INDEX_DRY,
-            wavelength=WAVELENGTH,
-            diameter_sizes=DIAMETERS,
-            number_per_cm3=NUMBER_PER_CM3
-        )
+    correction_factor = scattering_truncation.correction_for_distribution(
+        m_sphere=REFRACTIVE_INDEX_DRY,
+        wavelength=WAVELENGTH,
+        diameter_sizes=DIAMETERS,
+        number_per_cm3=NUMBER_PER_CM3,
+    )
     # Expected values
     exp_correction_factor = 1.0165280236871668
 
     # Assert the type of the return value
     assert isinstance(
         correction_factor, (float, np.float64)
-        ), "Correction factor should be a float"
+    ), "Correction factor should be a float"
 
     # Perform basic validity checks on the correction factor
     # Assuming the correction factor should be positive and typically close to
@@ -185,7 +191,7 @@ def test_correction_for_humidified():
         water_activity_sample=WATER_ACTIVITY_WET,
         refractive_index_dry=REFRACTIVE_INDEX_DRY,
         water_refractive_index=WATER_REFRACTIVE_INDEX,
-        wavelength=WAVELENGTH
+        wavelength=WAVELENGTH,
     )
     # Expected values
     exp_bsca_correction = 1.0751959691207493
@@ -199,10 +205,13 @@ def test_correction_for_humidified_looped():
     """Test the looped correction for humidified aerosol measurements."""
     # Simulate time-indexed input arrays with varying conditions
     kappa = np.array([0.1, 0.5, 0.95])  # Hygroscopicity parameter array
-    number_per_cm3 = np.array([
-        [1000.0, 1500.0, 1000.0],
-        [1000.0, 1500.0, 1000.0],
-        [1000.0, 1500.0, 1000.0]])  # Time-indexed number concentration
+    number_per_cm3 = np.array(
+        [
+            [1000.0, 1500.0, 1000.0],
+            [1000.0, 1500.0, 1000.0],
+            [1000.0, 1500.0, 1000.0],
+        ]
+    )  # Time-indexed number concentration
     diameter = DIAMETERS  # Use the global diameters for simplicity
     # Varying sizing instrument water activity
     water_activity_sizer = np.array([0.2, 0.25, 0.3])
@@ -210,7 +219,7 @@ def test_correction_for_humidified_looped():
     water_activity_sample = np.array([0.8, 0.8, 0.8])
 
     # Execute the function under test
-    correction_factors = \
+    correction_factors = (
         scattering_truncation.correction_for_humidified_looped(
             kappa=kappa,
             number_per_cm3=number_per_cm3,
@@ -219,18 +228,22 @@ def test_correction_for_humidified_looped():
             water_activity_sample=water_activity_sample,
             refractive_index_dry=REFRACTIVE_INDEX_DRY,
             water_refractive_index=WATER_REFRACTIVE_INDEX,
-            wavelength=WAVELENGTH
+            wavelength=WAVELENGTH,
         )
+    )
 
     # Expected values
     exp_correction_factors = np.array(
-        [1.0234830302, 1.0405837279854753, 1.04719491370677])
+        [1.0234830302, 1.0405837279854753, 1.04719491370677]
+    )
 
     # Assert the output is a numpy array with the correct length
-    assert isinstance(correction_factors,
-                      np.ndarray), "Output should be a numpy array"
+    assert isinstance(
+        correction_factors, np.ndarray
+    ), "Output should be a numpy array"
     assert len(correction_factors) == len(
-        kappa), "Output array length does not match the number of time indices"
+        kappa
+    ), "Output array length does not match the number of time indices"
 
     # Check values
     assert correction_factors == pytest.approx(

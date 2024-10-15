@@ -1,6 +1,7 @@
 """Tests for particle_pairs.py."""
+
 import torch
-from particula.lagrangian import particle_pairs
+from particula_beta.lagrangian import particle_pairs
 
 
 def test_remove_duplicates():
@@ -16,9 +17,9 @@ def test_calculate_pairwise_distance():
     """Test calculating pairwise distances between points
     in a position tensor."""
     position = torch.tensor([[1, 1, 1], [1, 1, 2], [-1, 1, 1]])
-    expected_output = torch.tensor([[0.0, 2.0, 2.2361],
-                                    [2.0, 0.0, 1.0],
-                                    [2.2361, 1.0, 0.0]])
+    expected_output = torch.tensor(
+        [[0.0, 2.0, 2.2361], [2.0, 0.0, 1.0], [2.2361, 1.0, 0.0]]
+    )
     result = particle_pairs.calculate_pairwise_distance(position)
     assert torch.allclose(result, expected_output, atol=1e-4)
 
@@ -29,7 +30,8 @@ def test_single_axis_sweep_and_prune():
     position_axis = torch.tensor([1.0, 2.0, 4.0, 5.0])
     radius = torch.tensor([0.5, 1.5, 0.2, 0.2])
     left_indices, right_indices = particle_pairs.single_axis_sweep_and_prune(
-        position_axis, radius)
+        position_axis, radius
+    )
 
     assert torch.equal(left_indices, torch.tensor([0]))
     assert torch.equal(right_indices, torch.tensor([1]))
@@ -38,7 +40,8 @@ def test_single_axis_sweep_and_prune():
     position_axis = torch.tensor([])
     radius = torch.tensor([])
     left_indices, right_indices = particle_pairs.single_axis_sweep_and_prune(
-        position_axis, radius)
+        position_axis, radius
+    )
 
     assert torch.equal(left_indices, torch.tensor([]))
     assert torch.equal(right_indices, torch.tensor([]))
@@ -48,9 +51,9 @@ def test_validate_pair_distance():
     """Test validating pair distances."""
     # Mock data
     collision_indices_pairs = torch.tensor([[0, 1], [1, 2]])
-    position = torch.tensor([[0.0, 1.0, 1.0],
-                             [0.0, 0.0, 0.0],
-                             [5.0, 5.0, 0.0]])
+    position = torch.tensor(
+        [[0.0, 1.0, 1.0], [0.0, 0.0, 0.0], [5.0, 5.0, 0.0]]
+    )
     radius = torch.tensor([1.5, 1.5, 0.5])
 
     # Expected output: Only the first pair should collide
@@ -60,7 +63,8 @@ def test_validate_pair_distance():
     actual_output = particle_pairs.validate_pair_distance(
         collision_indices_pairs=collision_indices_pairs,
         position=position,
-        radius=radius)
+        radius=radius,
+    )
 
     # Assert the result
     assert torch.equal(actual_output, expected_output)

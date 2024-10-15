@@ -13,8 +13,10 @@ from particula.next.particles.properties import (
     lognormal_pdf_distribution,
     lognormal_pmf_distribution,
 )
-from particula.data.stream import Stream
-from particula.data.process.ml_analysis import generate_and_train_2mode_sizer
+from particula_beta.data.stream import Stream
+from particula_beta.data.process.ml_analysis import (
+    generate_and_train_2mode_sizer,
+)
 
 # Set up logging
 logger = logging.getLogger("particula")
@@ -44,8 +46,8 @@ def cost_function(
     # Unpack the parameters
     num_modes = 2
     mode_values = params[:num_modes]
-    geometric_standard_deviation = params[num_modes: (2 * num_modes)]
-    number_of_particles = params[(2 * num_modes):]
+    geometric_standard_deviation = params[num_modes : (2 * num_modes)]
+    number_of_particles = params[(2 * num_modes) :]
 
     # Generate the guessed concentration PDF
     concentration_pdf_guess = lognormal_pdf_distribution(

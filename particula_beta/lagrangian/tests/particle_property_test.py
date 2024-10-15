@@ -1,14 +1,14 @@
 """test module for particle_property.py"""
+
 import torch
-from particula.lagrangian import particle_property
+from particula_beta.lagrangian import particle_property
 
 
 def test_radius_vector():
     """Test calculating the radius vector."""
     mass = torch.tensor([10.0, 20.0, 30.0])
     density = torch.tensor([2.0, 3.0, 4.0])
-    expected_radius = torch.tensor(
-        [1.0608, 1.1675, 1.2143])
+    expected_radius = torch.tensor([1.0608, 1.1675, 1.2143])
     result = particle_property.radius_calculation(mass, density)
     assert torch.allclose(result, expected_radius, atol=1e-4)
 
@@ -38,7 +38,7 @@ def test_generate_mass():
         mean_radius=mean_radius,
         std_dev_radius=std_dev_radius,
         density=density,
-        num_particles=num_particles
+        num_particles=num_particles,
     )
     assert masses.shape[0] == num_particles
     assert torch.all(masses >= 0)  # Masses should be non-negative
@@ -48,8 +48,9 @@ def test_thermal_speed_calculation():
     """test calculating thermal velocity
     should check the values"""
     temperature = 273.0  # example value
-    mass = particle_property.mass_calculation(radius=torch.tensor([1e-6]),
-                                              density=torch.tensor([1e3]))
+    mass = particle_property.mass_calculation(
+        radius=torch.tensor([1e-6]), density=torch.tensor([1e3])
+    )
     expected_velocity = torch.tensor([0.0015])
     result = particle_property.thermal_speed(
         temperature_kelvin=temperature,
@@ -75,7 +76,7 @@ def test_random_thermal_velocity():
     velocities = particle_property.random_thermal_velocity(
         temperature_kelvin=temperature,
         mass_kg=mass,
-        number_of_particles=num_particles
+        number_of_particles=num_particles,
     )
     assert velocities.shape[1] == num_particles
 

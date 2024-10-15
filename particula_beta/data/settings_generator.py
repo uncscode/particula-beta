@@ -8,7 +8,7 @@ import json
 import warnings
 import os
 
-from particula.data.loader import get_files_in_folder_with_size
+from particula_beta.data.loader import get_files_in_folder_with_size
 
 
 def for_general_1d_load(

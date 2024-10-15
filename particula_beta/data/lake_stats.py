@@ -4,8 +4,8 @@ from typing import Optional, Union
 import numpy as np
 from numpy.typing import NDArray
 
-from particula.data.lake import Lake
-from particula.data import stream_stats
+from particula_beta.data.lake import Lake
+from particula_beta.data import stream_stats
 
 
 def average_std(

@@ -13,7 +13,7 @@ from scipy.optimize import minimize  # type: ignore
 from sklearn.metrics import r2_score, mean_squared_error  # type: ignore
 from tqdm import tqdm
 
-from particula.data.stream import Stream
+from particula_beta.data.stream import Stream
 from particula.next.dynamics import dilution, wall_loss, coagulation
 
 

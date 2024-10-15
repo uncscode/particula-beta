@@ -22,7 +22,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
 
 from particula.next.particles.properties import lognormal_pdf_distribution
-from particula.data.process.ml_analysis.get_ml_folder import (
+from particula_beta.data.process.ml_analysis.get_ml_folder import (
     get_ml_analysis_folder,
 )
 

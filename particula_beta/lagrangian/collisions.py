@@ -3,14 +3,14 @@
 from typing import Tuple
 import torch
 
-from particula.lagrangian import particle_pairs
+from particula_beta.lagrangian import particle_pairs
 
 
 def find_collisions(
-        distance_matrix: torch.Tensor,
-        indices: torch.Tensor,
-        mass: torch.Tensor,
-        k: int = 1
+    distance_matrix: torch.Tensor,
+    indices: torch.Tensor,
+    mass: torch.Tensor,
+    k: int = 1,
 ) -> torch.Tensor:
     """
     Find the collision pairs from a distance matrix, given the mass and
@@ -40,10 +40,8 @@ def find_collisions(
     """
     # Find the top k closest particles for each particle
     closest_neighbors = torch.topk(
-        distance_matrix,
-        k=k + 1,
-        largest=False,
-        sorted=True)
+        distance_matrix, k=k + 1, largest=False, sorted=True
+    )
 
     # Identify collisions and exclude zero-distance (self) and zero-mass
     # particles
@@ -58,20 +56,25 @@ def find_collisions(
 
     # Combine indices to form collision pairs
     collision_indices_pairs = torch.cat(
-        [expanded_closest_neighbors.unsqueeze(2),
-         expanded_indices.unsqueeze(2)], dim=2)
+        [
+            expanded_closest_neighbors.unsqueeze(2),
+            expanded_indices.unsqueeze(2),
+        ],
+        dim=2,
+    )
 
     # Extract valid collision pairs
     return collision_indices_pairs[
-        collisions[:, iteration_index], iteration_index, :].int()
+        collisions[:, iteration_index], iteration_index, :
+    ].int()
 
 
 def coalescence(
-        position: torch.Tensor,
-        velocity: torch.Tensor,
-        mass: torch.Tensor,
-        radius: torch.Tensor,
-        collision_indices_pairs: torch.Tensor,
+    position: torch.Tensor,
+    velocity: torch.Tensor,
+    mass: torch.Tensor,
+    radius: torch.Tensor,
+    collision_indices_pairs: torch.Tensor,
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Update mass and velocity of particles based on collision pairs, conserving
@@ -119,8 +122,8 @@ def coalescence(
     # Update velocities based on conservation of momentum
     total_mass = mass[unique_indices[:, 0]] + mass[unique_indices[:, 1]]
     velocity[:, unique_indices[:, 0]] = (
-        mass[unique_indices[:, 0]] * velocity[:, unique_indices[:, 0]] +
-        mass[unique_indices[:, 1]] * velocity[:, unique_indices[:, 1]]
+        mass[unique_indices[:, 0]] * velocity[:, unique_indices[:, 0]]
+        + mass[unique_indices[:, 1]] * velocity[:, unique_indices[:, 1]]
     ) / total_mass
 
     # Subtract mass and velocity from the right-side particles

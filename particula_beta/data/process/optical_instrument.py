@@ -4,8 +4,11 @@ from typing import Optional, Union
 import logging
 import numpy as np
 
-from particula.data.stream import Stream
-from particula.data.process import scattering_truncation, kappa_via_extinction
+from particula_beta.data.stream import Stream
+from particula_beta.data.process import (
+    scattering_truncation,
+    kappa_via_extinction,
+)
 
 logger = logging.getLogger("particula")
 

@@ -14,8 +14,8 @@ import csv
 
 from particula.util import convert
 from particula.util.time_manage import time_str_to_epoch
-from particula.data.lake import Lake
-from particula.data.stream import Stream
+from particula_beta.data.lake import Lake
+from particula_beta.data.stream import Stream
 
 FILTER_WARNING_FRACTION = 0.5
 

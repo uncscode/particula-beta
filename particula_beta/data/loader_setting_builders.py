@@ -4,7 +4,7 @@
 
 from typing import Any, Dict, Tuple
 from particula.next.abc_builder import BuilderABC
-from particula.data.mixin import (
+from particula_beta.data.mixin import (
     RelativeFolderMixin,
     FilenameRegexMixin,
     FileMinSizeBytesMixin,

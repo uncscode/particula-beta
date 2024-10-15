@@ -4,7 +4,7 @@ Tests for the aerodynamic_convert module.
 
 import numpy as np
 
-from particula.data.process.aerodynamic_convert import (
+from particula_beta.data.process.aerodynamic_convert import (
     convert_aerodynamic_to_physical_radius,
     convert_physical_to_aerodynamic_radius,
 )

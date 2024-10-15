@@ -6,8 +6,8 @@ from datetime import datetime
 import pytest
 import pytz
 import numpy as np
-from particula.data import loader
-from particula.data.stream import Stream
+from particula_beta.data import loader
+from particula_beta.data.stream import Stream
 
 # sample stream
 stream = Stream(

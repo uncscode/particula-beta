@@ -2,7 +2,9 @@
 Run all the machine learning trainings
 """
 
-from particula.data.process.ml_analysis import generate_and_train_2mode_sizer
+from particula_beta.data.process.ml_analysis import (
+    generate_and_train_2mode_sizer,
+)
 
 
 # run the 2 mode sizer training

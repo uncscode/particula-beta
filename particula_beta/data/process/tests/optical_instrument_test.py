@@ -2,7 +2,7 @@
 Test for optical instrument module.
 """
 
-from particula.data.process.optical_instrument import (
+from particula_beta.data.process.optical_instrument import (
     CapsInstrumentKeywordBuilder,
 )
 
@@ -27,13 +27,17 @@ def test_set_keywords():
         caps_scattering_wet="CAPS_scattering_wet_[1/Mm]",
     )
     assert builder.keyword_dict["caps_extinction_dry"] == (
-        "CAPS_extinction_dry_[1/Mm]")
+        "CAPS_extinction_dry_[1/Mm]"
+    )
     assert builder.keyword_dict["caps_extinction_wet"] == (
-        "CAPS_extinction_wet_[1/Mm]")
+        "CAPS_extinction_wet_[1/Mm]"
+    )
     assert builder.keyword_dict["caps_scattering_dry"] == (
-        "CAPS_scattering_dry_[1/Mm]")
+        "CAPS_scattering_dry_[1/Mm]"
+    )
     assert builder.keyword_dict["caps_scattering_wet"] == (
-        "CAPS_scattering_wet_[1/Mm]")
+        "CAPS_scattering_wet_[1/Mm]"
+    )
     assert builder.keyword_dict["caps_relative_humidity_dry"] is None
 
 
@@ -45,7 +49,7 @@ def test_partial_build():
         .set_keyword("caps_extinction_wet", "CAPS_extinction_wet_[1/Mm]")
         .set_keyword("caps_scattering_dry", "CAPS_scattering_dry_[1/Mm]")
         .set_keyword("caps_scattering_wet", "CAPS_scattering_wet_[1/Mm]")
-        )
+    )
 
     # check error on partial build
     try:
@@ -67,10 +71,12 @@ def test_full_build():
         .set_keyword("caps_extinction_wet", "CAPS_extinction_wet_[1/Mm]")
         .set_keyword("caps_scattering_dry", "CAPS_scattering_dry_[1/Mm]")
         .set_keyword("caps_scattering_wet", "CAPS_scattering_wet_[1/Mm]")
-        .set_keyword("caps_relative_humidity_dry",
-                     "CAPS_relative_humidity_dry")
-        .set_keyword("caps_relative_humidity_wet",
-                     "CAPS_relative_humidity_wet")
+        .set_keyword(
+            "caps_relative_humidity_dry", "CAPS_relative_humidity_dry"
+        )
+        .set_keyword(
+            "caps_relative_humidity_wet", "CAPS_relative_humidity_wet"
+        )
         .set_keyword("sizer_relative_humidity", "RH_percent")
         .set_keyword("refractive_index_dry", 1.5)
         .set_keyword("water_refractive_index", 1.33)
@@ -88,9 +94,11 @@ def test_full_build():
     assert keywords["caps_scattering_dry"] == "CAPS_scattering_dry_[1/Mm]"
     assert keywords["caps_scattering_wet"] == "CAPS_scattering_wet_[1/Mm]"
     assert keywords["caps_relative_humidity_dry"] == (
-        "CAPS_relative_humidity_dry")
+        "CAPS_relative_humidity_dry"
+    )
     assert keywords["caps_relative_humidity_wet"] == (
-        "CAPS_relative_humidity_wet")
+        "CAPS_relative_humidity_wet"
+    )
     assert keywords["sizer_relative_humidity"] == "RH_percent"
     assert keywords["refractive_index_dry"] == 1.5
     assert keywords["water_refractive_index"] == 1.33

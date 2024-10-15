@@ -11,7 +11,7 @@ from tqdm import tqdm
 import PyMieScatt as ps
 from scipy.integrate import trapezoid as trapz
 from particula.util import convert
-from particula.data.process import mie_angular, mie_bulk
+from particula_beta.data.process import mie_angular, mie_bulk
 
 
 def get_truncated_scattering(

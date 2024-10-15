@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from particula.data.process import mie_angular
+from particula_beta.data.process import mie_angular
 
 
 def test_discretize_scattering_angles():
@@ -18,36 +18,48 @@ def test_discretize_scattering_angles():
     angular_resolution = 45  # Angular resolution in degrees
 
     # Call the function
-    measure, parallel, perpendicular, unpolarized = \
+    measure, parallel, perpendicular, unpolarized = (
         mie_angular.discretize_scattering_angles(
             m_sphere=m_sphere,
             wavelength=wavelength,
             diameter=diameter,
             min_angle=min_angle,
             max_angle=max_angle,
-            angular_resolution=angular_resolution
+            angular_resolution=angular_resolution,
         )
-    exp_measure = np.array([0.0, 0.78539816, 1.57079633,
-                            2.35619449, 3.14159265])
+    )
+    exp_measure = np.array(
+        [0.0, 0.78539816, 1.57079633, 2.35619449, 3.14159265]
+    )
     exp_parallel = np.array(
-        [0.00432451, 0.00412889, 0.00368662, 0.00328417, 0.00312842])
+        [0.00432451, 0.00412889, 0.00368662, 0.00328417, 0.00312842]
+    )
     exp_perpendicular = np.array(
-        [4.32451363e-03, 2.11356450e-03, 1.10332321e-06,
-         1.60080223e-03, 3.12841559e-03])
+        [
+            4.32451363e-03,
+            2.11356450e-03,
+            1.10332321e-06,
+            1.60080223e-03,
+            3.12841559e-03,
+        ]
+    )
     exp_unpolarized = np.array(
-        [0.00432451, 0.00312123, 0.00184386, 0.00244249, 0.00312842])
+        [0.00432451, 0.00312123, 0.00184386, 0.00244249, 0.00312842]
+    )
 
     # Check that the output arrays have values close to the expected values
     assert np.allclose(
-        measure, exp_measure, atol=1e-6), "Measure not match values"
+        measure, exp_measure, atol=1e-6
+    ), "Measure not match values"
     assert np.allclose(
-        parallel, exp_parallel, atol=1e-6), "parellel not match values"
+        parallel, exp_parallel, atol=1e-6
+    ), "parellel not match values"
     assert np.allclose(
         perpendicular, exp_perpendicular, atol=1e-6
-        ), "perpendicular not match values"
+    ), "perpendicular not match values"
     assert np.allclose(
         unpolarized, exp_unpolarized, atol=1e-6
-        ), "unpolarized not match expected values"
+    ), "unpolarized not match expected values"
 
 
 def test_calculate_scattering_angles():
@@ -59,19 +71,16 @@ def test_calculate_scattering_angles():
     tube_diameter_cm = 5.0
 
     alpha, beta = mie_angular.calculate_scattering_angles(
-        z_position, integrate_sphere_diameter_cm, tube_diameter_cm)
+        z_position, integrate_sphere_diameter_cm, tube_diameter_cm
+    )
     exp_alpha = 0.4636476090008061
     exp_beta = 0.16514867741462683
     # Check that alpha and beta are floats and within the expected range
     assert isinstance(alpha, float), "Alpha is not a float"
     assert isinstance(beta, float), "Beta is not a float"
     # check values
-    assert alpha == pytest.approx(
-        exp_alpha, abs=1e-8
-    ), "Alpha value compared"
-    assert beta == pytest.approx(
-        exp_beta, abs=1e-8
-    ), "Beta value compared"
+    assert alpha == pytest.approx(exp_alpha, abs=1e-8), "Alpha value compared"
+    assert beta == pytest.approx(exp_beta, abs=1e-8), "Beta value compared"
 
 
 def test_calculate_scattering_angles_outside_sphere():
@@ -84,22 +93,29 @@ def test_calculate_scattering_angles_outside_sphere():
     # Calculate expected values for alpha and beta for the given position
     # These values need to be calculated based on the specific geometry
     exp_alpha_outside = np.arctan(
-        tube_diameter_cm / 2 /
-        (z_position_outside - integrate_sphere_diameter_cm / 2))
+        tube_diameter_cm
+        / 2
+        / (z_position_outside - integrate_sphere_diameter_cm / 2)
+    )
     exp_beta_outside = np.arctan(
-        tube_diameter_cm / 2 /
-        (z_position_outside + integrate_sphere_diameter_cm / 2))
+        tube_diameter_cm
+        / 2
+        / (z_position_outside + integrate_sphere_diameter_cm / 2)
+    )
 
     alpha_outside, beta_outside = mie_angular.calculate_scattering_angles(
-        z_position_outside, integrate_sphere_diameter_cm, tube_diameter_cm)
+        z_position_outside, integrate_sphere_diameter_cm, tube_diameter_cm
+    )
 
     # Check that alpha and beta are floats and match the expected values
     assert isinstance(alpha_outside, float), "Alpha (outside) is not a float"
     assert isinstance(beta_outside, float), "Beta (outside) is not a float"
     assert alpha_outside == pytest.approx(
-        exp_alpha_outside, abs=1e-8), "Alpha (outside) value mismatch"
+        exp_alpha_outside, abs=1e-8
+    ), "Alpha (outside) value mismatch"
     assert beta_outside == pytest.approx(
-        exp_beta_outside, abs=1e-8), "Beta (outside) value mismatch"
+        exp_beta_outside, abs=1e-8
+    ), "Beta (outside) value mismatch"
 
 
 def test_calculate_scattering_angles_at_edge():
@@ -113,26 +129,31 @@ def test_calculate_scattering_angles_at_edge():
     # At the edge, alpha and beta are expected to be pi/2
     exp_alpha_edge = np.pi / 2
     exp_beta_edge = np.arctan(
-        tube_diameter_cm / 2 /
-        abs(integrate_sphere_diameter_cm / 2 + z_position_edge))
+        tube_diameter_cm
+        / 2
+        / abs(integrate_sphere_diameter_cm / 2 + z_position_edge)
+    )
 
     alpha_edge, beta_edge = mie_angular.calculate_scattering_angles(
-        z_position_edge, integrate_sphere_diameter_cm, tube_diameter_cm)
+        z_position_edge, integrate_sphere_diameter_cm, tube_diameter_cm
+    )
 
     # Check that alpha and beta are floats and match the expected values of
     # pi/2
     assert isinstance(alpha_edge, float), "Alpha (edge) is not a float"
     assert isinstance(beta_edge, float), "Beta (edge) is not a float"
     assert alpha_edge == pytest.approx(
-        exp_alpha_edge, abs=1e-8), "Alpha (edge) value mismatch"
+        exp_alpha_edge, abs=1e-8
+    ), "Alpha (edge) value mismatch"
     assert beta_edge == pytest.approx(
-        exp_beta_edge, abs=1e-8), "Beta (edge) value mismatch"
+        exp_beta_edge, abs=1e-8
+    ), "Beta (edge) value mismatch"
 
 
 def test_assign_scattering_thetas_outside_below():
     """Test for z_position outside and below the integrating sphere."""
     alpha = np.pi / 4  # 45 degrees in radians
-    beta = np.pi / 6   # 30 degrees in radians
+    beta = np.pi / 6  # 30 degrees in radians
     q_mie = 1.5
     z_position = -10.5  # Outside and below
     integrate_sphere_diameter_cm = 20.0  # Sphere diameter
@@ -142,14 +163,18 @@ def test_assign_scattering_thetas_outside_below():
     expected_theta2 = beta
 
     theta1, theta2, qsca_ideal = mie_angular.assign_scattering_thetas(
-        alpha, beta, q_mie, z_position, integrate_sphere_diameter_cm)
+        alpha, beta, q_mie, z_position, integrate_sphere_diameter_cm
+    )
 
     assert theta1 == pytest.approx(
-        expected_theta1), "Incorrect theta1 for outside and below the sphere"
+        expected_theta1
+    ), "Incorrect theta1 for outside and below the sphere"
     assert theta2 == pytest.approx(
-        expected_theta2), "Incorrect theta2 for outside and below the sphere"
+        expected_theta2
+    ), "Incorrect theta2 for outside and below the sphere"
     assert qsca_ideal == pytest.approx(
-        expected_qsca_ideal), "Incorrect qsca_ideal for outside the sphere"
+        expected_qsca_ideal
+    ), "Incorrect qsca_ideal for outside the sphere"
 
 
 def test_assign_scattering_thetas_outside_above():
@@ -165,14 +190,18 @@ def test_assign_scattering_thetas_outside_above():
     expected_theta2 = 2.6179938779914944
 
     theta1, theta2, qsca_ideal = mie_angular.assign_scattering_thetas(
-        alpha, beta, q_mie, z_position, integrate_sphere_diameter_cm)
+        alpha, beta, q_mie, z_position, integrate_sphere_diameter_cm
+    )
 
     assert theta1 == pytest.approx(
-        expected_theta1), "Incorrect theta1 for position outside the sphere"
+        expected_theta1
+    ), "Incorrect theta1 for position outside the sphere"
     assert theta2 == pytest.approx(
-        expected_theta2), "Incorrect theta2 for position outside the sphere"
+        expected_theta2
+    ), "Incorrect theta2 for position outside the sphere"
     assert qsca_ideal == pytest.approx(
-        expected_qsca_ideal), "Incorrect qsca_ideal for outside the sphere"
+        expected_qsca_ideal
+    ), "Incorrect qsca_ideal for outside the sphere"
 
 
 def test_assign_scattering_thetas_inside():
@@ -188,11 +217,15 @@ def test_assign_scattering_thetas_inside():
     expected_theta2 = np.pi - beta
 
     theta1, theta2, qsca_ideal = mie_angular.assign_scattering_thetas(
-        alpha, beta, q_mie, z_position, integrate_sphere_diameter_cm)
+        alpha, beta, q_mie, z_position, integrate_sphere_diameter_cm
+    )
 
     assert theta1 == pytest.approx(
-        expected_theta1), "Incorrect theta1 for position inside the sphere"
+        expected_theta1
+    ), "Incorrect theta1 for position inside the sphere"
     assert theta2 == pytest.approx(
-        expected_theta2), "Incorrect theta2 for position inside the sphere"
+        expected_theta2
+    ), "Incorrect theta2 for position inside the sphere"
     assert qsca_ideal == pytest.approx(
-        expected_qsca_ideal), "Incorrect qsca_ideal for position inside sphere"
+        expected_qsca_ideal
+    ), "Incorrect qsca_ideal for position inside sphere"

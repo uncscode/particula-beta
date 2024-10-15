@@ -1,9 +1,8 @@
 """Test initialize"""
 
-
 import numpy as np
 import pytest
-from particula.data.process import kappa_via_extinction
+from particula_beta.data.process import kappa_via_extinction
 
 
 # Global parameters for the aerosol distribution and optics
@@ -35,7 +34,7 @@ def test_extinction_ratio_wet_dry():
         refractive_index_dry=GLOBAL_REFRACTIVE_INDEX_DRY,
         water_refractive_index=GLOBAL_WATER_REFRACTIVE_INDEX,
         wavelength=GLOBAL_WAVELENGTH,
-        discretize=False
+        discretize=False,
     )
     # Assert ratio is correct
     assert ratio == pytest.approx(
@@ -53,7 +52,7 @@ def test_extinction_ratio_wet_dry():
         water_refractive_index=GLOBAL_WATER_REFRACTIVE_INDEX,
         wavelength=GLOBAL_WAVELENGTH,
         return_coefficients=True,
-        discretize=False
+        discretize=False,
     )
     # Assert values are correct
     assert values[0] == pytest.approx(
@@ -87,11 +86,12 @@ def test_fit_extinction_ratio_with_kappa():
         discretize=False,
         kappa_bounds=(0, 1),
         kappa_tolerance=1e-6,
-        kappa_maxiter=250
+        kappa_maxiter=250,
     )
     # Assert that the fitted kappa is close to the expected kappa
     assert fitted_kappa == pytest.approx(
-        expected_kappa, abs=1e-4), "Fitted kappa does not match expected value"
+        expected_kappa, abs=1e-4
+    ), "Fitted kappa does not match expected value"
 
 
 def test_kappa_from_extinction_looped():
@@ -99,33 +99,44 @@ def test_kappa_from_extinction_looped():
     # Simulate arrays for inputs, with three time-indexed measurements
     extinction_dry = np.array([137.73, 137.73, 137.73])
     # scale extinction ratio to get different kappa fitted
-    extinction_wet = np.array([1011.068, 1011.068*.9, 1011.068*1.1])
-    number_per_cm3 = np.array([
-        GLOBAL_NUMBER_PER_CM3,
-        GLOBAL_NUMBER_PER_CM3,
-        GLOBAL_NUMBER_PER_CM3
-    ])
+    extinction_wet = np.array([1011.068, 1011.068 * 0.9, 1011.068 * 1.1])
+    number_per_cm3 = np.array(
+        [GLOBAL_NUMBER_PER_CM3, GLOBAL_NUMBER_PER_CM3, GLOBAL_NUMBER_PER_CM3]
+    )
     diameter = np.array([100, 200, 300])
-    water_activity_sizer = np.array([
-        GLOBAL_WATER_ACTIVITY_SIZER,
-        GLOBAL_WATER_ACTIVITY_SIZER,
-        GLOBAL_WATER_ACTIVITY_SIZER])
-    water_activity_sample_dry = np.array([
-        GLOBAL_WATER_ACTIVITY_DRY,
-        GLOBAL_WATER_ACTIVITY_DRY,
-        GLOBAL_WATER_ACTIVITY_DRY])
-    water_activity_sample_wet = np.array([
-        GLOBAL_WATER_ACTIVITY_WET,
-        GLOBAL_WATER_ACTIVITY_WET,
-        GLOBAL_WATER_ACTIVITY_WET])
+    water_activity_sizer = np.array(
+        [
+            GLOBAL_WATER_ACTIVITY_SIZER,
+            GLOBAL_WATER_ACTIVITY_SIZER,
+            GLOBAL_WATER_ACTIVITY_SIZER,
+        ]
+    )
+    water_activity_sample_dry = np.array(
+        [
+            GLOBAL_WATER_ACTIVITY_DRY,
+            GLOBAL_WATER_ACTIVITY_DRY,
+            GLOBAL_WATER_ACTIVITY_DRY,
+        ]
+    )
+    water_activity_sample_wet = np.array(
+        [
+            GLOBAL_WATER_ACTIVITY_WET,
+            GLOBAL_WATER_ACTIVITY_WET,
+            GLOBAL_WATER_ACTIVITY_WET,
+        ]
+    )
     refractive_index_dry = 1.45
     water_refractive_index = 1.33
     wavelength = 450
 
     # expected kappa fit
-    exp_kappa_fit = np.array([[0.79874162, 1.04349672, 0.59162938],
-                              [0.69864005, 0.88511056, 0.51936186],
-                              [0.9279079, 1.17446761, 0.65957545]])
+    exp_kappa_fit = np.array(
+        [
+            [0.79874162, 1.04349672, 0.59162938],
+            [0.69864005, 0.88511056, 0.51936186],
+            [0.9279079, 1.17446761, 0.65957545],
+        ]
+    )
 
     # Execute the function under test
     kappa_fit = kappa_via_extinction.kappa_from_extinction_looped(
@@ -143,7 +154,9 @@ def test_kappa_from_extinction_looped():
 
     # Check the shape of the returned array
     assert kappa_fit.shape == (
-        3, 3), "Returned kappa fit array has incorrect shape"
+        3,
+        3,
+    ), "Returned kappa fit array has incorrect shape"
 
     # value checks
     assert kappa_fit == pytest.approx(
