@@ -107,8 +107,12 @@ def calculate_pmf_rates(
     mass_particle = 4 / 3 * np.pi * radius_bins**3 * particle_density
 
     if fractal_dimension is not None:
-        collision_radius = rogak_flagan_1992(
-            radius_gyration=radius_bins, fractal_dimension=fractal_dimension
+        # collision_radius = rogak_flagan_1992(
+        #     radius_gyration=radius_bins, fractal_dimension=fractal_dimension
+        # )
+        collision_radius = collision_radius_via_shape_factor(
+            spherical_radius=radius_bins,
+            shape_factor=fractal_dimension
         )
     else:
         collision_radius = radius_bins
