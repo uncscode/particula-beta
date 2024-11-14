@@ -2,7 +2,7 @@
 Functions for fitting the chamber rates to the observed rates.
 """
 
-from typing import Tuple, List, Optional, Callable
+from typing import Tuple, List, Optional, Callable, Union
 import copy
 from dataclasses import dataclass
 from functools import partial
@@ -15,6 +15,46 @@ from tqdm import tqdm
 
 from particula.dynamics import dilution, wall_loss, coagulation
 from particula_beta.data.stream import Stream
+
+
+def rogak_flagan_1992(
+    radius_gyration: Union[NDArray[np.float64], float],
+    fractal_dimension: Union[NDArray[np.float64], float],
+) -> Union[NDArray[np.float64], float]:
+    """Collision radius with fractal dimension by Rogak and Flagan 1992.
+
+    Args:
+        radius_gyration: Radius of gyration of the particle [m].
+        fractal_dimension: Fractal dimension of the particle
+            [dimensionless, df].
+
+    Returns:
+        (float or NDArray[float]): Collision radius of the particle [m].
+
+    References:
+        Rogak, S. N., & Flagan, R. C. (1992). Coagulation of aerosol
+        agglomerates in the transition regime. Journal of Colloid and
+        Interface Science, 151(1), 203-224.
+        https://doi.org/10.1016/0021-9797(92)90252-H
+    """
+    return np.sqrt((fractal_dimension + 2) / 3) * radius_gyration
+
+
+def collision_radius_via_shape_factor(
+    spherical_radius: Union[NDArray[np.float64], float],
+    shape_factor: Union[NDArray[np.float64], float],
+) -> Union[NDArray[np.float64], float]:
+    """Collision radius from shape factor.
+
+    Args:
+        spherical_radius: Spherical radius of the particle [m].
+        shape_factor: Shape factor of the particle [dimensionless, phi].
+
+    Returns:
+        (float or NDArray[float]): Collision radius of the particle [m].
+    """
+
+    return spherical_radius / np.sqrt(shape_factor)
 
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments
@@ -30,6 +70,7 @@ def calculate_pmf_rates(
     input_flow_rate: float = 0.16e-6,  # m^3/s
     wall_eddy_diffusivity: float = 0.1,
     chamber_dimensions: Tuple[float, float, float] = (1, 1, 1),  # m
+    fractal_dimension: Optional[float] = None,
 ) -> Tuple[
     NDArray[np.float64],
     NDArray[np.float64],
@@ -65,9 +106,16 @@ def calculate_pmf_rates(
     # Mass of the particles in kg
     mass_particle = 4 / 3 * np.pi * radius_bins**3 * particle_density
 
+    if fractal_dimension is not None:
+        collision_radius = rogak_flagan_1992(
+            radius_gyration=radius_bins, fractal_dimension=fractal_dimension
+        )
+    else:
+        collision_radius = radius_bins
+
     # Coagulation kernel
     kernel = coagulation.brownian_coagulation_kernel_via_system_state(
-        radius_particle=radius_bins,
+        radius_particle=collision_radius,
         mass_particle=mass_particle,
         temperature=temperature,
         pressure=pressure,
@@ -137,6 +185,10 @@ def coagulation_rates_cost_function(
     # Unpack the parameters
     wall_eddy_diffusivity = parameters[0]
     alpha_collision_efficiency = parameters[1]
+    if len(parameters) > 2:  # optional fractal dimension
+        fractal_dimension = parameters[2]
+    else:
+        fractal_dimension = None
 
     # Calculate the rates
     _, _, _, _, net_rate = calculate_pmf_rates(
@@ -150,6 +202,7 @@ def coagulation_rates_cost_function(
         input_flow_rate=input_flow_rate,
         wall_eddy_diffusivity=wall_eddy_diffusivity,
         chamber_dimensions=chamber_dimensions,
+        fractal_dimension=fractal_dimension,
     )
 
     # Calculate the cost
@@ -187,6 +240,8 @@ def create_guess_and_bounds(
     guess_alpha_collision_efficiency: float,
     bounds_eddy_diffusivity: Tuple[float, float],
     bounds_alpha_collision_efficiency: Tuple[float, float],
+    guess_fractal_dimension: Optional[float] = None,
+    bounds_fractal_dimension: Optional[Tuple[float, float]] = None,
 ) -> Tuple[NDArray[np.float64], List[Tuple[float, float]]]:
     """
     Create the initial guess array and bounds list for the optimization.
@@ -198,11 +253,33 @@ def create_guess_and_bounds(
         bounds_eddy_diffusivity: Bounds for eddy diffusivity.
         bounds_alpha_collision_efficiency: Bounds for alpha collision
             efficiency.
+        guess_fractal_dimension: Initial guess for the fractal dimension,
+            optional. Typical range between 1 and 3.
+        bounds_fractal_dimension: Bounds for the fractal dimension.
 
     Returns:
         initial_guess: Numpy array of the initial guess values.
         bounds: List of tuples representing the bounds for each parameter.
     """
+    if (
+        guess_fractal_dimension is not None
+        and bounds_fractal_dimension is not None
+    ):
+        initial_guess = np.array(
+            [
+                guess_eddy_diffusivity,
+                guess_alpha_collision_efficiency,
+                guess_fractal_dimension,
+            ],
+            dtype=np.float64,
+        )
+        bounds = [
+            bounds_eddy_diffusivity,
+            bounds_alpha_collision_efficiency,
+            bounds_fractal_dimension,
+        ]
+        return initial_guess, bounds
+
     initial_guess = np.array(
         [guess_eddy_diffusivity, guess_alpha_collision_efficiency],
         dtype=np.float64,
@@ -225,7 +302,9 @@ def optimize_parameters(
         method=method,
         bounds=bounds,
     )
-    return result.x[0], result.x[1]  # type: ignore
+    if initial_guess.size == 2:
+        return result.x[0], result.x[1], None  # type: ignore
+    return result.x[0], result.x[1], result.x[2]  # type: ignore
 
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments
@@ -237,7 +316,7 @@ def optimize_chamber_parameters(
     fit_guess: NDArray[np.float64],
     fit_bounds: List[Tuple[float, float]],
     minimize_method: str = "L-BFGS-B",
-) -> Tuple[float, float]:
+) -> Tuple[float, float, float]:
     """
     Optimize the eddy diffusivity and alpha collision efficiency parameters
     for a given particle size distribution and its time derivative.
@@ -298,6 +377,7 @@ def calculate_optimized_rates(
     alpha_collision_efficiency: float,
     chamber_parameters: ChamberParameters,
     time_derivative_concentration_pmf: Optional[NDArray[np.float64]] = None,
+    factal_dimension: Optional[float] = None,
 ) -> Tuple[float, float, float, float, float, float]:
     """
     Calculate the coagulation rates using the optimized parameters and return
@@ -312,6 +392,7 @@ def calculate_optimized_rates(
             parameters.
         time_derivative_concentration_pmf: Array of observed rate of change
             of the concentration PMF (optional).
+        fractal_dimension: Fractal dimension of the particles (optional).
 
     Returns:
         coagulation_loss: Loss rate due to coagulation.
@@ -339,6 +420,7 @@ def calculate_optimized_rates(
         input_flow_rate=chamber_parameters.input_flow_rate_m3_sec,
         wall_eddy_diffusivity=wall_eddy_diffusivity,
         chamber_dimensions=chamber_parameters.chamber_dimensions,
+        fractal_dimension=factal_dimension,
     )
 
     coagulation_net = coagulation_gain - coagulation_loss
@@ -394,6 +476,7 @@ def optimize_and_calculate_rates_looped(
     # Prepare result storage
     wall_eddy_diffusivity = np.zeros(fit_length)
     alpha_collision_efficiency = np.zeros(fit_length)
+    fractal_dimension = np.zeros(fit_length)
     r2_value = np.zeros(fit_length)
     coagulation_loss = np.zeros_like(pmf_stream.data)
     coagulation_gain = np.zeros_like(pmf_stream.data)
@@ -407,17 +490,19 @@ def optimize_and_calculate_rates_looped(
         range(fit_length), desc="Chamber rates", total=fit_length
     ):
         # Optimize chamber parameters
-        wall_eddy_diffusivity[index], alpha_collision_efficiency[index] = (
-            optimize_chamber_parameters(
-                radius_bins=pmf_stream.header_float,
-                concentration_pmf=pmf_stream.data[index, :],
-                time_derivative_concentration_pmf=(
-                    pmf_derivative_stream.data[index, :]
-                ),
-                chamber_parameters=chamber_parameters,
-                fit_guess=fit_guess,
-                fit_bounds=fit_bounds,
-            )
+        (
+            wall_eddy_diffusivity[index],
+            alpha_collision_efficiency[index],
+            fractal_dimension[index],
+        ) = optimize_chamber_parameters(
+            radius_bins=pmf_stream.header_float,
+            concentration_pmf=pmf_stream.data[index, :],
+            time_derivative_concentration_pmf=(
+                pmf_derivative_stream.data[index, :]
+            ),
+            chamber_parameters=chamber_parameters,
+            fit_guess=fit_guess,
+            fit_bounds=fit_bounds,
         )
 
         # Calculate the rates
@@ -433,6 +518,7 @@ def optimize_and_calculate_rates_looped(
             concentration_pmf=pmf_stream.data[index, :],
             wall_eddy_diffusivity=wall_eddy_diffusivity[index],
             alpha_collision_efficiency=alpha_collision_efficiency[index],
+            fractal_dimension=fractal_dimension[index],
             chamber_parameters=chamber_parameters,
             time_derivative_concentration_pmf=(
                 pmf_derivative_stream.data[index, :]
@@ -446,16 +532,26 @@ def optimize_and_calculate_rates_looped(
             + wall_loss_rate[index, :]
         )
 
+    # replace None with nan
+    fractal_dimension = np.where(
+        np.equal(fractal_dimension, None), np.nan, fractal_dimension
+    )
     # Create the result stream
     result_stream = Stream()
     result_stream.time = pmf_stream.time
     result_stream.header = [
         "wall_eddy_diffusivity_[1/s]",
         "alpha_collision_efficiency_[-]",
+        "fractal_dimension_[-]",
         "r2_value",
     ]
     result_stream.data = np.column_stack(
-        [wall_eddy_diffusivity, alpha_collision_efficiency, r2_value]
+        [
+            wall_eddy_diffusivity,
+            alpha_collision_efficiency,
+            fractal_dimension,
+            r2_value,
+        ]
     )
 
     # Add derived rates to the result stream
