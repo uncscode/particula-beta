@@ -8,7 +8,8 @@ interpolate the data to the data stream's time array.
 
 from typing import Tuple, Optional
 import numpy as np
-from particula.util import convert, stats
+from particula.util import convert
+from particula_beta.data.process import stats
 from particula_beta.data.stream import Stream
 
 
