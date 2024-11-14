@@ -12,6 +12,7 @@
             "/": 2,
             ":": 2
         },
+        "replace_chars": {},
         "skip_rows": 25,
         "skip_end": 0
     },

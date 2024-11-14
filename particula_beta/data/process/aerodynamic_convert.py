@@ -8,12 +8,12 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.optimize import fsolve
 
-from particula.next.particles.properties import (
+from particula.particles.properties import (
     calculate_knudsen_number,
     cunningham_slip_correction,
     particle_aerodynamic_length,
 )
-from particula.next.gas.properties.mean_free_path import (
+from particula.gas.properties.mean_free_path import (
     molecule_mean_free_path,
 )
 
