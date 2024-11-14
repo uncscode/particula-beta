@@ -377,7 +377,7 @@ def calculate_optimized_rates(
     alpha_collision_efficiency: float,
     chamber_parameters: ChamberParameters,
     time_derivative_concentration_pmf: Optional[NDArray[np.float64]] = None,
-    factal_dimension: Optional[float] = None,
+    fractal_dimension: Optional[float] = None,
 ) -> Tuple[float, float, float, float, float, float]:
     """
     Calculate the coagulation rates using the optimized parameters and return
@@ -420,7 +420,7 @@ def calculate_optimized_rates(
         input_flow_rate=chamber_parameters.input_flow_rate_m3_sec,
         wall_eddy_diffusivity=wall_eddy_diffusivity,
         chamber_dimensions=chamber_parameters.chamber_dimensions,
-        fractal_dimension=factal_dimension,
+        fractal_dimension=fractal_dimension,
     )
 
     coagulation_net = coagulation_gain - coagulation_loss
