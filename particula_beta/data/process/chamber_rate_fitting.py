@@ -507,6 +507,7 @@ def optimize_and_calculate_rates_looped(
     fit_guess: NDArray[np.float64],
     fit_bounds: List[Tuple[float, float]],
     fractal_uncertainty: NDArray[np.float64],
+    epsilon_hessian_estimation: float = 1e-4,
 ) -> Tuple[Stream, Stream, Stream, Stream, Stream, Stream, Stream]:
     """
     Perform optimization and calculate rates for each time point in the stream.
@@ -564,6 +565,7 @@ def optimize_and_calculate_rates_looped(
                 chamber_parameters=chamber_parameters,
                 fit_guess=fit_guess,
                 fit_bounds=fit_bounds,
+                epsilon_hessian_estimation=epsilon_hessian_estimation,
             )
         )
         # unpack the optimized parameters
