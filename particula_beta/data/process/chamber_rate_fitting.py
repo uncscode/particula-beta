@@ -10,7 +10,7 @@ from functools import partial
 import numpy as np
 from numpy.typing import NDArray
 from scipy.optimize import minimize  # type: ignore
-from sklearn.metrics import r2_score, mean_squared_error  # type: ignore
+from sklearn.metrics import r2_score  # type: ignore
 from tqdm import tqdm
 
 from particula.dynamics import dilution, wall_loss, coagulation
@@ -43,7 +43,6 @@ def chi_squared_error(
     chi_squared = np.sum(((observed - predicted) / uncertainty) ** 2)
 
     return chi_squared
-
 
 
 def hessian_standard_error(
@@ -157,13 +156,16 @@ def calculate_pmf_rates(
     mass_particle = 4 / 3 * np.pi * radius_bins**3 * particle_density
 
     # Coagulation kernel / w_correction
-    kernel = coagulation.brownian_coagulation_kernel_via_system_state(
-        radius_particle=radius_bins,
-        mass_particle=mass_particle,
-        temperature=temperature,
-        pressure=pressure,
-        alpha_collision_efficiency=alpha_collision_efficiency,
-    ) / w_correction
+    kernel = (
+        coagulation.brownian_coagulation_kernel_via_system_state(
+            radius_particle=radius_bins,
+            mass_particle=mass_particle,
+            temperature=temperature,
+            pressure=pressure,
+            alpha_collision_efficiency=alpha_collision_efficiency,
+        )
+        / w_correction
+    )
 
     # Coagulation loss and gain
     coagulation_loss = coagulation.discrete_loss(
@@ -419,6 +421,7 @@ def calculate_optimized_rates(
     wall_eddy_diffusivity: float,
     alpha_collision_efficiency: float,
     w_correction: float,
+    fractional_uncertainty: NDArray[np.float64],
     chamber_parameters: ChamberParameters,
     time_derivative_concentration_pmf: Optional[NDArray[np.float64]] = None,
 ) -> Tuple[float, float, float, float, float, float]:
@@ -476,7 +479,11 @@ def calculate_optimized_rates(
         else None
     )
     chi_squared = (
-        chi_squared_error(time_derivative_concentration_pmf, net_rate)
+        chi_squared_error(
+            observed=time_derivative_concentration_pmf,
+            predicted=net_rate,
+            fractional_uncertainty=fractional_uncertainty,
+        )
         if time_derivative_concentration_pmf is not None
         else None
     )
@@ -499,6 +506,7 @@ def optimize_and_calculate_rates_looped(
     chamber_parameters: ChamberParameters,
     fit_guess: NDArray[np.float64],
     fit_bounds: List[Tuple[float, float]],
+    fractal_uncertainty: NDArray[np.float64],
 ) -> Tuple[Stream, Stream, Stream, Stream, Stream, Stream, Stream]:
     """
     Perform optimization and calculate rates for each time point in the stream.
@@ -545,22 +553,25 @@ def optimize_and_calculate_rates_looped(
         range(fit_length), desc="Chamber rates", total=fit_length
     ):
         # Optimize chamber parameters
-        fit_optimized_parameters, error_optimized_parameters = optimize_chamber_parameters(
-            radius_bins=pmf_stream.header_float,
-            concentration_pmf=pmf_stream.data[index, :],
-            time_derivative_concentration_pmf=(
-                pmf_derivative_stream.data[index, :]
-            ),
-            chamber_parameters=chamber_parameters,
-            fit_guess=fit_guess,
-            fit_bounds=fit_bounds,
+        fit_optimized_parameters, error_optimized_parameters = (
+            optimize_chamber_parameters(
+                radius_bins=pmf_stream.header_float,
+                concentration_pmf=pmf_stream.data[index, :],
+                time_derivative_concentration_pmf=(
+                    pmf_derivative_stream.data[index, :]
+                ),
+                fractional_uncertainty=fractal_uncertainty,
+                chamber_parameters=chamber_parameters,
+                fit_guess=fit_guess,
+                fit_bounds=fit_bounds,
+            )
         )
         # unpack the optimized parameters
         (
             wall_eddy_diffusivity[index],
             alpha_collision_efficiency[index],
             w_correction[index],
-         ) = fit_optimized_parameters
+        ) = fit_optimized_parameters
         (
             error_wall_eddy_diffusivity[index],
             error_alpha_collision_efficiency[index],
@@ -582,6 +593,7 @@ def optimize_and_calculate_rates_looped(
             wall_eddy_diffusivity=wall_eddy_diffusivity[index],
             alpha_collision_efficiency=alpha_collision_efficiency[index],
             w_correction=w_correction[index],
+            fractional_uncertainty=fractal_uncertainty,
             chamber_parameters=chamber_parameters,
             time_derivative_concentration_pmf=(
                 pmf_derivative_stream.data[index, :]
@@ -596,9 +608,7 @@ def optimize_and_calculate_rates_looped(
         )
 
     # replace None with nan
-    w_correction = np.where(
-        np.equal(w_correction, None), np.nan, w_correction
-    )
+    w_correction = np.where(np.equal(w_correction, None), np.nan, w_correction)
     # Create the result stream
     result_stream = Stream()
     result_stream.time = pmf_stream.time
