@@ -506,7 +506,7 @@ def optimize_and_calculate_rates_looped(
     chamber_parameters: ChamberParameters,
     fit_guess: NDArray[np.float64],
     fit_bounds: List[Tuple[float, float]],
-    fractal_uncertainty: NDArray[np.float64],
+    fractional_uncertainty: NDArray[np.float64],
     epsilon_hessian_estimation: float = 1e-4,
 ) -> Tuple[Stream, Stream, Stream, Stream, Stream, Stream, Stream]:
     """
@@ -561,7 +561,7 @@ def optimize_and_calculate_rates_looped(
                 time_derivative_concentration_pmf=(
                     pmf_derivative_stream.data[index, :]
                 ),
-                fractional_uncertainty=fractal_uncertainty,
+                fractional_uncertainty=fractional_uncertainty,
                 chamber_parameters=chamber_parameters,
                 fit_guess=fit_guess,
                 fit_bounds=fit_bounds,
@@ -595,7 +595,7 @@ def optimize_and_calculate_rates_looped(
             wall_eddy_diffusivity=wall_eddy_diffusivity[index],
             alpha_collision_efficiency=alpha_collision_efficiency[index],
             w_correction=w_correction[index],
-            fractional_uncertainty=fractal_uncertainty,
+            fractional_uncertainty=fractional_uncertainty,
             chamber_parameters=chamber_parameters,
             time_derivative_concentration_pmf=(
                 pmf_derivative_stream.data[index, :]
