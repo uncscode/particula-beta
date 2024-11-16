@@ -10,7 +10,7 @@ from functools import partial
 import numpy as np
 from numpy.typing import NDArray
 from scipy.optimize import minimize  # type: ignore
-from sklearn.metrics import r2_score  # type: ignore
+from sklearn.metrics import r2_score, mean_squared_error  # type: ignore
 from tqdm import tqdm
 
 from particula.dynamics import dilution, wall_loss, coagulation
@@ -255,22 +255,22 @@ def coagulation_rates_cost_function(
         fractional_uncertainty=fractional_uncertainty,
     )
 
-    # # Calculate the cost
-    # number_cost = mean_squared_error(  # type: ignore
-    #     time_derivative_concentration_pmf, net_rate
-    # )
+    # Calculate the cost
+    number_cost = mean_squared_error(  # type: ignore
+        time_derivative_concentration_pmf, net_rate
+    )
 
-    # # total_volume comparison
-    # total_volume_cost = np.power(
-    #     net_rate.sum() - time_derivative_concentration_pmf.sum(),
-    #     2,
-    #     dtype=np.float64,
-    # )
+    # total_volume comparison
+    total_volume_cost = np.power(
+        net_rate.sum() - time_derivative_concentration_pmf.sum(),
+        2,
+        dtype=np.float64,
+    )
     # return number_cost + total_volume_cost
 
     if np.isnan(chi_cost):  # type: ignore
         return 1e34
-    return chi_cost
+    return number_cost + chi_cost + total_volume_cost
 
 
 @dataclass
