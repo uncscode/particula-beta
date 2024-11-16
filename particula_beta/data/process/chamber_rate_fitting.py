@@ -47,17 +47,19 @@ def chi_squared_error(
 
 def hessian_standard_error(
     objective_function: Callable,
-    parameters: NDArray[np.float64],
+    parameters: np.ndarray,
     epsilon: float = 1e-4,
-) -> Tuple[float, float, float]:
+    regularization: float = 1e-8,
+) -> np.ndarray:
     """
     Calculate the standard error for the optimized parameters using Hessian
-    estimation.
+    estimation with regularization and fallback to diagonal approximation.
 
     Arguments:
-        func: The objective function.
-        params: Array of optimized parameters.
+        objective_function: The objective function.
+        parameters: Array of optimized parameters.
         epsilon: Step size for numerical differentiation.
+        regularization: Regularization term for Hessian inversion.
 
     Returns:
         standard_errors: Standard errors of the optimized parameters.
@@ -69,7 +71,6 @@ def hessian_standard_error(
     for i in range(n):
         for j in range(n):
             params_ij = parameters.copy()
-
             if (
                 i == j
             ):  # Diagonal elements: second derivative w.r.t. one parameter
@@ -99,10 +100,18 @@ def hessian_standard_error(
                     4 * epsilon**2
                 )
 
-    # Compute covariance matrix and standard errors
-    cov_matrix = np.linalg.inv(hessian)
-    standard_errors = np.sqrt(np.diag(cov_matrix))
-    return standard_errors[0], standard_errors[1], standard_errors[2]
+    # Regularization
+    hessian += np.eye(n) * regularization
+
+    try:
+        cov_matrix = np.linalg.inv(hessian)
+        standard_errors = np.sqrt(np.diag(cov_matrix))
+    except np.linalg.LinAlgError:
+        # Fallback to diagonal approximation
+        print("Hessian inversion failed; using diagonal approximation.")
+        standard_errors = np.sqrt(1.0 / np.diag(hessian))
+
+    return standard_errors
 
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments
