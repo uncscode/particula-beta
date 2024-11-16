@@ -2,7 +2,7 @@
 Functions for fitting the chamber rates to the observed rates.
 """
 
-from typing import Tuple, List, Optional, Callable
+from typing import Tuple, List, Optional, Callable, Union
 import copy
 from dataclasses import dataclass
 from functools import partial
@@ -15,6 +15,95 @@ from tqdm import tqdm
 
 from particula.dynamics import dilution, wall_loss, coagulation
 from particula_beta.data.stream import Stream
+
+
+def chi_squared_error(
+    observed: np.ndarray,
+    predicted: np.ndarray,
+    fractional_uncertainty: np.ndarray,
+) -> float:
+    """
+    Calculate the chi-squared error between the observed and predicted values,
+    accounting for uncertainties.
+
+    Arguments:
+        observed: Array of observed values.
+        predicted: Array of predicted values.
+        fractional_uncertainty: Array or float of fractional uncertainty
+            (e.g., 0.2 for 20%).
+
+    Returns:
+        chi_squared: Chi-squared error between the observed and predicted
+            values.
+    """
+    # Calculate absolute uncertainty from fractional uncertainty
+    uncertainty = fractional_uncertainty * observed
+
+    # Compute chi-squared
+    chi_squared = np.sum(((observed - predicted) / uncertainty) ** 2)
+
+    return chi_squared
+
+
+
+def hessian_standard_error(
+    objective_function: Callable,
+    parameters: NDArray[np.float64],
+    epsilon: float = 1e-4,
+) -> Tuple[float, float, float]:
+    """
+    Calculate the standard error for the optimized parameters using Hessian
+    estimation.
+
+    Arguments:
+        func: The objective function.
+        params: Array of optimized parameters.
+        epsilon: Step size for numerical differentiation.
+
+    Returns:
+        standard_errors: Standard errors of the optimized parameters.
+    """
+    n = len(parameters)
+    hessian = np.zeros((n, n))
+
+    # Compute second derivatives for the Hessian
+    for i in range(n):
+        for j in range(n):
+            params_ij = parameters.copy()
+
+            if (
+                i == j
+            ):  # Diagonal elements: second derivative w.r.t. one parameter
+                params_ij[i] += epsilon
+                f_plus = objective_function(params_ij)
+
+                params_ij[i] -= 2 * epsilon
+                f_minus = objective_function(params_ij)
+
+                f_center = objective_function(parameters)
+                hessian[i, i] = (f_plus - 2 * f_center + f_minus) / epsilon**2
+            else:  # Off-diagonal elements: mixed second derivatives
+                params_ij[i] += epsilon
+                params_ij[j] += epsilon
+                f_pp = objective_function(params_ij)
+
+                params_ij[j] -= 2 * epsilon
+                f_pm = objective_function(params_ij)
+
+                params_ij[i] -= 2 * epsilon
+                f_mm = objective_function(params_ij)
+
+                params_ij[j] += 2 * epsilon
+                f_mp = objective_function(params_ij)
+
+                hessian[i, j] = hessian[j, i] = (f_pp - f_pm - f_mp + f_mm) / (
+                    4 * epsilon**2
+                )
+
+    # Compute covariance matrix and standard errors
+    cov_matrix = np.linalg.inv(hessian)
+    standard_errors = np.sqrt(np.diag(cov_matrix))
+    return standard_errors[0], standard_errors[1], standard_errors[2]
 
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments
@@ -126,6 +215,7 @@ def coagulation_rates_cost_function(
     radius_bins: NDArray[np.float64],
     concentration_pmf: NDArray[np.float64],
     time_derivative_concentration_pmf: NDArray[np.float64],
+    fractional_uncertainty: NDArray[np.float64],
     temperature: float = 293.15,
     pressure: float = 101325,
     particle_density: float = 1000,
@@ -156,22 +246,29 @@ def coagulation_rates_cost_function(
         chamber_dimensions=chamber_dimensions,
     )
 
-    # Calculate the cost
-    number_cost = mean_squared_error(  # type: ignore
-        time_derivative_concentration_pmf, net_rate
+    # Calculate the Chi-squared error
+    chi_cost = chi_squared_error(
+        observed=time_derivative_concentration_pmf,
+        predicted=net_rate,
+        fractional_uncertainty=fractional_uncertainty,
     )
 
-    # total_volume comparison
-    total_volume_cost = np.power(
-        net_rate.sum() - time_derivative_concentration_pmf.sum(),
-        2,
-        dtype=np.float64,
-    )
+    # # Calculate the cost
+    # number_cost = mean_squared_error(  # type: ignore
+    #     time_derivative_concentration_pmf, net_rate
+    # )
 
-    if np.isnan(number_cost):  # type: ignore
+    # # total_volume comparison
+    # total_volume_cost = np.power(
+    #     net_rate.sum() - time_derivative_concentration_pmf.sum(),
+    #     2,
+    #     dtype=np.float64,
+    # )
+    # return number_cost + total_volume_cost
+
+    if np.isnan(chi_cost):  # type: ignore
         return 1e34
-
-    return number_cost + total_volume_cost
+    return chi_cost
 
 
 @dataclass
@@ -233,7 +330,7 @@ def optimize_parameters(
     initial_guess: NDArray[np.float64],
     bounds: List[Tuple[float, float]],
     method: str,
-) -> Tuple[float, float]:
+) -> Tuple[float, float, float]:
     """Get the optimized parameters using the given cost function."""
     result = minimize(  # type: ignore
         fun=cost_function,
@@ -249,11 +346,13 @@ def optimize_chamber_parameters(
     radius_bins: NDArray[np.float64],
     concentration_pmf: NDArray[np.float64],
     time_derivative_concentration_pmf: NDArray[np.float64],
+    fractional_uncertainty: NDArray[np.float64],
     chamber_parameters: ChamberParameters,
     fit_guess: NDArray[np.float64],
     fit_bounds: List[Tuple[float, float]],
     minimize_method: str = "L-BFGS-B",
-) -> Tuple[float, float, float]:
+    epsilon_hessian_estimation: float = 1e-4,
+) -> Union[Tuple[float, float, float], Tuple[float, float, float]]:
     """
     Optimize the eddy diffusivity and alpha collision efficiency parameters
     for a given particle size distribution and its time derivative.
@@ -289,6 +388,7 @@ def optimize_chamber_parameters(
         radius_bins=radius_bins,
         concentration_pmf=concentration_pmf,
         time_derivative_concentration_pmf=time_derivative_concentration_pmf,
+        fractional_uncertainty=fractional_uncertainty,
         temperature=chamber_parameters.temperature,
         pressure=chamber_parameters.pressure,
         particle_density=chamber_parameters.particle_density,
@@ -296,14 +396,20 @@ def optimize_chamber_parameters(
         input_flow_rate=chamber_parameters.input_flow_rate_m3_sec,
         chamber_dimensions=chamber_parameters.chamber_dimensions,
     )
-
     # Optimize the parameters
-    return optimize_parameters(
+    fit_optimized_parameters = optimize_parameters(
         cost_function=partial_cost_function,
         initial_guess=fit_guess,
         bounds=fit_bounds,
         method=minimize_method,
     )
+    # standard error estimation
+    error_optimized_parameters = hessian_standard_error(
+        objective_function=partial_cost_function,
+        parameters=fit_guess,
+        epsilon=epsilon_hessian_estimation,
+    )
+    return fit_optimized_parameters, error_optimized_parameters
 
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments
@@ -312,9 +418,9 @@ def calculate_optimized_rates(
     concentration_pmf: NDArray[np.float64],
     wall_eddy_diffusivity: float,
     alpha_collision_efficiency: float,
+    w_correction: float,
     chamber_parameters: ChamberParameters,
     time_derivative_concentration_pmf: Optional[NDArray[np.float64]] = None,
-    w_correction: Optional[float] = None,
 ) -> Tuple[float, float, float, float, float, float]:
     """
     Calculate the coagulation rates using the optimized parameters and return
@@ -338,6 +444,8 @@ def calculate_optimized_rates(
         wall_loss_rate: Loss rate due to wall deposition.
         net_rate: Net rate considering all effects.
         r2_value: R2 score between the net rate and the observed rate.
+        chi_squared: Chi-squared error between the net rate and the
+            observed rate.
     """
     # Calculate the rates
     (
@@ -367,6 +475,11 @@ def calculate_optimized_rates(
         if time_derivative_concentration_pmf is not None
         else None
     )
+    chi_squared = (
+        chi_squared_error(time_derivative_concentration_pmf, net_rate)
+        if time_derivative_concentration_pmf is not None
+        else None
+    )
 
     return (  # type: ignore
         coagulation_loss,
@@ -375,6 +488,7 @@ def calculate_optimized_rates(
         dilution_loss,
         wall_loss_rate,
         r2_value,
+        chi_squared,
     )
 
 
@@ -414,7 +528,11 @@ def optimize_and_calculate_rates_looped(
     wall_eddy_diffusivity = np.zeros(fit_length)
     alpha_collision_efficiency = np.zeros(fit_length)
     w_correction = np.zeros(fit_length)
+    error_wall_eddy_diffusivity = np.zeros(fit_length)
+    error_alpha_collision_efficiency = np.zeros(fit_length)
+    error_w_correction = np.zeros(fit_length)
     r2_value = np.zeros(fit_length)
+    chi_squared = np.zeros(fit_length)
     coagulation_loss = np.zeros_like(pmf_stream.data)
     coagulation_gain = np.zeros_like(pmf_stream.data)
     coagulation_net = np.zeros_like(pmf_stream.data)
@@ -427,11 +545,7 @@ def optimize_and_calculate_rates_looped(
         range(fit_length), desc="Chamber rates", total=fit_length
     ):
         # Optimize chamber parameters
-        (
-            wall_eddy_diffusivity[index],
-            alpha_collision_efficiency[index],
-            w_correction[index],
-        ) = optimize_chamber_parameters(
+        fit_optimized_parameters, error_optimized_parameters = optimize_chamber_parameters(
             radius_bins=pmf_stream.header_float,
             concentration_pmf=pmf_stream.data[index, :],
             time_derivative_concentration_pmf=(
@@ -441,6 +555,17 @@ def optimize_and_calculate_rates_looped(
             fit_guess=fit_guess,
             fit_bounds=fit_bounds,
         )
+        # unpack the optimized parameters
+        (
+            wall_eddy_diffusivity[index],
+            alpha_collision_efficiency[index],
+            w_correction[index],
+         ) = fit_optimized_parameters
+        (
+            error_wall_eddy_diffusivity[index],
+            error_alpha_collision_efficiency[index],
+            error_w_correction[index],
+        ) = error_optimized_parameters
 
         # Calculate the rates
         (
@@ -450,6 +575,7 @@ def optimize_and_calculate_rates_looped(
             dilution_loss[index, :],
             wall_loss_rate[index, :],
             r2_value[index],
+            chi_squared[index],
         ) = calculate_optimized_rates(
             radius_bins=pmf_stream.header_float,
             concentration_pmf=pmf_stream.data[index, :],
@@ -478,16 +604,24 @@ def optimize_and_calculate_rates_looped(
     result_stream.time = pmf_stream.time
     result_stream.header = [
         "wall_eddy_diffusivity_[1/s]",
+        "error_wall_eddy_diffusivity_[1/s]",
         "alpha_collision_efficiency_[-]",
+        "error_alpha_collision_efficiency_[-]",
         "w_correction_[-]",
+        "error_w_correction_[-]",
         "r2_value",
+        "chi_squared",
     ]
     result_stream.data = np.column_stack(
         [
             wall_eddy_diffusivity,
+            error_wall_eddy_diffusivity,
             alpha_collision_efficiency,
+            error_alpha_collision_efficiency,
             w_correction,
+            error_w_correction,
             r2_value,
+            chi_squared,
         ]
     )
 
