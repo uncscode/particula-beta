@@ -19,6 +19,7 @@ from particula.util.size_distribution_convert import (
 from particula_beta.data.stream import Stream
 from particula_beta.units import convert_units
 
+
 def mean_properties(
     sizer_dndlogdp: np.ndarray,
     sizer_diameter: np.ndarray,
