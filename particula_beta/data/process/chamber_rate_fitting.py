@@ -45,6 +45,7 @@ def chi_squared_error(
     return chi_squared
 
 
+# pylint: disable=too-many-locals
 def hessian_standard_error(
     objective_function: Callable,
     parameters: np.ndarray,

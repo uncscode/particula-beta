@@ -10,14 +10,14 @@ from math import pi
 import numpy as np
 from scipy.stats.mstats import gmean
 
-from particula_beta.units import convert_units
 from particula.util import convert
 from particula.util.size_distribution_convert import (
     get_conversion_strategy,
     SizerConverter,
 )
-from particula_beta.data.stream import Stream
 
+from particula_beta.data.stream import Stream
+from particula_beta.units import convert_units
 
 def mean_properties(
     sizer_dndlogdp: np.ndarray,
