@@ -104,8 +104,8 @@ def friction_factor_wrapper(
 
     # get mean free path
     mean_free_path_meter = molecule_mean_free_path(
-        temperature = temperature_kelvin,
-        pressure = pressure_pascal,
+        temperature=temperature_kelvin,
+        pressure=pressure_pascal,
         dynamic_viscosity=dynamic_viscosity_value,
     )
 
