@@ -98,6 +98,7 @@ def merge_formatting(
     return data_current, header_current, data_new, header_new
 
 
+# pylint: disable=too-many-positional-arguments, too-many-arguments, too-many-branches
 def average_to_interval(
     time_raw: np.ndarray,
     data_raw: np.ndarray,
@@ -106,8 +107,6 @@ def average_to_interval(
     average_data: np.ndarray,
     average_data_std: np.ndarray,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    # pylint: disable=too-many-positional-arguments,
-    # pylint: too-many-arguments, too-many-branches
     """
     Calculate the average of the data stream over the specified time intervals.
 
