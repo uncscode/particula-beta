@@ -3,7 +3,7 @@
 import numpy as np
 import torch
 
-from particula.constants import BOLTZMANN_CONSTANT
+from particula.util.constants import BOLTZMANN_CONSTANT
 from particula.particles.properties import (
     friction_factor, calculate_knudsen_number,
     cunningham_slip_correction
@@ -206,7 +206,7 @@ def thermal_speed(
     if torch.any(mass_kg <= 0):
         raise ValueError("All mass values must be positive.")
 
-    return torch.sqrt(8 * BOLTZMANN_CONSTANT.magnitude *
+    return torch.sqrt(8 * BOLTZMANN_CONSTANT *
                       temperature_kelvin / (np.pi * mass_kg))
 
 
