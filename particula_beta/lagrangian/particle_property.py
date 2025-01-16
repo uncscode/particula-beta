@@ -4,8 +4,15 @@ import numpy as np
 import torch
 
 from particula.constants import BOLTZMANN_CONSTANT
-from particula.util import friction_factor, dynamic_viscosity, \
-    slip_correction, mean_free_path, knudsen_number
+from particula.particles.properties import (
+    friction_factor, calculate_knudsen_number,
+    cunningham_slip_correction
+)
+from particula.gas.properties import (
+    get_dynamic_viscosity,
+    molecule_mean_free_path,
+)
+
 from particula.util.input_handling import convert_units
 
 
@@ -91,32 +98,32 @@ def friction_factor_wrapper(
         representing the particle friction factor.
     """
     # get dynamic viscosity
-    dynamic_viscosity_value = dynamic_viscosity.dyn_vis(
-        temperature_kelvin=temperature_kelvin,
-        pressure_pascal=pressure_pascal,
-    )
-    # get mean free path
-    mean_free_path_meter = mean_free_path.mfp(
-        temperature_kelvin=temperature_kelvin,
-        pressure_pascal=pressure_pascal,
-        dynamic_viscosity=dynamic_viscosity_value,
-    )
-    # get knudsen number
-    knudsen = knudsen_number.knu(
-        radius=radius_meter,
-        mfp=mean_free_path_meter,
-    )
-    # get slip correction factor
-    slip_correction_factor = slip_correction.scf(
-        radius=radius_meter,
-        knu=knudsen,
+    dynamic_viscosity_value = get_dynamic_viscosity(
+        temperature=temperature_kelvin,
     )
 
-    return friction_factor.frifac(
+    # get mean free path
+    mean_free_path_meter = molecule_mean_free_path(
+        temperature = temperature_kelvin,
+        pressure = pressure_pascal,
+        dynamic_viscosity=dynamic_viscosity_value,
+    )
+
+    # get knudsen number
+    knudsen = calculate_knudsen_number(
+        mean_free_path=mean_free_path_meter,
+        particle_radius=radius_meter.numpy()
+    )
+    # get slip correction factor
+    slip_correction_factor = cunningham_slip_correction(
+        knudsen_number=knudsen
+    )
+
+    return friction_factor(
         radius=radius_meter,
         dynamic_viscosity=dynamic_viscosity_value,
-        scf_val=slip_correction_factor,
-    ).m
+        slip_correction=slip_correction_factor,
+    )
 
 
 def generate_particle_masses(
