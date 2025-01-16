@@ -13,7 +13,7 @@ from particula.gas.properties import (
     molecule_mean_free_path,
 )
 
-from particula.util.input_handling import convert_units
+from particula_beta.units import convert_units
 
 
 def radius_calculation(

@@ -13,7 +13,7 @@ import numpy as np
 import csv
 
 from particula.util import convert
-from particula.util.time_manage import time_str_to_epoch
+from particula_beta.time_manage import time_str_to_epoch
 from particula_beta.data.lake import Lake
 from particula_beta.data.stream import Stream
 

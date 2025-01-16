@@ -10,7 +10,7 @@ from math import pi
 import numpy as np
 from scipy.stats.mstats import gmean
 
-from particula.util.input_handling import convert_units
+from particula_beta.units import convert_units
 from particula.util import convert
 from particula.util.size_distribution_convert import (
     get_conversion_strategy,

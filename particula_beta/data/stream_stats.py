@@ -6,7 +6,7 @@ import copy
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
-from particula.util import time_manage
+from particula_beta import time_manage
 from particula_beta.data.process import stats
 from particula_beta.data.stream import StreamAveraged, Stream
 
