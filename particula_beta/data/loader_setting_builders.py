@@ -3,7 +3,7 @@
 # pylint: disable=too-few-public-methods
 
 from typing import Any, Dict, Tuple
-from particula.next.abc_builder import BuilderABC
+from particula.abc_builder import BuilderABC
 from particula_beta.data.mixin import (
     RelativeFolderMixin,
     FilenameRegexMixin,

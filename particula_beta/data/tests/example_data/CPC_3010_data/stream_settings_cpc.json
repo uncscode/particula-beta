@@ -12,6 +12,7 @@
         "char_counts": {
             ",": 4
         },
+        "replace_chars": {},
         "skip_rows": 0,
         "skip_end": 0
     },

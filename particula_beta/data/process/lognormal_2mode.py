@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 from scipy.optimize import minimize  # type: ignore
 from sklearn.metrics import mean_squared_error, r2_score  # type: ignore
-from particula.next.particles.properties import (
+from particula.particles.properties import (
     lognormal_pdf_distribution,
     lognormal_pmf_distribution,
 )
