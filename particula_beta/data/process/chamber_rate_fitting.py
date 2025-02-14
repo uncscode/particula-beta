@@ -14,6 +14,9 @@ from sklearn.metrics import r2_score, mean_squared_error  # type: ignore
 from tqdm import tqdm
 
 from particula.dynamics import dilution, wall_loss, coagulation
+from particula.dynamics.coagulation.sedimentation_kernel import (
+    sedimentation_sp2016_via_system_state,
+)
 from particula_beta.data.stream import Stream
 
 
@@ -129,6 +132,7 @@ def calculate_pmf_rates(
     input_flow_rate: float = 0.16e-6,  # m^3/s
     wall_eddy_diffusivity: float = 0.1,
     chamber_dimensions: Tuple[float, float, float] = (1, 1, 1),  # m
+    sedimentation: bool = False,
 ) -> Tuple[
     NDArray[np.float64],
     NDArray[np.float64],
@@ -154,6 +158,7 @@ def calculate_pmf_rates(
         chamber_dimensions: Dimensions of the chamber
             (length, width, height) in meters.
         w_correction: W correction of the particles (optional).
+        sedimentation: Boolean to include sedimentation.
 
     Returns:
         coagulation_loss: Loss rate due to coagulation.
@@ -176,6 +181,15 @@ def calculate_pmf_rates(
         )
         / w_correction
     )
+    if sedimentation:
+        kernel_sed = sedimentation_sp2016_via_system_state(
+            radius_particle=radius_bins,
+            density_particle=particle_density,
+            temperature=temperature,
+            pressure=pressure,
+            calculate_collision_efficiency=False,
+        )
+        kernel += kernel_sed
 
     # Coagulation loss and gain
     coagulation_loss = coagulation.discrete_loss(
@@ -234,6 +248,7 @@ def coagulation_rates_cost_function(
     volume: float = 1,  # m^3
     input_flow_rate: float = 0.16e-6,  # m^3/s
     chamber_dimensions: Tuple[float, float, float] = (1, 1, 1),  # m
+    sedimentation: bool = False,
 ) -> float:
     """Cost function for the optimization of the eddy diffusivity
     and alpha collision efficiency."""
@@ -256,6 +271,7 @@ def coagulation_rates_cost_function(
         input_flow_rate=input_flow_rate,
         wall_eddy_diffusivity=wall_eddy_diffusivity,
         chamber_dimensions=chamber_dimensions,
+        sedimentation=sedimentation,
     )
 
     # Calculate the Chi-squared error
@@ -364,6 +380,7 @@ def optimize_chamber_parameters(
     fit_bounds: List[Tuple[float, float]],
     minimize_method: str = "L-BFGS-B",
     epsilon_hessian_estimation: float = 1e-4,
+    sedimentation: bool = False,
 ) -> Union[Tuple[float, float, float], Tuple[float, float, float]]:
     """
     Optimize the eddy diffusivity and alpha collision efficiency parameters
@@ -387,6 +404,8 @@ def optimize_chamber_parameters(
         minimize_method: Optimization method to be used. Default is "L-BFGS-B".
             The following methods from `scipy.optimize.minimize` accept bounds,
             "L-BFGS-B", "TNC", "SLSQP", "Powell", "trust-constr".
+        epsilon_hessian_estimation: Epsilon value for Hessian estimation.
+        sedimentation: Boolean to include sedimentation.
 
     Returns:
         wall_eddy_diffusivity_optimized: Optimized value of the wall eddy
@@ -407,6 +426,7 @@ def optimize_chamber_parameters(
         volume=chamber_parameters.volume,
         input_flow_rate=chamber_parameters.input_flow_rate_m3_sec,
         chamber_dimensions=chamber_parameters.chamber_dimensions,
+        sedimentation=sedimentation,
     )
     # Optimize the parameters
     fit_optimized_parameters = optimize_parameters(
@@ -434,6 +454,7 @@ def calculate_optimized_rates(
     fractional_uncertainty: NDArray[np.float64],
     chamber_parameters: ChamberParameters,
     time_derivative_concentration_pmf: Optional[NDArray[np.float64]] = None,
+    sedimentation: bool = False,
 ) -> Tuple[float, float, float, float, float, float]:
     """
     Calculate the coagulation rates using the optimized parameters and return
@@ -449,6 +470,7 @@ def calculate_optimized_rates(
         time_derivative_concentration_pmf: Array of observed rate of change
             of the concentration PMF (optional).
         w_correction: W correction of the particles (optional).
+        sedimentation: Boolean to include sedimentation.
 
     Returns:
         coagulation_loss: Loss rate due to coagulation.
@@ -479,6 +501,7 @@ def calculate_optimized_rates(
         wall_eddy_diffusivity=wall_eddy_diffusivity,
         chamber_dimensions=chamber_parameters.chamber_dimensions,
         w_correction=w_correction,
+        sedimentation=sedimentation,
     )
 
     coagulation_net = coagulation_gain - coagulation_loss
@@ -518,6 +541,7 @@ def optimize_and_calculate_rates_looped(
     fit_bounds: List[Tuple[float, float]],
     fractional_uncertainty: NDArray[np.float64],
     epsilon_hessian_estimation: float = 1e-4,
+    sedimentation: bool = False,
 ) -> Tuple[Stream, Stream, Stream, Stream, Stream, Stream, Stream]:
     """
     Perform optimization and calculate rates for each time point in the stream.
@@ -530,6 +554,7 @@ def optimize_and_calculate_rates_looped(
             chamber-related parameters.
         fit_guess: Initial guess for the optimization.
         fit_bounds: Bounds for the optimization parameters.
+        sedimentation: Boolean to include sedimentation.
 
     Returns:
         result_stream: Stream containing the optimization results for
@@ -576,6 +601,7 @@ def optimize_and_calculate_rates_looped(
                 fit_guess=fit_guess,
                 fit_bounds=fit_bounds,
                 epsilon_hessian_estimation=epsilon_hessian_estimation,
+                sedimentation=sedimentation,
             )
         )
         # unpack the optimized parameters
@@ -610,6 +636,7 @@ def optimize_and_calculate_rates_looped(
             time_derivative_concentration_pmf=(
                 pmf_derivative_stream.data[index, :]
             ),
+            sedimentation=sedimentation,
         )
 
         # Store the total
