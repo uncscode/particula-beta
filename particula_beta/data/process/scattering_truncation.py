@@ -10,8 +10,13 @@ from numpy.typing import NDArray
 from tqdm import tqdm
 import PyMieScatt as ps
 from scipy.integrate import trapezoid as trapz
-from particula.util import convert
+import particula as par
+
 from particula_beta.data.process import mie_angular, mie_bulk
+from particula_beta.data.util.convert_length import (
+    get_length_from_volume,
+    get_volume_from_length,
+)
 
 
 def get_truncated_scattering(
@@ -354,24 +359,24 @@ def correction_for_humidified(
             coefficients to account for truncation effects due to humidity.
     """
     # calculate the volume of the dry aerosol
-    volume_sizer = convert.length_to_volume(diameter, length_type="diameter")
-    volume_dry = convert.kappa_volume_solute(
+    volume_sizer = get_volume_from_length(diameter, dimension="diameter")
+    volume_dry = par.particles.get_solute_volume_from_kappa(
         volume_sizer, kappa, water_activity_sizer
     )
-    volume_water_sample = convert.kappa_volume_water(
+    volume_water_sample = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_sample
     )
 
     # calculate the effective refractive index of the dry+water aerosol
-    m_sphere = convert.effective_refractive_index(
+    m_sphere = par.util.get_effective_refractive_index(
         refractive_index_dry,
         water_refractive_index,
         volume_water_sample[-1],
         volume_dry[-1],
     )
     # wet diameter sizes
-    diameter_sizes = convert.volume_to_length(
-        volume_dry + volume_water_sample, length_type="diameter"
+    diameter_sizes = get_length_from_volume(
+        volume_dry + volume_water_sample, dimension="diameter"
     )
     # calculate the b_sca correction
     bsca_correction = correction_for_distribution(

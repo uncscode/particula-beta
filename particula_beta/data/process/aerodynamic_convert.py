@@ -8,14 +8,7 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.optimize import fsolve
 
-from particula.particles.properties import (
-    calculate_knudsen_number,
-    cunningham_slip_correction,
-    particle_aerodynamic_length,
-)
-from particula.gas.properties.mean_free_path import (
-    molecule_mean_free_path,
-)
+import particula as par
 
 
 def _cost_aerodynamic_radius(
@@ -46,24 +39,26 @@ def _cost_aerodynamic_radius(
     """
     # Calculate the physical Knudsen number and corresponding
     # slip correction factor
-    physical_knudsen_number = calculate_knudsen_number(
+    physical_knudsen_number = par.particles.get_knudsen_number(
         mean_free_path_air, particle_radius
     )
-    physical_slip_correction = cunningham_slip_correction(
+    physical_slip_correction = par.particles.get_cunningham_slip_correction(
         knudsen_number=physical_knudsen_number
     )
 
     # Calculate the Knudsen number and slip correction for the guessed
     # aerodynamic radius
-    guess_aerodynamic_knudsen_number = calculate_knudsen_number(
+    guess_aerodynamic_knudsen_number = par.particles.get_knudsen_number(
         mean_free_path_air, guess_aerodynamic_radius
     )
-    guess_aerodynamic_slip_correction = cunningham_slip_correction(
-        knudsen_number=guess_aerodynamic_knudsen_number
+    guess_aerodynamic_slip_correction = (
+        par.particles.get_cunningham_slip_correction(
+            knudsen_number=guess_aerodynamic_knudsen_number
+        )
     )
 
     # Calculate the aerodynamic radius based on the guessed parameters
-    new_aerodynamic_radius = particle_aerodynamic_length(
+    new_aerodynamic_radius = par.particles.get_aerodynamic_length(
         physical_length=particle_radius,
         physical_slip_correction_factor=physical_slip_correction,
         aerodynamic_slip_correction_factor=guess_aerodynamic_slip_correction,
@@ -104,24 +99,24 @@ def _cost_physical_radius(
     """
     # Calculate the physical Knudsen number and corresponding slip correction
     # factor
-    guess_physical_knudsen_number = calculate_knudsen_number(
+    guess_physical_knudsen_number = par.particles.get_knudsen_number(
         mean_free_path_air, guess_physical_radius
     )
-    guess_physical_slip_correction = cunningham_slip_correction(
+    guess_physical_slip_correction = par.particles.get_cunningham_slip_correction(
         knudsen_number=guess_physical_knudsen_number
     )
 
     # Calculate the aerodynamic Knudsen number and corresponding slip
     # correction factor
-    aerodynamic_knudsen_number = calculate_knudsen_number(
+    aerodynamic_knudsen_number = par.particles.get_knudsen_number(
         mean_free_path_air, aerodynamic_radius
     )
-    aerodynamic_slip_correction = cunningham_slip_correction(
+    aerodynamic_slip_correction = par.particles.get_cunningham_slip_correction(
         knudsen_number=aerodynamic_knudsen_number
     )
 
     # Calculate the aerodynamic radius based on the guessed physical radius
-    new_aerodynamic_radius = particle_aerodynamic_length(
+    new_aerodynamic_radius = par.particles.get_aerodynamic_length(
         physical_length=guess_physical_radius,
         physical_slip_correction_factor=guess_physical_slip_correction,
         aerodynamic_slip_correction_factor=aerodynamic_slip_correction,
@@ -163,7 +158,7 @@ def convert_aerodynamic_to_physical_radius(
         radius/radii.
     """
     # Calculate the mean free path of air
-    mean_free_path_air = molecule_mean_free_path(
+    mean_free_path_air = par.gas.get_molecule_mean_free_path(
         temperature=temperature, pressure=pressure
     )
 
@@ -220,7 +215,7 @@ def convert_physical_to_aerodynamic_radius(
         radius/radii.
     """
     # Calculate the mean free path of air
-    mean_free_path_air = molecule_mean_free_path(
+    mean_free_path_air = par.gas.get_molecule_mean_free_path(
         temperature=temperature, pressure=pressure
     )
 

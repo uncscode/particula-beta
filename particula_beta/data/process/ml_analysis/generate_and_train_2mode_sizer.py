@@ -20,8 +20,8 @@ from sklearn.metrics import mean_squared_error  # type: ignore
 from sklearn.neural_network import MLPRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
+import particula as par
 
-from particula.particles.properties import lognormal_pdf_distribution
 from particula_beta.data.process.ml_analysis.get_ml_folder import (
     get_ml_analysis_folder,
 )
@@ -114,7 +114,7 @@ def generate_simulated_data(
 
     # Generate the simulated data
     for i in range(total_number_simulated):
-        number_pdf_sim[i] = lognormal_pdf_distribution(
+        number_pdf_sim[i] = par.particles.get_lognormal_pdf_distribution(
             x_values=x_values,
             mode=mode_values_sim[i],
             geometric_standard_deviation=geomertic_standard_deviation_sim[i],

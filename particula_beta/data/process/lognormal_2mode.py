@@ -9,10 +9,7 @@ from tqdm import tqdm
 
 from scipy.optimize import minimize  # type: ignore
 from sklearn.metrics import mean_squared_error, r2_score  # type: ignore
-from particula.particles.properties import (
-    lognormal_pdf_distribution,
-    lognormal_pmf_distribution,
-)
+import particula as par
 from particula_beta.data.stream import Stream
 from particula_beta.data.process.ml_analysis import (
     generate_and_train_2mode_sizer,
@@ -50,7 +47,7 @@ def cost_function(
     number_of_particles = params[(2 * num_modes):]
 
     # Generate the guessed concentration PDF
-    concentration_pdf_guess = lognormal_pdf_distribution(
+    concentration_pdf_guess = par.particles.get_lognormal_pdf_distribution(
         x_values=x_values,
         mode=mode_values,
         geometric_standard_deviation=geometric_standard_deviation,
@@ -143,7 +140,7 @@ def evaluate_fit(
     optimized_gsd = optimized_params[2:4]
     optimized_number_of_particles = optimized_params[4:]
 
-    concentration_pdf_optimized = lognormal_pdf_distribution(
+    concentration_pdf_optimized = par.particles.get_lognormal_pdf_distribution(
         x_values=logspace_x,
         mode=optimized_mode_values,
         geometric_standard_deviation=optimized_gsd,
@@ -426,11 +423,13 @@ def create_lognormal_2mode_from_fit(
 
     # Calculate the fitted PMF for each set of optimized parameters
     for i, m1 in enumerate(mode_1):
-        fitted_concentration_pmf[i] = lognormal_pmf_distribution(
-            x_values=radius_m_values,
-            mode=np.array([m1, mode_2[i]]),
-            geometric_standard_deviation=np.array([gsd_1[i], gsd_2[i]]),
-            number_of_particles=np.array([n_1[i], n_2[i]]),
+        fitted_concentration_pmf[i] = (
+            par.particles.get_lognormal_pmf_distribution(
+                x_values=radius_m_values,
+                mode=np.array([m1, mode_2[i]]),
+                geometric_standard_deviation=np.array([gsd_1[i], gsd_2[i]]),
+                number_of_particles=np.array([n_1[i], n_2[i]]),
+            )
         )
 
     # Create and populate the Stream object
