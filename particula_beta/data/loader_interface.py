@@ -3,7 +3,8 @@
 from typing import Optional
 import os
 import numpy as np
-from particula.util import convert
+import particula as par
+
 from particula_beta.data import loader, merger
 from particula_beta.data.stream import Stream
 from particula_beta.data.lake import Lake
@@ -321,7 +322,7 @@ def get_1d_stream(
     )
 
     # check data shape
-    data = convert.data_shape_check(
+    data = par.util.get_shape_check(
         time=epoch_time, data=data, header=settings["data_header"]
     )
     if first_pass:
@@ -414,7 +415,7 @@ def get_2d_stream(
     )
 
     # check data shape
-    data = convert.data_shape_check(time=epoch_time, data=data, header=header)
+    data = par.util.get_shape_check(time=epoch_time, data=data, header=header)
     if first_pass:
         stream.header = header
         stream.data = data
