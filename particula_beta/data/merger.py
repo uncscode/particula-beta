@@ -8,7 +8,8 @@ interpolate the data to the data stream's time array.
 
 from typing import Tuple, Optional
 import numpy as np
-from particula.util import convert
+import particula as par
+
 from particula_beta.data.process import stats
 from particula_beta.data.stream import Stream
 
@@ -52,7 +53,7 @@ def combine_data(
         the data stream.
     """
 
-    data_new = convert.data_shape_check(
+    data_new = par.util.get_shape_check(
         time=time_new, data=data_new, header=header_new
     )
 
