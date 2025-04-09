@@ -12,7 +12,7 @@ import netCDF4 as nc
 import numpy as np
 import csv
 
-from particula.util import convert
+import particula as par
 from particula_beta.time_manage import time_str_to_epoch
 from particula_beta.data.lake import Lake
 from particula_beta.data.stream import Stream
@@ -635,7 +635,7 @@ def sizer_data_formatter(
     if "convert_scale_from" in data_sizer_reader:
         if data_sizer_reader["convert_scale_from"] == "dw":
             for i in range(len(epoch_time)):
-                data_2d[i, :] = convert.convert_sizer_dn(
+                data_2d[i, :] = par.particles.get_distribution_in_dn(
                     diameter=np.array(header).astype(float),
                     dn_dlogdp=data_2d[i, :],
                     inverse=True,
@@ -1112,7 +1112,7 @@ def netcdf_data_1d_load(
     nc_file.close()
 
     # check data shape, transpose if necessary so that time is last dimension
-    data_1d = convert.data_shape_check(
+    data_1d = par.util.get_shape_check(
         time=epoch_time, data=data_1d, header=header_1d
     )
 
@@ -1162,7 +1162,7 @@ def netcdf_data_2d_load(
     header_2d = [str(item) for item in header_2d.tolist()]
 
     # check data shape, transpose if necessary so that time is last dimension
-    data_2d = convert.data_shape_check(
+    data_2d = par.util.get_shape_check(
         time=epoch_time, data=data_2d, header=header_2d
     )
 
