@@ -9,12 +9,7 @@ import copy
 from math import pi
 import numpy as np
 from scipy.stats.mstats import gmean
-
-from particula.util import convert
-from particula.util.size_distribution_convert import (
-    get_conversion_strategy,
-    SizerConverter,
-)
+import particula as par
 
 from particula_beta.data.stream import Stream
 from particula_beta.units import convert_units
@@ -49,7 +44,9 @@ def mean_properties(
     """
 
     # convert to dn from dn/dlogDp
-    sizer_dn = convert.convert_sizer_dn(sizer_diameter, sizer_dndlogdp)
+    sizer_dn = par.particles.get_distribution_in_dn(
+        sizer_diameter, sizer_dndlogdp
+    )
     if total_concentration is not None:
         sizer_dn = sizer_dn * total_concentration / np.sum(sizer_dn)
     else:
@@ -483,9 +480,9 @@ def resample_distribution(
     new_concentration = np.zeros((concentration.shape[0], len(new_diameters)))
 
     # get the conversion strategy
-    conversion_strategy = get_conversion_strategy(concentration_scale, "pdf")
-    # create the converter
-    sizer_to_pdf = SizerConverter(conversion_strategy)
+    sizer_to_pdf = par.particles.get_distribution_conversion_strategy(
+        concentration_scale, "pdf"
+    )
     # convert distribution
     concentration_pdf = sizer_to_pdf.convert(
         diameters=diameters,
