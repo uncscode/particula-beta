@@ -4,14 +4,7 @@ import numpy as np
 import torch
 
 from particula.util.constants import BOLTZMANN_CONSTANT
-from particula.particles.properties import (
-    friction_factor, calculate_knudsen_number,
-    cunningham_slip_correction
-)
-from particula.gas.properties import (
-    get_dynamic_viscosity,
-    molecule_mean_free_path,
-)
+import particula as par
 
 from particula_beta.units import convert_units
 
@@ -98,29 +91,29 @@ def friction_factor_wrapper(
         representing the particle friction factor.
     """
     # get dynamic viscosity
-    dynamic_viscosity_value = get_dynamic_viscosity(
+    dynamic_viscosity_value = par.gas.get_dynamic_viscosity(
         temperature=temperature_kelvin,
     )
 
     # get mean free path
-    mean_free_path_meter = molecule_mean_free_path(
+    mean_free_path_meter = par.gas.get_molecule_mean_free_path(
         temperature=temperature_kelvin,
         pressure=pressure_pascal,
         dynamic_viscosity=dynamic_viscosity_value,
     )
 
     # get knudsen number
-    knudsen = calculate_knudsen_number(
+    knudsen = par.particles.get_knudsen_number(
         mean_free_path=mean_free_path_meter,
         particle_radius=radius_meter.numpy()
     )
     # get slip correction factor
-    slip_correction_factor = cunningham_slip_correction(
+    slip_correction_factor = par.particles.get_cunningham_slip_correction(
         knudsen_number=knudsen
     )
 
-    return friction_factor(
-        radius=radius_meter,
+    return par.particles.get_friction_factor(
+        particle_radius=radius_meter,
         dynamic_viscosity=dynamic_viscosity_value,
         slip_correction=slip_correction_factor,
     )

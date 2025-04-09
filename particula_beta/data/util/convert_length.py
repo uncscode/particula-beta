@@ -2,8 +2,13 @@
 General volume to length conversion
 """
 
+from typing import Union
+from numpy.typing import NDArray
+import numpy as np
+
+
 def get_length_from_volume(
-    volume: float,
+    volume: Union[float, NDArray[np.float64]],
     dimension: str = "radius",
 ) -> float:
     """
@@ -17,13 +22,12 @@ def get_length_from_volume(
         The requested length (radius or diameter) as a float.
     """
     # Volume of a sphere = (4/3) * pi * r^3
-    import math
-    radius = ((3 * volume) / (4 * math.pi)) ** (1 / 3)
+    radius = ((3 * volume) / (4 * np.pi)) ** (1 / 3)
     return radius if dimension == "radius" else 2.0 * radius
 
 
 def get_volume_from_length(
-    length: float,
+    length: Union[float, NDArray[np.float64]],
     dimension: str = "radius",
 ) -> float:
     """
@@ -36,8 +40,5 @@ def get_volume_from_length(
     Returns:
         The corresponding volume as a float.
     """
-    import math
     radius = length if dimension == "radius" else length / 2.0
-    return (4.0 / 3.0) * math.pi * (radius ** 3)
-"""
-
+    return (4.0 / 3.0) * np.pi * (radius ** 3)

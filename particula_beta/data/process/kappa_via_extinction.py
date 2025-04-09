@@ -11,8 +11,13 @@ from typing import Union, Tuple
 import numpy as np
 from scipy.optimize import fminbound
 from numpy.typing import NDArray
-from particula.util import convert
+import particula as par
+
 from particula_beta.data.process import mie_bulk
+from particula_beta.data.util.convert_length import (
+    get_length_from_volume,
+    get_volume_from_length,
+)
 
 
 def extinction_ratio_wet_dry(
@@ -68,27 +73,26 @@ def extinction_ratio_wet_dry(
         respectively.
     """
     # Convert particle diameters to volumes for dry aerosol calculations
-    volume_sizer = convert.length_to_volume(diameters, length_type="diameter")
+    volume_sizer = get_volume_from_length(diameters, dimension="diameter")
 
     # Calculate volumes for solute and water in dry and wet conditions
-    volume_dry = convert.kappa_volume_solute(
-        volume_sizer, kappa, water_activity_sizer
-    )
-    volume_water_dry = convert.kappa_volume_water(
+    volume_dry = par.particles.get_solute_volume_from_kappa(
+        volume_sizer, kappa, water_activity_sizer)
+    volume_water_dry = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_dry
     )
-    volume_water_wet = convert.kappa_volume_water(
+    volume_water_wet = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_wet
     )
 
     # Determine effective refractive indices for dry and wet aerosols
-    n_effective_dry = convert.effective_refractive_index(
+    n_effective_dry = par.util.get_effective_refractive_index(
         refractive_index_dry,
         water_refractive_index,
         volume_dry[-1],  # pyright: ignore[reportIndexIssue]
         volume_water_dry[-1],  # pyright: ignore[reportIndexIssue]
     )
-    n_effective_wet = convert.effective_refractive_index(
+    n_effective_wet = par.util.get_effective_refractive_index(
         refractive_index_dry,
         water_refractive_index,
         volume_dry[-1],  # pyright: ignore[reportIndexIssue]
@@ -97,11 +101,11 @@ def extinction_ratio_wet_dry(
 
     # Adjust diameters for wet and dry conditions and calculate optical
     # properties
-    diameters_dry = convert.volume_to_length(
-        volume_dry + volume_water_dry, length_type="diameter"
+    diameters_dry = get_length_from_volume(
+        volume_dry + volume_water_dry, dimension="diameter"
     )
-    diameters_wet = convert.volume_to_length(
-        volume_dry + volume_water_wet, length_type="diameter"
+    diameters_wet = get_length_from_volume(
+        volume_dry + volume_water_wet, dimension="diameter"
     )
 
     optics_dry = mie_bulk.mie_size_distribution(

@@ -13,7 +13,7 @@ from functools import lru_cache
 import numpy as np
 from numpy.typing import NDArray
 import PyMieScatt as ps
-from particula.util import convert
+import particula as par
 
 
 @lru_cache(maxsize=100000)
@@ -104,22 +104,22 @@ def discretize_mie_parameters(
                 in Mie scattering calculations with potentially improved
                 performance and reduced computational overhead.
     """
-    m_real = convert.round_arbitrary(
+    m_real = par.util.get_arbitrary_round(
         values=np.real(m_sphere), base=base_m_sphere, mode="round"
     )
-    m_imag = convert.round_arbitrary(
+    m_imag = par.util.get_arbitrary_round(
         values=np.imag(m_sphere), base=base_m_sphere, mode="round"
     )
     # Recombine the discretized real and imaginary parts
     m_discretized = m_real + 1j * m_imag if m_imag != 0 else m_real
 
     # Discretize the wavelength, assuming nm units
-    wavelength_discretized = convert.round_arbitrary(
+    wavelength_discretized = par.util.get_arbitrary_round(
         values=wavelength, base=base_wavelength, mode="round"
     )
 
     # Discretize the particle diameters, assuming nm units
-    dp_discretized = convert.round_arbitrary(
+    dp_discretized = par.util.get_arbitrary_round(
         values=diameter, base=base_diameter, mode="round", nonzero_edge=True
     )
 
@@ -303,7 +303,7 @@ def mie_size_distribution(
 
     # Ensure inputs are numpy arrays for vectorized operations
     diameter, number_per_cm3 = map(
-        lambda x: convert.coerce_type(x, np.ndarray),
+        lambda x: par.util.get_coerced_type(x, np.ndarray),
         (diameter, number_per_cm3),
     )
 
