@@ -1,6 +1,8 @@
 # ignore .DS_Store on macs
 .DS_Store
 
+uv.lock
+
 # ignore local mkdocs source folder
 *Source-Code*
 *API*
