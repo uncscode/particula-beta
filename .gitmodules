@@ -1,3 +1,6 @@
 [submodule "adw_tools"]
 	path = adw_tools
 	url = https://github.com/Gorkowski/adw_tools.git
+[submodule "TRACER_analysis"]
+	path = TRACER_analysis
+	url = https://github.com/Gorkowski/TRACER_analysis.git
