@@ -102,8 +102,10 @@ def _cost_physical_radius(
     guess_physical_knudsen_number = par.particles.get_knudsen_number(
         mean_free_path_air, guess_physical_radius
     )
-    guess_physical_slip_correction = par.particles.get_cunningham_slip_correction(
-        knudsen_number=guess_physical_knudsen_number
+    guess_physical_slip_correction = (
+        par.particles.get_cunningham_slip_correction(
+            knudsen_number=guess_physical_knudsen_number
+        )
     )
 
     # Calculate the aerodynamic Knudsen number and corresponding slip

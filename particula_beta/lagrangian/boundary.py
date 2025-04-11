@@ -3,8 +3,7 @@
 import torch
 
 
-def wrapped_cube(
-        position: torch.Tensor, cube_side: float) -> torch.Tensor:
+def wrapped_cube(position: torch.Tensor, cube_side: float) -> torch.Tensor:
     """
     Apply cubic boundary conditions with wrap-around, to the position tensor.
 
@@ -32,26 +31,22 @@ def wrapped_cube(
     half_cube_side = cube_side / 2
     # Wrap around for positive overflow
     position = torch.where(
-        position > half_cube_side,
-        position - cube_side,
-        position)
+        position > half_cube_side, position - cube_side, position
+    )
 
     # Wrap around for negative overflow
     position = torch.where(
-        position < -half_cube_side,
-        position + cube_side,
-        position)
+        position < -half_cube_side, position + cube_side, position
+    )
 
     # Wrap around for very large positive overflow
     position = torch.where(
-        position > half_cube_side,
-        -half_cube_side,
-        position)
+        position > half_cube_side, -half_cube_side, position
+    )
 
     # Wrap around for very large negative overflow
     position = torch.where(
-        position < -half_cube_side,
-        half_cube_side,
-        position)
+        position < -half_cube_side, half_cube_side, position
+    )
 
     return position

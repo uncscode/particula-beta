@@ -1,6 +1,7 @@
 """
 Data module for Particula Beta.
 """
+
 # pylint: disable=unused-import
 # flake8: noqa
 # pyright: basic
@@ -74,6 +75,7 @@ from particula_beta.data.stream import (
     Stream,
     StreamAveraged,
 )
+
 # process
 from particula_beta.data.process.aerodynamic_convert import (
     convert_aerodynamic_to_physical_radius,
@@ -131,6 +133,7 @@ from particula_beta.data.process.stats import (
     mask_outliers,
     distribution_integration,
 )
+
 # util
 from particula_beta.data.util.convert_length import (
     get_length_from_volume,
