@@ -436,8 +436,8 @@ class NetcdfSettingsBuilder(
     TimeShiftSecondsMixin,
     TimezoneIdentifierMixin,
 ):
-    """Builder class for creating settings for loading and checking 1D data
-    from CSV files."""
+    """Builder class for creating settings for loading and checking data
+    from ARM NetCDF files."""
 
     def __init__(self):
         required_parameters = [
