@@ -331,10 +331,10 @@ class LoaderSizerSettingsBuilder(
         return dict_1d, dict_2d
 
 
-class NetcdfReaderBuilder(
+class NetcdfReader1dBuilder(
     BuilderABC,
 ):
-    """Builder class for constructing the NetCDF reader dictionary."""
+    """Builder class for constructing the NetCDF 1D reader dictionary."""
 
     def __init__(self):
         required_parameters = [
@@ -344,8 +344,6 @@ class NetcdfReaderBuilder(
         BuilderABC.__init__(self, required_parameters)
         self.data_1d = None
         self.header_1d = None
-        self.data_2d = None  # optional
-        self.header_2d = None  # optional
 
     def set_data_1d(self, data_1d: list[str]):
         """Set the data headers to read from the NetCDF file."""
@@ -360,6 +358,30 @@ class NetcdfReaderBuilder(
             raise ValueError("header_1d must be a list of strings.")
         self.header_1d = header_1d
         return self
+
+    def build(self) -> Dict[str, Any]:
+        """Build and return the NetCDF reader dictionary."""
+        self.pre_build_check()
+        netcdf_reader = {
+            "data_1d": self.data_1d,
+            "header_1d": self.header_1d,
+        }
+        return netcdf_reader
+
+
+class NetcdfReader2dBuilder(
+    BuilderABC,
+):
+    """Builder class for constructing the NetCDF 2D reader dictionary."""
+
+    def __init__(self):
+        required_parameters = [
+            "data_2d",
+            "header_2d",
+        ]
+        BuilderABC.__init__(self, required_parameters)
+        self.data_2d = None
+        self.header_2d = None
 
     def set_data_2d(self, data_2d: list[str]):
         """Set the data headers for 2D data in the NetCDF file."""
@@ -379,14 +401,9 @@ class NetcdfReaderBuilder(
         """Build and return the NetCDF reader dictionary."""
         self.pre_build_check()
         netcdf_reader = {
-            "data_1d": self.data_1d,
-            "header_1d": self.header_1d,
+            "data_2d": self.data_2d,
+            "header_2d": self.header_2d,
         }
-        if self.data_2d:
-            netcdf_reader["data_2d"] = self.data_2d
-        if self.header_2d:
-            netcdf_reader["header_2d"] = self.header_2d
-
         return netcdf_reader
 
 

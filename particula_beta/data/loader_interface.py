@@ -166,11 +166,14 @@ def load_files_interface(
                 settings=settings,
                 stream=stream,
             )
+        elif settings["data_loading_function"] == "netcdf_load":
+            stream = get_netcdf_stream(
+                file_path=file_path,
+                first_pass=first_pass,
+                settings=settings,
+                stream=stream,
+            )
 
-        # elif (self.settings[key]['data_loading_function'] ==
-        #         'netcdf_load'):
-        #     self.initialise_netcdf_stream(key, path, first_pass)
-        #     first_pass = False
         else:
             raise ValueError(
                 "Data loading function not recognized",

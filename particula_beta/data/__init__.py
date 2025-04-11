@@ -25,7 +25,8 @@ from particula_beta.data.loader_setting_builders import (
     SizerDataReaderBuilder,
     DateLocationBuilder,
     NetcdfSettingsBuilder,
-    NetcdfReaderBuilder,
+    NetcdfReader1dBuilder,
+    NetcdfReader2dBuilder,
 )
 from particula_beta.data.loader import (
     data_raw_loader,
