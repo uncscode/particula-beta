@@ -80,7 +80,26 @@ class Loader1DSettingsBuilder(
         TimezoneIdentifierMixin.__init__(self)
         DateLocationMixin.__init__(self)  # optional
 
-    def build(self) -> Dict[str, Any]:
+    def set_header_1d(self, header_1d: list[str]):
+        """Set the header for 1D data in the NetCDF file."""
+        if not isinstance(header_1d, list):
+            raise ValueError("header_1d must be a list of strings.")
+        self.header_1d = header_1d
+        return self
+
+    def set_data_2d(self, data_2d: list[str]):
+        """Set the data headers for 2D data in the NetCDF file."""
+        if not isinstance(data_2d, list):
+            raise ValueError("data_2d must be a list of strings.")
+        self.data_2d = data_2d
+        return self
+
+    def set_header_2d(self, header_2d: list[str]):
+        """Set the header for 2D data in the NetCDF file."""
+        if not isinstance(header_2d, list):
+            raise ValueError("header_2d must be a list of strings.")
+        self.header_2d = header_2d
+        return self
         """Build and return the settings dictionary for 1D data loading."""
         self.pre_build_check()
         dict_1d = {
@@ -358,9 +377,16 @@ class NetcdfReaderBuilder(
     def build(self) -> Dict[str, Any]:
         """Build and return the NetCDF reader dictionary."""
         self.pre_build_check()
-        return {
-            "Netcdf_reader": self.netcdf_reader,
+        netcdf_reader = {
+            "data_1d": self.data_1d,
+            "header_1d": self.header_1d,
         }
+        if self.data_2d:
+            netcdf_reader["data_2d"] = self.data_2d
+        if self.header_2d:
+            netcdf_reader["header_2d"] = self.header_2d
+
+        return {"Netcdf_reader": netcdf_reader}
 
 
 # NetCDF settings builder
