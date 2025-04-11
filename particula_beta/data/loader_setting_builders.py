@@ -345,14 +345,14 @@ class NetcdfReader1dBuilder(
         self.data_1d = None
         self.header_1d = None
 
-    def set_data_1d(self, data_1d: list[str]):
+    def set_data_1d(self, data_1d: list[str]|str):
         """Set the data headers to read from the NetCDF file."""
         if not isinstance(data_1d, list):
             raise ValueError("data_1d must be a list of strings.")
         self.data_1d = data_1d
         return self
 
-    def set_header_1d(self, header_1d: list[str]):
+    def set_header_1d(self, header_1d: list[str]|str):
         """Set the header for 1D data for the Stream file."""
         if not isinstance(header_1d, list):
             raise ValueError("header_1d must be a list of strings.")
@@ -383,14 +383,14 @@ class NetcdfReader2dBuilder(
         self.data_2d = None
         self.header_2d = None
 
-    def set_data_2d(self, data_2d: list[str]):
+    def set_data_2d(self, data_2d: list[str]|str):
         """Set the data headers for 2D data in the NetCDF file."""
         if not isinstance(data_2d, list):
             raise ValueError("data_2d must be a list of strings.")
         self.data_2d = data_2d
         return self
 
-    def set_header_2d(self, header_2d: list[str]):
+    def set_header_2d(self, header_2d: list[str]|str):
         """Set the header for 2D data for the Stream file."""
         if not isinstance(header_2d, list):
             raise ValueError("header_2d must be a list of strings.")
