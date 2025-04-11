@@ -5,8 +5,7 @@ import torch
 
 
 def remove_duplicates(
-        index_pairs: torch.Tensor,
-        index_to_remove: int
+    index_pairs: torch.Tensor, index_to_remove: int
 ) -> torch.Tensor:
     """
     Removes duplicate entries from a specified column in a tensor of index
@@ -34,7 +33,8 @@ def remove_duplicates(
     """
     # Sort index_pairs by the index_to_remove column
     sorted_index_pairs, indices_sorted = torch.sort(
-        index_pairs[:, index_to_remove], dim=0)
+        index_pairs[:, index_to_remove], dim=0
+    )
 
     # Find unique entries in the index_to_remove column
     # diff_index is True for unique entries
@@ -79,7 +79,7 @@ def calculate_pairwise_distance(position: torch.Tensor) -> torch.Tensor:
 def validate_pair_distance(
     collision_indices_pairs: torch.Tensor,
     position: torch.Tensor,
-    radius: torch.Tensor
+    radius: torch.Tensor,
 ) -> torch.Tensor:
     """
     Validates if the Euclidean distances between pairs of points are smaller
@@ -102,13 +102,17 @@ def validate_pair_distance(
         return torch.tensor([], dtype=torch.bool)
 
     # Calculate 3D distance for each pair of particles
-    delta_position = position[:, collision_indices_pairs[:, 0]] \
+    delta_position = (
+        position[:, collision_indices_pairs[:, 0]]
         - position[:, collision_indices_pairs[:, 1]]
+    )
     # Euclidean distance between particles
     distance = torch.sqrt(torch.sum(delta_position**2, axis=0))
     # radius sum of both particles
-    distance_threshold = radius[collision_indices_pairs[:, 0]] \
+    distance_threshold = (
+        radius[collision_indices_pairs[:, 0]]
         + radius[collision_indices_pairs[:, 1]]
+    )
 
     # Return the pairs of particles where the distance is less than the sum of
     # their radii
@@ -116,8 +120,7 @@ def validate_pair_distance(
 
 
 def single_axis_sweep_and_prune(
-    position_axis: torch.Tensor,
-    radius: torch.Tensor
+    position_axis: torch.Tensor, radius: torch.Tensor
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Sweep and prune algorithm for collision detection along a single axis.
@@ -137,7 +140,8 @@ def single_axis_sweep_and_prune(
     # Fast return if there are no particles
     if position_axis.shape[0] == 0:
         return torch.tensor([], dtype=torch.int64), torch.tensor(
-            [], dtype=torch.int64)
+            [], dtype=torch.int64
+        )
 
     # Apply sweep and prune to find pairs of particles that are close enough
     # to collide
@@ -147,18 +151,19 @@ def single_axis_sweep_and_prune(
 
     # Select indices of particles that are close enough to collide
     prune_bool = sweep_diff < radius_sum
-    left_overlap_indices = sweep.indices[torch.cat(
-        [prune_bool, torch.tensor([False], dtype=torch.bool)])]
-    right_overlap_indices = sweep.indices[torch.cat(
-        [torch.tensor([False], dtype=torch.bool), prune_bool])]
+    left_overlap_indices = sweep.indices[
+        torch.cat([prune_bool, torch.tensor([False], dtype=torch.bool)])
+    ]
+    right_overlap_indices = sweep.indices[
+        torch.cat([torch.tensor([False], dtype=torch.bool), prune_bool])
+    ]
 
     return left_overlap_indices, right_overlap_indices
 
 
 # pylint: disable=too-many-locals
 def full_sweep_and_prune(
-        position: torch.Tensor,
-        radius: torch.Tensor
+    position: torch.Tensor, radius: torch.Tensor
 ) -> torch.Tensor:
     """
     Sweep and prune algorithm for collision detection along all three axes
@@ -178,11 +183,12 @@ def full_sweep_and_prune(
     valid_radius = radius > 0
     valid_radius_indices = torch.arange(radius.shape[0])[valid_radius]
     # sweep x axis
-    left_x_overlap_shifted, right_x_overlap_shifted = \
+    left_x_overlap_shifted, right_x_overlap_shifted = (
         single_axis_sweep_and_prune(
             position_axis=position[0, valid_radius_indices],
-            radius=radius[valid_radius_indices]
+            radius=radius[valid_radius_indices],
         )
+    )
     # fast return if there are no particles overlapping in x
     if left_x_overlap_shifted.shape[0] == 0:
         return torch.tensor([])
@@ -192,16 +198,18 @@ def full_sweep_and_prune(
 
     # cobine left and right indices for next step
     all_overlaps_x = torch.cat(
-        [left_x_overlap_indices, right_x_overlap_indices])
+        [left_x_overlap_indices, right_x_overlap_indices]
+    )
     # select unique indices
     indices_x_unique = torch.unique(all_overlaps_x)
 
     # sweep y axis
-    left_y_overlap_shifted, right_y_overlap_shifted = \
+    left_y_overlap_shifted, right_y_overlap_shifted = (
         single_axis_sweep_and_prune(
             position_axis=position[1][indices_x_unique],
-            radius=radius[indices_x_unique]
+            radius=radius[indices_x_unique],
         )
+    )
     # fast return if there are no particles overlapping in y
     if left_y_overlap_shifted.shape[0] == 0:
         return torch.tensor([])
@@ -211,16 +219,18 @@ def full_sweep_and_prune(
 
     # combine left and right indices for next step
     all_overlaps_y = torch.cat(
-        [left_y_overlap_indices, right_y_overlap_indices])
+        [left_y_overlap_indices, right_y_overlap_indices]
+    )
     # select unique indices
     indices_y_unique = torch.unique(all_overlaps_y)
 
     # sweep z axis
-    left_z_overlap_shifted, right_z_overlap_shifted = \
+    left_z_overlap_shifted, right_z_overlap_shifted = (
         single_axis_sweep_and_prune(
             position_axis=position[2][indices_y_unique],
-            radius=radius[indices_y_unique]
+            radius=radius[indices_y_unique],
         )
+    )
     # fast return if there are no particles overlapping in z
     if left_z_overlap_shifted.shape[0] == 0:
         return torch.tensor([])
@@ -238,9 +248,7 @@ def full_sweep_and_prune(
 
 
 def full_sweep_and_prune_simplified(
-    position: torch.Tensor,
-    radius: torch.Tensor,
-    working_yet: bool = False
+    position: torch.Tensor, radius: torch.Tensor, working_yet: bool = False
 ) -> torch.Tensor:
     """
     A simplified version of the full sweep and prune algorithm for collision
@@ -272,19 +280,23 @@ def full_sweep_and_prune_simplified(
         if unique_indices.shape[0] == 0:
             break
 
-        left_overlap_indices, right_overlap_indices = \
+        left_overlap_indices, right_overlap_indices = (
             single_axis_sweep_and_prune(
                 position_axis=position[axis, unique_indices],
-                radius=radius[unique_indices]
+                radius=radius[unique_indices],
             )
+        )
 
         if left_overlap_indices.shape[0] == 0:
             return torch.tensor([])
 
         # Combine indices to form collision pairs, may still have duplicates
         all_overlaps = torch.cat(
-            [unique_indices[left_overlap_indices],
-             unique_indices[right_overlap_indices]])
+            [
+                unique_indices[left_overlap_indices],
+                unique_indices[right_overlap_indices],
+            ]
+        )
         if axis < position.shape[0]:  # not last axis
             unique_indices = torch.unique(all_overlaps)  # remove duplicates
 

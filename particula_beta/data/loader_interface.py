@@ -367,7 +367,9 @@ def get_2d_stream(
             header=[], data=np.array([]), time=np.array([]), files=[]
         )
     if stream is None:
-        stream = Stream(header=[], data=np.array([]), time=np.array([]), files=[])
+        stream = Stream(
+            header=[], data=np.array([]), time=np.array([]), files=[]
+        )
     if not isinstance(settings, dict):
         raise TypeError("The setting parameters must be in a dictionary.")
 
@@ -460,24 +462,23 @@ def get_netcdf_stream(
         raise TypeError("The setting parameters must be in a dictionary.")
 
     if not os.path.isfile(file_path):
-        raise FileNotFoundError(f"The file path specified does not exist: {file_path}")
+        raise FileNotFoundError(
+            f"The file path specified does not exist: {file_path}"
+        )
 
     if not isinstance(first_pass, bool):
         raise TypeError("The first_pass parameter must be a boolean.")
-    if 'netcdf_reader' not in settings:
+    if "netcdf_reader" not in settings:
         raise ValueError("netcdf_reader not in settings")
 
     # Load the data 1d data
-    if 'data_1d' in settings['netcdf_reader']:
+    if "data_1d" in settings["netcdf_reader"]:
         epoch_time, header_1d, data_1d = loader.netcdf_data_1d_load(
-            file_path=file_path,
-            settings=settings
+            file_path=file_path, settings=settings
         )
 
         data_1d = par.util.get_shape_check(
-            time=epoch_time,
-            data=data_1d,
-            header=header_1d
+            time=epoch_time, data=data_1d, header=header_1d
         )
 
         if first_pass:
@@ -490,19 +491,16 @@ def get_netcdf_stream(
                 time_new=epoch_time,
                 data_new=data_1d,
                 header_check=True,
-                header_new=header_1d
+                header_new=header_1d,
             )
 
-    if 'data_2d' in settings['netcdf_reader']:
+    if "data_2d" in settings["netcdf_reader"]:
         epoch_time, header_2d, data_2d = loader.netcdf_data_2d_load(
-            file_path=file_path,
-            settings=settings
+            file_path=file_path, settings=settings
         )
 
         data_2d = par.util.get_shape_check(
-            time=epoch_time,
-            data=data_2d,
-            header=header_2d
+            time=epoch_time, data=data_2d, header=header_2d
         )
 
         if first_pass:
@@ -515,7 +513,7 @@ def get_netcdf_stream(
                 time_new=epoch_time,
                 data_new=data_2d,
                 header_check=True,
-                header_new=header_2d
+                header_new=header_2d,
             )
 
     return stream

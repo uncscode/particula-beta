@@ -5,11 +5,11 @@ import torch
 
 
 def leapfrog(
-        position: torch.Tensor,
-        velocity: torch.Tensor,
-        force: torch.Tensor,
-        mass: torch.Tensor,
-        time_step: float
+    position: torch.Tensor,
+    velocity: torch.Tensor,
+    force: torch.Tensor,
+    mass: torch.Tensor,
+    time_step: float,
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Perform a single step of leapfrog integration on the position and velocity

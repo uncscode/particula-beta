@@ -77,7 +77,8 @@ def extinction_ratio_wet_dry(
 
     # Calculate volumes for solute and water in dry and wet conditions
     volume_dry = par.particles.get_solute_volume_from_kappa(
-        volume_sizer, kappa, water_activity_sizer)
+        volume_sizer, kappa, water_activity_sizer
+    )
     volume_water_dry = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_dry
     )

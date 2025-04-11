@@ -168,7 +168,7 @@ def average_to_interval(
             # interval, assumes that the time stream is sorted
             if start_index + time_lookup_span < len(time_raw):
                 compare_bool = np.nonzero(
-                    time_raw[start_index: start_index + time_lookup_span]
+                    time_raw[start_index : start_index + time_lookup_span]
                     >= time_i
                 )
                 # no valid time span
@@ -188,7 +188,7 @@ def average_to_interval(
                             * interval_look_buffer_multiple
                             / np.nanmean(
                                 np.diff(
-                                    time_raw[start_index: start_index + 100]
+                                    time_raw[start_index : start_index + 100]
                                 )
                             )
                         )
@@ -196,7 +196,7 @@ def average_to_interval(
                         time_lookup_span = 100
             else:
                 compare_bool = np.nonzero(
-                    time_raw[start_index: start_index + time_lookup_span]
+                    time_raw[start_index : start_index + time_lookup_span]
                     >= time_i
                 )
                 if len(compare_bool[0]) > 0:

@@ -1,6 +1,7 @@
 """
 Particula-beta
 """
+
 # pylint: disable=unused-import
 # flake8: noqa
 # pyright: basic

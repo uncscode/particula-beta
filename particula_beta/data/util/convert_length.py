@@ -41,4 +41,4 @@ def get_volume_from_length(
         The corresponding volume as a float.
     """
     radius = length if dimension == "radius" else length / 2.0
-    return (4.0 / 3.0) * np.pi * (radius ** 3)
+    return (4.0 / 3.0) * np.pi * (radius**3)

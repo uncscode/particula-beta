@@ -10,8 +10,7 @@ from particula_beta.units import convert_units
 
 
 def radius_calculation(
-        mass: torch.Tensor,
-        density: torch.Tensor
+    mass: torch.Tensor, density: torch.Tensor
 ) -> torch.Tensor:
     """
     Calculate the radius of a sphere given its mass and density using the
@@ -42,8 +41,7 @@ def radius_calculation(
 
 
 def mass_calculation(
-        radius: torch.Tensor,
-        density: torch.Tensor
+    radius: torch.Tensor, density: torch.Tensor
 ) -> torch.Tensor:
     """
     Calculate the mass of a sphere given its radius and density using the
@@ -64,13 +62,13 @@ def mass_calculation(
     torch.Tensor: A tensor of the same shape as `radius` and `density`
         representing the mass of the sphere(s).
     """
-    return 4 * np.pi * radius ** 3 * density / 3
+    return 4 * np.pi * radius**3 * density / 3
 
 
 def friction_factor_wrapper(
-        radius_meter: torch.Tensor,
-        temperature_kelvin: float,
-        pressure_pascal: float,
+    radius_meter: torch.Tensor,
+    temperature_kelvin: float,
+    pressure_pascal: float,
 ) -> torch.Tensor:
     """
     Calculate the friction factor for a given radius, temperature, and
@@ -105,7 +103,7 @@ def friction_factor_wrapper(
     # get knudsen number
     knudsen = par.particles.get_knudsen_number(
         mean_free_path=mean_free_path_meter,
-        particle_radius=radius_meter.numpy()
+        particle_radius=radius_meter.numpy(),
     )
     # get slip correction factor
     slip_correction_factor = par.particles.get_cunningham_slip_correction(
@@ -120,11 +118,11 @@ def friction_factor_wrapper(
 
 
 def generate_particle_masses(
-        mean_radius: float,
-        std_dev_radius: float,
-        density: torch.Tensor,
-        num_particles: int,
-        radius_input_units: str = "nm",
+    mean_radius: float,
+    std_dev_radius: float,
+    density: torch.Tensor,
+    num_particles: int,
+    radius_input_units: str = "nm",
 ) -> torch.Tensor:
     """
     Generate an array of particle masses based on a log-normal distribution of
@@ -149,7 +147,8 @@ def generate_particle_masses(
     """
     if mean_radius <= 0 or std_dev_radius <= 0:
         raise ValueError(
-            "Mean radius and standard deviation must be positive.")
+            "Mean radius and standard deviation must be positive."
+        )
 
     # Convert mean and standard deviation from the specified units to meters
     mean_log = np.log(mean_radius)
@@ -158,21 +157,22 @@ def generate_particle_masses(
         # need to check on this error, not clear why this happens
         raise ValueError(
             "log of Mean radius and standard deviation must be positive for"
-            + " torch.distributions.log_normal.LogNormal")
+            + " torch.distributions.log_normal.LogNormal"
+        )
 
     # Sample radii from the log-normal distribution
     radius_samples = torch.distributions.log_normal.LogNormal(
-        mean_log, std_dev_log).sample((num_particles,))
-    radius_samples *= torch.asarray(
-        convert_units(radius_input_units, "m"))
+        mean_log, std_dev_log
+    ).sample((num_particles,))
+    radius_samples *= torch.asarray(convert_units(radius_input_units, "m"))
 
     # Calculate mass of each particle
     return mass_calculation(radius=radius_samples, density=density)
 
 
 def thermal_speed(
-        temperature_kelvin: float,
-        mass_kg: torch.Tensor,
+    temperature_kelvin: float,
+    mass_kg: torch.Tensor,
 ) -> torch.Tensor:
     """
     Calculate the thermal speed of a particle based on its temperature and
@@ -199,8 +199,9 @@ def thermal_speed(
     if torch.any(mass_kg <= 0):
         raise ValueError("All mass values must be positive.")
 
-    return torch.sqrt(8 * BOLTZMANN_CONSTANT *
-                      temperature_kelvin / (np.pi * mass_kg))
+    return torch.sqrt(
+        8 * BOLTZMANN_CONSTANT * temperature_kelvin / (np.pi * mass_kg)
+    )
 
 
 def speed(
