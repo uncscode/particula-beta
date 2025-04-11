@@ -390,6 +390,27 @@ class NetcdfReaderBuilder(
         self.data_1d = data_1d
         return self
 
+    def set_header_1d(self, header_1d: list[str]):
+        """Set the header for 1D data for the Stream file."""
+        if not isinstance(header_1d, list):
+            raise ValueError("header_1d must be a list of strings.")
+        self.header_1d = header_1d
+        return self
+
+    def set_data_2d(self, data_2d: list[str]):
+        """Set the data headers for 2D data in the NetCDF file."""
+        if not isinstance(data_2d, list):
+            raise ValueError("data_2d must be a list of strings.")
+        self.data_2d = data_2d
+        return self
+
+    def set_header_2d(self, header_2d: list[str]):
+        """Set the header for 2D data for the Stream file."""
+        if not isinstance(header_2d, list):
+            raise ValueError("header_2d must be a list of strings.")
+        self.header_2d = header_2d
+        return self
+
     def build(self) -> Dict[str, Any]:
         """Build and return the NetCDF reader dictionary."""
         self.pre_build_check()
@@ -402,7 +423,7 @@ class NetcdfReaderBuilder(
         if self.header_2d:
             netcdf_reader["header_2d"] = self.header_2d
 
-        return {"Netcdf_reader": netcdf_reader}
+        return netcdf_reader
 
 
 # NetCDF settings builder
@@ -411,12 +432,10 @@ class NetcdfSettingsBuilder(
     RelativeFolderMixin,
     FilenameRegexMixin,
     FileMinSizeBytesMixin,
-    NetcdfReaderMixin,
     TimeColumnMixin,
     TimeFormatMixin,
     TimeShiftSecondsMixin,
     TimezoneIdentifierMixin,
-    DateLocationMixin,
 ):
     """Builder class for creating settings for loading and checking 1D data
     from CSV files."""
@@ -426,46 +445,44 @@ class NetcdfSettingsBuilder(
             "relative_data_folder",
             "filename_regex",
             "file_min_size_bytes",
-            "Netcdf_reader",
             "time_format",
             "time_column",
             "time_shift_seconds",
-            "delimiter",
             "timezone_identifier",
+            "netcdf_reader",
         ]
         BuilderABC.__init__(self, required_parameters)
         RelativeFolderMixin.__init__(self)
         FilenameRegexMixin.__init__(self)
         FileMinSizeBytesMixin.__init__(self)
-        HeaderRowMixin.__init__(self)
-        DataChecksMixin.__init__(self)
-        DataColumnMixin.__init__(self)
-        DataHeaderMixin.__init__(self)
         TimeColumnMixin.__init__(self)
         TimeFormatMixin.__init__(self)
-        DelimiterMixin.__init__(self)
         TimeShiftSecondsMixin.__init__(self)
         TimezoneIdentifierMixin.__init__(self)
-        DateLocationMixin.__init__(self)  # optional
+        self.netcdf_reader = None
+
+    def set_netcdf_reader(
+        self,
+        netcdf_reader: Dict[str, Any],
+    ):
+        """Set the NetCDF reader settings."""
+        if not isinstance(netcdf_reader, dict):
+            raise ValueError("netcdf_reader must be a dictionary.")
+        self.netcdf_reader = netcdf_reader
+        return self
 
     def build(self) -> Dict[str, Any]:
         """Build and return the settings dictionary for 1D data loading."""
         self.pre_build_check()
-        dict_1d = {
+        settings = {
             "relative_data_folder": self.relative_data_folder,
             "filename_regex": self.filename_regex,
             "MIN_SIZE_BYTES": self.file_min_size_bytes,
             "data_loading_function": "netcdf_load",
-            "header_row": self.header_row,
-            "data_checks": self.data_checks,
-            "data_column": self.data_column,
-            "data_header": self.data_header,
+            "netcdf_reader": self.netcdf_reader,
             "time_column": self.time_column,
             "time_format": self.time_format,
-            "delimiter": self.delimiter,
             "time_shift_seconds": self.time_shift_seconds,
             "timezone_identifier": self.timezone_identifier,
         }
-        if self.date_location:
-            dict_1d["date_location"] = self.date_location
-        return dict_1d
+        return settings
