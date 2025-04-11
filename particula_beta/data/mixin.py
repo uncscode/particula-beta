@@ -547,7 +547,8 @@ class ChecksReplaceCharsMixin:
         """
         if not isinstance(replace_chars, dict):
             raise TypeError(
-                f"Expected dictionary, but got {type(replace_chars)}.")
+                f"Expected dictionary, but got {type(replace_chars)}."
+            )
         self.replace_chars = replace_chars
         return self
 
@@ -622,8 +623,7 @@ class SizerConcentrationConvertFromMixin:
         self.sizer_concentration_convert_from = None
 
     def set_sizer_concentration_convert_from(
-        self,
-        convert_from: Optional[str] = None
+        self, convert_from: Optional[str] = None
     ):
         """Set to convert the sizer concentration from dw or (pmf) scale to
         dN/dlogDp scale.
@@ -664,4 +664,39 @@ class SizerDataReaderMixin:
                 and the values are the parameters for the settings.
         """
         self.data_sizer_reader = data_sizer_reader
+        return self
+
+
+class DateLocationMixin:
+    """
+    Mixin class for setting the location of the date in the data files.
+    When the date is not in each row of the data file, but in a different
+    location, e.g. in the first row of the file only.
+    """
+
+    def __init__(self):
+        self.date_location = None
+
+    def set_date_location(self, date_location: Dict[str, Any]):
+        """Set the location of the date in the data files.
+
+        Created dictionary from `DateLocationBuilder`.
+
+        Args:
+            date_location: Dictionary with the date location settings. The
+                keys are the names of the settings, and the values are the
+                parameters for the settings.
+
+        Examples:
+            ``` py title="Date location"
+            "date_location": {
+                "method": "file_header_block",
+                "delimiter": ",",
+                "row": 1,
+                "index": 1
+            }
+            # Date is in the first row and first column of the file.
+            ```
+        """
+        self.date_location = date_location
         return self
