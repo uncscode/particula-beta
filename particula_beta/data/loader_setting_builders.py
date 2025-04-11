@@ -47,8 +47,7 @@ class Loader1DSettingsBuilder(
     TimezoneIdentifierMixin,
     DateLocationMixin,
 ):
-    """Builder class for creating settings for loading and checking 1D data
-    from CSV files."""
+    """Builder class for creating settings for loading data from NetCDF files."""
 
     def __init__(self):
         required_parameters = [
@@ -100,7 +99,7 @@ class Loader1DSettingsBuilder(
             raise ValueError("header_2d must be a list of strings.")
         self.header_2d = header_2d
         return self
-        """Build and return the settings dictionary for 1D data loading."""
+        """Build and return the settings dictionary for NetCDF data loading."""
         self.pre_build_check()
         dict_1d = {
             "relative_data_folder": self.relative_data_folder,
