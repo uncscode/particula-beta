@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../integration/">
+        <link rel="prev" href="../loader_interface/">
       
       
-        <link rel="next" href="../particle_property/">
+        <link rel="next" href="../merger/">
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Particle Pairs - Particula</title>
+        <title>Loader Setting Builders - Particula</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#particle-pairs" class="md-skip">
+        <a href="#loader-setting-builders" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Particle Pairs
+              Loader Setting Builders
             
           </span>
         </div>
@@ -674,6 +674,8 @@
                 
   
   
+    
+  
   
   
     
@@ -716,15 +718,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_4" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../data/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -743,7 +745,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_2_4">
             <span class="md-nav__icon md-icon"></span>
             Data
@@ -759,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/lake/" class="md-nav__link">
+      <a href="../lake/" class="md-nav__link">
         
   
   
@@ -782,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/lake_stats/" class="md-nav__link">
+      <a href="../lake_stats/" class="md-nav__link">
         
   
   
@@ -805,7 +807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/loader/" class="md-nav__link">
+      <a href="../loader/" class="md-nav__link">
         
   
   
@@ -828,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/loader_interface/" class="md-nav__link">
+      <a href="../loader_interface/" class="md-nav__link">
         
   
   
@@ -848,10 +850,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../data/loader_setting_builders/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Loader Setting Builders
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -862,6 +886,506 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#datachecksbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      DataChecksBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DataChecksBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datachecksbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      DataChecksBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DataChecksBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datelocationbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderset_index" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().set_index
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().set_index">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderset_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().set_method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().set_method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderset_row" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().set_row
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().set_row">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loader1dsettingsbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loader1DSettingsBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loader1DSettingsBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loader1dsettingsbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loader1DSettingsBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loader1DSettingsBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loadersizersettingsbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      LoaderSizerSettingsBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoaderSizerSettingsBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loadersizersettingsbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      LoaderSizerSettingsBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoaderSizerSettingsBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netcdfreaderbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfReaderBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfReaderBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netcdfreaderbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfReaderBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfReaderBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netcdfsettingsbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfSettingsBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfSettingsBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netcdfsettingsbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfSettingsBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfSettingsBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sizerdatareaderbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      SizerDataReaderBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SizerDataReaderBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sizerdatareaderbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      SizerDataReaderBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SizerDataReaderBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -874,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/merger/" class="md-nav__link">
+      <a href="../merger/" class="md-nav__link">
         
   
   
@@ -897,7 +1421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/mixin/" class="md-nav__link">
+      <a href="../mixin/" class="md-nav__link">
         
   
   
@@ -920,7 +1444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/settings_generator/" class="md-nav__link">
+      <a href="../settings_generator/" class="md-nav__link">
         
   
   
@@ -943,7 +1467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/stream/" class="md-nav__link">
+      <a href="../stream/" class="md-nav__link">
         
   
   
@@ -966,7 +1490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/stream_stats/" class="md-nav__link">
+      <a href="../stream_stats/" class="md-nav__link">
         
   
   
@@ -1034,7 +1558,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../data/process/" class="md-nav__link ">
+            <a href="../process/" class="md-nav__link ">
               
   
   
@@ -1069,7 +1593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/aerodynamic_convert/" class="md-nav__link">
+      <a href="../process/aerodynamic_convert/" class="md-nav__link">
         
   
   
@@ -1092,7 +1616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/chamber_rate_fitting/" class="md-nav__link">
+      <a href="../process/chamber_rate_fitting/" class="md-nav__link">
         
   
   
@@ -1115,7 +1639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/kappa_via_extinction/" class="md-nav__link">
+      <a href="../process/kappa_via_extinction/" class="md-nav__link">
         
   
   
@@ -1138,7 +1662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/lognormal_2mode/" class="md-nav__link">
+      <a href="../process/lognormal_2mode/" class="md-nav__link">
         
   
   
@@ -1161,7 +1685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/mie_angular/" class="md-nav__link">
+      <a href="../process/mie_angular/" class="md-nav__link">
         
   
   
@@ -1184,7 +1708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/mie_bulk/" class="md-nav__link">
+      <a href="../process/mie_bulk/" class="md-nav__link">
         
   
   
@@ -1207,7 +1731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/optical_instrument/" class="md-nav__link">
+      <a href="../process/optical_instrument/" class="md-nav__link">
         
   
   
@@ -1230,7 +1754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/scattering_truncation/" class="md-nav__link">
+      <a href="../process/scattering_truncation/" class="md-nav__link">
         
   
   
@@ -1253,7 +1777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/size_distribution/" class="md-nav__link">
+      <a href="../process/size_distribution/" class="md-nav__link">
         
   
   
@@ -1276,7 +1800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/stats/" class="md-nav__link">
+      <a href="../process/stats/" class="md-nav__link">
         
   
   
@@ -1328,7 +1852,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../data/process/ml_analysis/" class="md-nav__link ">
+            <a href="../process/ml_analysis/" class="md-nav__link ">
               
   
   
@@ -1363,7 +1887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/ml_analysis/generate_and_train_2mode_sizer/" class="md-nav__link">
+      <a href="../process/ml_analysis/generate_and_train_2mode_sizer/" class="md-nav__link">
         
   
   
@@ -1386,7 +1910,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/ml_analysis/get_ml_folder/" class="md-nav__link">
+      <a href="../process/ml_analysis/get_ml_folder/" class="md-nav__link">
         
   
   
@@ -1409,7 +1933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/process/ml_analysis/run_ml_trainings/" class="md-nav__link">
+      <a href="../process/ml_analysis/run_ml_trainings/" class="md-nav__link">
         
   
   
@@ -1473,7 +1997,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../data/util/" class="md-nav__link ">
+            <a href="../util/" class="md-nav__link ">
               
   
   
@@ -1508,7 +2032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../data/util/convert_length/" class="md-nav__link">
+      <a href="../util/convert_length/" class="md-nav__link">
         
   
   
@@ -1544,8 +2068,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1574,15 +2096,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_5" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../lagrangian/" class="md-nav__link ">
               
   
   
@@ -1601,7 +2123,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2_5">
             <span class="md-nav__icon md-icon"></span>
             Lagrangian
@@ -1617,7 +2139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../boundary/" class="md-nav__link">
+      <a href="../../lagrangian/boundary/" class="md-nav__link">
         
   
   
@@ -1640,7 +2162,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../collisions/" class="md-nav__link">
+      <a href="../../lagrangian/collisions/" class="md-nav__link">
         
   
   
@@ -1663,7 +2185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integration/" class="md-nav__link">
+      <a href="../../lagrangian/integration/" class="md-nav__link">
         
   
   
@@ -1683,32 +2205,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Particle Pairs
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../lagrangian/particle_pairs/" class="md-nav__link">
         
   
   
@@ -1719,68 +2219,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#calculate_pairwise_distance" class="md-nav__link">
-    <span class="md-ellipsis">
-      calculate_pairwise_distance
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="calculate_pairwise_distance">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Arguments
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#returns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Returns
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1793,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../particle_property/" class="md-nav__link">
+      <a href="../../lagrangian/particle_property/" class="md-nav__link">
         
   
   
@@ -3347,13 +3785,122 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#calculate_pairwise_distance" class="md-nav__link">
+  <a href="#datachecksbuilder" class="md-nav__link">
     <span class="md-ellipsis">
-      calculate_pairwise_distance
+      DataChecksBuilder
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="calculate_pairwise_distance">
+    <nav class="md-nav" aria-label="DataChecksBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datachecksbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      DataChecksBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DataChecksBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datelocationbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderset_index" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().set_index
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().set_index">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3366,20 +3913,349 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#returns" class="md-nav__link">
+  <a href="#signature_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Returns
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderset_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().set_method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().set_method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datelocationbuilderset_row" class="md-nav__link">
+    <span class="md-ellipsis">
+      DateLocationBuilder().set_row
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DateLocationBuilder().set_row">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arguments
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#signature_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Signature
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loader1dsettingsbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loader1DSettingsBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loader1DSettingsBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loader1dsettingsbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loader1DSettingsBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loader1DSettingsBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loadersizersettingsbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      LoaderSizerSettingsBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoaderSizerSettingsBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loadersizersettingsbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      LoaderSizerSettingsBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoaderSizerSettingsBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netcdfreaderbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfReaderBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfReaderBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netcdfreaderbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfReaderBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfReaderBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netcdfsettingsbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfSettingsBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfSettingsBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#netcdfsettingsbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      NetcdfSettingsBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NetcdfSettingsBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sizerdatareaderbuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      SizerDataReaderBuilder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SizerDataReaderBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sizerdatareaderbuilderbuild" class="md-nav__link">
+    <span class="md-ellipsis">
+      SizerDataReaderBuilder().build
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SizerDataReaderBuilder().build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3407,155 +4283,253 @@
   
 
 
-<h1 id="particle-pairs">Particle Pairs<a class="headerlink" href="#particle-pairs" title="Permanent link">&para;</a></h1>
-<p><a href="../../../#particula-beta-index">Particula-beta Index</a> / <a href="../../#particula-beta">Particula Beta</a> / <a href="../#lagrangian">Lagrangian</a> / Particle Pairs</p>
+<h1 id="loader-setting-builders">Loader Setting Builders<a class="headerlink" href="#loader-setting-builders" title="Permanent link">&para;</a></h1>
+<p><a href="../../../#particula-beta-index">Particula-beta Index</a> / <a href="../../#particula-beta">Particula Beta</a> / <a href="../#data">Data</a> / Loader Setting Builders</p>
 <blockquote>
-<p>Auto-generated documentation for <a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py">particula_beta.lagrangian.particle_pairs</a> module.</p>
+<p>Auto-generated documentation for <a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py">particula_beta.data.loader_setting_builders</a> module.</p>
 </blockquote>
-<h2 id="calculate_pairwise_distance">calculate_pairwise_distance<a class="headerlink" href="#calculate_pairwise_distance" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L48">Show source in particle_pairs.py:48</a></p>
-<p>need to test this:</p>
-<p>Calculate the pairwise Euclidean distances between points in a given
-position tensor.</p>
-<p>This function computes the pairwise distances between points represented
-in the input tensor. Each row of the input tensor is considered a point in
-n-dimensional space.</p>
+<h2 id="datachecksbuilder">DataChecksBuilder<a class="headerlink" href="#datachecksbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L106">Show source in loader_setting_builders.py:106</a></p>
+<p>Builder class for constructing the data checks dictionary.</p>
+<h4 id="signature">Signature<a class="headerlink" href="#signature" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DataChecksBuilder</span><span class="p">(</span>
+    <span class="n">BuilderABC</span><span class="p">,</span>
+    <span class="n">ChecksCharactersMixin</span><span class="p">,</span>
+    <span class="n">ChecksCharCountsMixin</span><span class="p">,</span>
+    <span class="n">ChecksReplaceCharsMixin</span><span class="p">,</span>
+    <span class="n">ChecksSkipRowsMixin</span><span class="p">,</span>
+    <span class="n">ChecksSkipEndMixin</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../mixin/#checkscharcountsmixin">ChecksCharCountsMixin</a></li>
+<li><a href="../mixin/#checkscharactersmixin">ChecksCharactersMixin</a></li>
+<li><a href="../mixin/#checksreplacecharsmixin">ChecksReplaceCharsMixin</a></li>
+<li><a href="../mixin/#checksskipendmixin">ChecksSkipEndMixin</a></li>
+<li><a href="../mixin/#checksskiprowsmixin">ChecksSkipRowsMixin</a></li>
+</ul>
+<h3 id="datachecksbuilderbuild">DataChecksBuilder().build<a class="headerlink" href="#datachecksbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L131">Show source in loader_setting_builders.py:131</a></p>
+<p>Build and return the data checks dictionary.</p>
+<h4 id="signature_1">Signature<a class="headerlink" href="#signature_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="datelocationbuilder">DateLocationBuilder<a class="headerlink" href="#datelocationbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L143">Show source in loader_setting_builders.py:143</a></p>
+<p>Builder class for non standard date location.</p>
+<p>For example the there only one date, at the start of the file, and only
+time is in the rows.</p>
+<h4 id="signature_2">Signature<a class="headerlink" href="#signature_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DateLocationBuilder</span><span class="p">(</span><span class="n">BuilderABC</span><span class="p">,</span> <span class="n">DelimiterMixin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_1">See also<a class="headerlink" href="#see-also_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../mixin/#delimitermixin">DelimiterMixin</a></li>
+</ul>
+<h3 id="datelocationbuilderbuild">DateLocationBuilder().build<a class="headerlink" href="#datelocationbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L204">Show source in loader_setting_builders.py:204</a></p>
+<p>Build and return the non standard date location dictionary.</p>
+<h4 id="signature_3">Signature<a class="headerlink" href="#signature_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="datelocationbuilderset_index">DateLocationBuilder().set_index<a class="headerlink" href="#datelocationbuilderset_index" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L190">Show source in loader_setting_builders.py:190</a></p>
+<p>Set the index for the date location.</p>
 <h4 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h4>
 <ul>
-<li><code>position</code> <em>torch.Tensor</em> - A 2D tensor of shape [n_dimensions, n_points]</li>
-</ul>
-<h4 id="returns">Returns<a class="headerlink" href="#returns" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>torch.Tensor</code> - A 2D tensor of shape [n_points, n_points] containing the
-pairwise Euclidean distances between each pair of points.
-The element at [i, j] in the output tensor represents the distance
-between the i-th and j-th points in the input tensor.</li>
-</ul>
-<h4 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h4>
-<p>position = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])</p>
-<h1 id="output-will-be-a-3x3-tensor-with-the-pairwise-distances-between-these">Output will be a 3x3 tensor with the pairwise distances between these<a class="headerlink" href="#output-will-be-a-3x3-tensor-with-the-pairwise-distances-between-these" title="Permanent link">&para;</a></h1>
-<p>3 points.</p>
-<h4 id="signature">Signature<a class="headerlink" href="#signature" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_pairwise_distance</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<h2 id="full_sweep_and_prune">full_sweep_and_prune<a class="headerlink" href="#full_sweep_and_prune" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L159">Show source in particle_pairs.py:159</a></p>
-<p>Sweep and prune algorithm for collision detection along all three axes
-(x, y, z). This function identifies pairs of particles that are close
-enough to potentially collide in 3D space.</p>
-<h4 id="arguments_1">Arguments<a class="headerlink" href="#arguments_1" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>position</code> <em>torch.Tensor</em> - The 2D tensor of particle positions,
-    where each row represents an axis (x, y, z).</li>
-<li><code>radius</code> <em>torch.Tensor</em> - The radius of particles.</li>
-</ul>
-<h4 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>torch.Tensor</code> - A tensor containing pairs of indices of potentially
-    colliding particles.</li>
-</ul>
-<h4 id="signature_1">Signature<a class="headerlink" href="#signature_1" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">full_sweep_and_prune</span><span class="p">(</span>
-    <span class="n">position</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<h2 id="full_sweep_and_prune_simplified">full_sweep_and_prune_simplified<a class="headerlink" href="#full_sweep_and_prune_simplified" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L240">Show source in particle_pairs.py:240</a></p>
-<p>A simplified version of the full sweep and prune algorithm for collision
-written above, it is not working yet. there is an error in the update of
-the indices in the y and z axis.</p>
-<p>Sweep and prune algorithm for collision detection along all three axes
-(x, y, z). This function identifies pairs of particles that are close
-enough to potentially collide in 3D space.</p>
-<h4 id="arguments_2">Arguments<a class="headerlink" href="#arguments_2" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>position</code> <em>torch.Tensor</em> - The 2D tensor of particle positions,
-    where each row represents an axis (x, y, z).</li>
-<li><code>radius</code> <em>torch.Tensor</em> - The radius of particles.</li>
-</ul>
-<h4 id="returns_2">Returns<a class="headerlink" href="#returns_2" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>torch.Tensor</code> - A tensor containing pairs of indices of potentially
-    colliding particles.</li>
-</ul>
-<h4 id="signature_2">Signature<a class="headerlink" href="#signature_2" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">full_sweep_and_prune_simplified</span><span class="p">(</span>
-    <span class="n">position</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">working_yet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<h2 id="remove_duplicates">remove_duplicates<a class="headerlink" href="#remove_duplicates" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L7">Show source in particle_pairs.py:7</a></p>
-<p>Removes duplicate entries from a specified column in a tensor of index
-pairs.</p>
-<p>This function is designed to work with tensors where each row represents a
-pair of indices. It removes rows containing duplicate entries in the
-specified column.</p>
-<h4 id="arguments_3">Arguments<a class="headerlink" href="#arguments_3" title="Permanent link">&para;</a></h4>
-<ul>
-<li>index_pairs (torch.Tensor): A 2D tensor of shape [n, 2], where n is the
-    number of index pairs.</li>
-<li>index_to_remove (int): The column index (0 or 1) from which to remove
-    duplicate entries.</li>
-</ul>
-<h4 id="returns_3">Returns<a class="headerlink" href="#returns_3" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>-</code> <em>torch.Tensor</em> - A 2D tensor of index pairs with duplicates removed from
-    the specified column.</li>
-</ul>
-<h4 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h4>
-<p>index_pairs = torch.tensor([[1, 2], [3, 4], [1, 2]])
-index_to_remove = 0</p>
-<h1 id="output-will-be-1-2-3-4-assuming-column-0-is-chosen-for-removing">Output will be [[1, 2], [3, 4]] assuming column 0 is chosen for removing<a class="headerlink" href="#output-will-be-1-2-3-4-assuming-column-0-is-chosen-for-removing" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code>duplicates.
-</code></pre></div>
-<h4 id="signature_3">Signature<a class="headerlink" href="#signature_3" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">remove_duplicates</span><span class="p">(</span>
-    <span class="n">index_pairs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index_to_remove</span><span class="p">:</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<h2 id="single_axis_sweep_and_prune">single_axis_sweep_and_prune<a class="headerlink" href="#single_axis_sweep_and_prune" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L118">Show source in particle_pairs.py:118</a></p>
-<p>Sweep and prune algorithm for collision detection along a single axis.
-This function identifies pairs of particles that are close enough to
-potentially collide.</p>
-<h4 id="arguments_4">Arguments<a class="headerlink" href="#arguments_4" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>position_axis</code> <em>torch.Tensor</em> - The position of particles along a single
-    axis.</li>
-<li><code>radius</code> <em>torch.Tensor</em> - The radius of particles.</li>
-</ul>
-<h4 id="returns_4">Returns<a class="headerlink" href="#returns_4" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>Tuple[torch.Tensor,</code> <em>torch.Tensor]</em> - Two tensors containing the indices
-of potentially colliding particles.</li>
+<li><code>index</code> - The index number where the date is located, after splitting
+based on the delimiter. "sampling, 02/01/2023, active" will be
+date at index 1.</li>
 </ul>
 <h4 id="signature_4">Signature<a class="headerlink" href="#signature_4" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">single_axis_sweep_and_prune</span><span class="p">(</span>
-    <span class="n">position_axis</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span> <span class="o">...</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
-<h2 id="validate_pair_distance">validate_pair_distance<a class="headerlink" href="#validate_pair_distance" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L79">Show source in particle_pairs.py:79</a></p>
-<p>Validates if the Euclidean distances between pairs of points are smaller
-than the sum of their radii.</p>
-<h4 id="arguments_5">Arguments<a class="headerlink" href="#arguments_5" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>collision_indices_pairs</code> <em>torch.Tensor</em> - A tensor containing pairs of
-    indices of potentially colliding particles.</li>
-<li><code>position</code> <em>torch.Tensor</em> - A 2D tensor of particle positions, where each
-    column represents a particle, and each row represents an axis.</li>
-<li><code>radius</code> <em>torch.Tensor</em> - A 1D tensor representing the radius of each
-    particle.</li>
-</ul>
-<h4 id="returns_5">Returns<a class="headerlink" href="#returns_5" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>torch.Tensor</code> - A tensor containing the indices of the pairs of
-    particles that are actually colliding.</li>
-</ul>
+<h3 id="datelocationbuilderset_method">DateLocationBuilder().set_method<a class="headerlink" href="#datelocationbuilderset_method" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L166">Show source in loader_setting_builders.py:166</a></p>
+<p>Set the method for the date location.</p>
+<p>Agrs:
+    method: The current methods are "file_header_block"</p>
 <h4 id="signature_5">Signature<a class="headerlink" href="#signature_5" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate_pair_distance</span><span class="p">(</span>
-    <span class="n">collision_indices_pairs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="datelocationbuilderset_row">DateLocationBuilder().set_row<a class="headerlink" href="#datelocationbuilderset_row" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L178">Show source in loader_setting_builders.py:178</a></p>
+<p>Set the row for the date location.</p>
+<h4 id="arguments_1">Arguments<a class="headerlink" href="#arguments_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>row</code> - The row number where the date is located.</li>
+</ul>
+<h4 id="signature_6">Signature<a class="headerlink" href="#signature_6" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="loader1dsettingsbuilder">Loader1DSettingsBuilder<a class="headerlink" href="#loader1dsettingsbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L34">Show source in loader_setting_builders.py:34</a></p>
+<p>Builder class for creating settings for loading and checking 1D data
+from CSV files.</p>
+<h4 id="signature_7">Signature<a class="headerlink" href="#signature_7" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Loader1DSettingsBuilder</span><span class="p">(</span>
+    <span class="n">BuilderABC</span><span class="p">,</span>
+    <span class="n">RelativeFolderMixin</span><span class="p">,</span>
+    <span class="n">FilenameRegexMixin</span><span class="p">,</span>
+    <span class="n">FileMinSizeBytesMixin</span><span class="p">,</span>
+    <span class="n">HeaderRowMixin</span><span class="p">,</span>
+    <span class="n">DataChecksMixin</span><span class="p">,</span>
+    <span class="n">DataColumnMixin</span><span class="p">,</span>
+    <span class="n">DataHeaderMixin</span><span class="p">,</span>
+    <span class="n">TimeColumnMixin</span><span class="p">,</span>
+    <span class="n">TimeFormatMixin</span><span class="p">,</span>
+    <span class="n">DelimiterMixin</span><span class="p">,</span>
+    <span class="n">TimeShiftSecondsMixin</span><span class="p">,</span>
+    <span class="n">TimezoneIdentifierMixin</span><span class="p">,</span>
+    <span class="n">DateLocationMixin</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_2">See also<a class="headerlink" href="#see-also_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../mixin/#datachecksmixin">DataChecksMixin</a></li>
+<li><a href="../mixin/#datacolumnmixin">DataColumnMixin</a></li>
+<li><a href="../mixin/#dataheadermixin">DataHeaderMixin</a></li>
+<li><a href="../mixin/#datelocationmixin">DateLocationMixin</a></li>
+<li><a href="../mixin/#delimitermixin">DelimiterMixin</a></li>
+<li><a href="../mixin/#fileminsizebytesmixin">FileMinSizeBytesMixin</a></li>
+<li><a href="../mixin/#filenameregexmixin">FilenameRegexMixin</a></li>
+<li><a href="../mixin/#headerrowmixin">HeaderRowMixin</a></li>
+<li><a href="../mixin/#relativefoldermixin">RelativeFolderMixin</a></li>
+<li><a href="../mixin/#timecolumnmixin">TimeColumnMixin</a></li>
+<li><a href="../mixin/#timeformatmixin">TimeFormatMixin</a></li>
+<li><a href="../mixin/#timeshiftsecondsmixin">TimeShiftSecondsMixin</a></li>
+<li><a href="../mixin/#timezoneidentifiermixin">TimezoneIdentifierMixin</a></li>
+</ul>
+<h3 id="loader1dsettingsbuilderbuild">Loader1DSettingsBuilder().build<a class="headerlink" href="#loader1dsettingsbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L83">Show source in loader_setting_builders.py:83</a></p>
+<p>Build and return the settings dictionary for 1D data loading.</p>
+<h4 id="signature_8">Signature<a class="headerlink" href="#signature_8" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="loadersizersettingsbuilder">LoaderSizerSettingsBuilder<a class="headerlink" href="#loadersizersettingsbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L242">Show source in loader_setting_builders.py:242</a></p>
+<p>Builder class for creating settings for loading and checking sizer
+1D and 2D data from CSV files.</p>
+<h4 id="signature_9">Signature<a class="headerlink" href="#signature_9" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LoaderSizerSettingsBuilder</span><span class="p">(</span>
+    <span class="n">BuilderABC</span><span class="p">,</span>
+    <span class="n">RelativeFolderMixin</span><span class="p">,</span>
+    <span class="n">FilenameRegexMixin</span><span class="p">,</span>
+    <span class="n">FileMinSizeBytesMixin</span><span class="p">,</span>
+    <span class="n">HeaderRowMixin</span><span class="p">,</span>
+    <span class="n">DataChecksMixin</span><span class="p">,</span>
+    <span class="n">DataColumnMixin</span><span class="p">,</span>
+    <span class="n">DataHeaderMixin</span><span class="p">,</span>
+    <span class="n">TimeColumnMixin</span><span class="p">,</span>
+    <span class="n">TimeFormatMixin</span><span class="p">,</span>
+    <span class="n">DelimiterMixin</span><span class="p">,</span>
+    <span class="n">TimeShiftSecondsMixin</span><span class="p">,</span>
+    <span class="n">TimezoneIdentifierMixin</span><span class="p">,</span>
+    <span class="n">SizerDataReaderMixin</span><span class="p">,</span>
+    <span class="n">DateLocationMixin</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_3">See also<a class="headerlink" href="#see-also_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../mixin/#datachecksmixin">DataChecksMixin</a></li>
+<li><a href="../mixin/#datacolumnmixin">DataColumnMixin</a></li>
+<li><a href="../mixin/#dataheadermixin">DataHeaderMixin</a></li>
+<li><a href="../mixin/#datelocationmixin">DateLocationMixin</a></li>
+<li><a href="../mixin/#delimitermixin">DelimiterMixin</a></li>
+<li><a href="../mixin/#fileminsizebytesmixin">FileMinSizeBytesMixin</a></li>
+<li><a href="../mixin/#filenameregexmixin">FilenameRegexMixin</a></li>
+<li><a href="../mixin/#headerrowmixin">HeaderRowMixin</a></li>
+<li><a href="../mixin/#relativefoldermixin">RelativeFolderMixin</a></li>
+<li><a href="../mixin/#sizerdatareadermixin">SizerDataReaderMixin</a></li>
+<li><a href="../mixin/#timecolumnmixin">TimeColumnMixin</a></li>
+<li><a href="../mixin/#timeformatmixin">TimeFormatMixin</a></li>
+<li><a href="../mixin/#timeshiftsecondsmixin">TimeShiftSecondsMixin</a></li>
+<li><a href="../mixin/#timezoneidentifiermixin">TimezoneIdentifierMixin</a></li>
+</ul>
+<h3 id="loadersizersettingsbuilderbuild">LoaderSizerSettingsBuilder().build<a class="headerlink" href="#loadersizersettingsbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L294">Show source in loader_setting_builders.py:294</a></p>
+<p>Build and return the two dictionaries for 1D and 2D sizer data
+loading .</p>
+<h4 id="signature_10">Signature<a class="headerlink" href="#signature_10" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="netcdfreaderbuilder">NetcdfReaderBuilder<a class="headerlink" href="#netcdfreaderbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L335">Show source in loader_setting_builders.py:335</a></p>
+<p>Builder class for constructing the NetCDF reader dictionary.</p>
+<h4 id="signature_11">Signature<a class="headerlink" href="#signature_11" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NetcdfReaderBuilder</span><span class="p">(</span><span class="n">BuilderABC</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="netcdfreaderbuilderbuild">NetcdfReaderBuilder().build<a class="headerlink" href="#netcdfreaderbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L348">Show source in loader_setting_builders.py:348</a></p>
+<p>Build and return the NetCDF reader dictionary.</p>
+<h4 id="signature_12">Signature<a class="headerlink" href="#signature_12" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="netcdfsettingsbuilder">NetcdfSettingsBuilder<a class="headerlink" href="#netcdfsettingsbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L357">Show source in loader_setting_builders.py:357</a></p>
+<p>Builder class for creating settings for loading and checking 1D data
+from CSV files.</p>
+<h4 id="signature_13">Signature<a class="headerlink" href="#signature_13" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NetcdfSettingsBuilder</span><span class="p">(</span>
+    <span class="n">BuilderABC</span><span class="p">,</span>
+    <span class="n">RelativeFolderMixin</span><span class="p">,</span>
+    <span class="n">FilenameRegexMixin</span><span class="p">,</span>
+    <span class="n">FileMinSizeBytesMixin</span><span class="p">,</span>
+    <span class="n">NetcdfReaderMixin</span><span class="p">,</span>
+    <span class="n">TimeColumnMixin</span><span class="p">,</span>
+    <span class="n">TimeFormatMixin</span><span class="p">,</span>
+    <span class="n">TimeShiftSecondsMixin</span><span class="p">,</span>
+    <span class="n">TimezoneIdentifierMixin</span><span class="p">,</span>
+    <span class="n">DateLocationMixin</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_4">See also<a class="headerlink" href="#see-also_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../mixin/#datelocationmixin">DateLocationMixin</a></li>
+<li><a href="../mixin/#fileminsizebytesmixin">FileMinSizeBytesMixin</a></li>
+<li><a href="../mixin/#filenameregexmixin">FilenameRegexMixin</a></li>
+<li><a href="../mixin/#relativefoldermixin">RelativeFolderMixin</a></li>
+<li><a href="../mixin/#timecolumnmixin">TimeColumnMixin</a></li>
+<li><a href="../mixin/#timeformatmixin">TimeFormatMixin</a></li>
+<li><a href="../mixin/#timeshiftsecondsmixin">TimeShiftSecondsMixin</a></li>
+<li><a href="../mixin/#timezoneidentifiermixin">TimezoneIdentifierMixin</a></li>
+</ul>
+<h3 id="netcdfsettingsbuilderbuild">NetcdfSettingsBuilder().build<a class="headerlink" href="#netcdfsettingsbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L399">Show source in loader_setting_builders.py:399</a></p>
+<p>Build and return the settings dictionary for 1D data loading.</p>
+<h4 id="signature_14">Signature<a class="headerlink" href="#signature_14" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="sizerdatareaderbuilder">SizerDataReaderBuilder<a class="headerlink" href="#sizerdatareaderbuilder" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L214">Show source in loader_setting_builders.py:214</a></p>
+<p>Builder class for constructing the sizer data reader dictionary.</p>
+<h4 id="signature_15">Signature<a class="headerlink" href="#signature_15" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SizerDataReaderBuilder</span><span class="p">(</span>
+    <span class="n">BuilderABC</span><span class="p">,</span>
+    <span class="n">SizerConcentrationConvertFromMixin</span><span class="p">,</span>
+    <span class="n">SizerStartKeywordMixin</span><span class="p">,</span>
+    <span class="n">SizerEndKeywordMixin</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_5">See also<a class="headerlink" href="#see-also_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../mixin/#sizerconcentrationconvertfrommixin">SizerConcentrationConvertFromMixin</a></li>
+<li><a href="../mixin/#sizerendkeywordmixin">SizerEndKeywordMixin</a></li>
+<li><a href="../mixin/#sizerstartkeywordmixin">SizerStartKeywordMixin</a></li>
+</ul>
+<h3 id="sizerdatareaderbuilderbuild">SizerDataReaderBuilder().build<a class="headerlink" href="#sizerdatareaderbuilderbuild" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L232">Show source in loader_setting_builders.py:232</a></p>
+<p>Build and return the sizer data reader dictionary.</p>
+<h4 id="signature_16">Signature<a class="headerlink" href="#signature_16" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
 </code></pre></div>
 
 
