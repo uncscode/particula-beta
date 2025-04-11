@@ -147,7 +147,23 @@ class DataChecksBuilder(
         ChecksSkipRowsMixin.__init__(self)
         ChecksSkipEndMixin.__init__(self)
 
-    def build(self) -> Dict[str, Any]:
+    def set_header_1d(self, header_1d: list[str]):
+        if not isinstance(header_1d, list):
+            raise ValueError("header_1d must be a list of strings.")
+        self.header_1d = header_1d
+        return self
+
+    def set_data_2d(self, data_2d: list[str]):
+        if not isinstance(data_2d, list):
+            raise ValueError("data_2d must be a list of strings.")
+        self.data_2d = data_2d
+        return self
+
+    def set_header_2d(self, header_2d: list[str]):
+        if not isinstance(header_2d, list):
+            raise ValueError("header_2d must be a list of strings.")
+        self.header_2d = header_2d
+        return self
         """Build and return the data checks dictionary."""
         self.pre_build_check()
         return {
