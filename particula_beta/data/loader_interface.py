@@ -363,7 +363,8 @@ def get_2d_stream(
         stream = Stream(
             header=[], data=np.array([]), time=np.array([]), files=[]
         )
-    # Input validation
+    if stream is None:
+        stream = Stream(header=[], data=np.array([]), time=np.array([]), files=[])
     if not isinstance(settings, dict):
         raise TypeError("The setting parameters must be in a dictionary.")
 
@@ -432,10 +433,10 @@ def get_2d_stream(
 
 
 def get_netcdf_stream(
-    self,
-    key: str,
-    path: str,
-    first_pass: bool
+    file_path: str,
+    settings: dict,
+    first_pass: bool = True,
+    stream: Optional[Stream] = None,
 ) -> Stream:
     """
     Initialise a netcdf stream using the settings in the DataLake
@@ -452,22 +453,23 @@ def get_netcdf_stream(
         None.
     """
     # Input validation
-    if not isinstance(self.settings[key], dict):
-        raise TypeError("The 'settings' parameter must be in a dictionary.")
+    if not isinstance(settings, dict):
+        raise TypeError("The setting parameters must be in a dictionary.")
 
-    if not os.path.isfile(path):
-        raise FileNotFoundError(f"The file path specified does not exist: {path}")
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f"The file path specified does not exist: {file_path}")
 
     if not isinstance(first_pass, bool):
-        raise TypeError("The 'first_pass' parameter must be a boolean.")
-    if 'netcdf_reader' not in self.settings[key]:
-        raise ValueError('netcdf_reader not in settings')
+        raise TypeError("The first_pass parameter must be a boolean.")
+    if 'netcdf_reader' not in settings:
+        raise ValueError("netcdf_reader not in settings")
 
     # Load the data 1d data
-    if 'data_1d' in self.settings[key]['netcdf_reader']:
+    if 'data_1d' in settings['netcdf_reader']:
         epoch_time, header_1d, data_1d = loader.netcdf_data_1d_load(
-            file_path=path,
-            settings=self.settings[key])
+            file_path=file_path,
+            settings=settings
+        )
 
         data_1d = par.util.get_shape_check(
             time=epoch_time,
@@ -476,22 +478,23 @@ def get_netcdf_stream(
         )
 
         if first_pass:
-            self.streams[self.settings[key]['data_stream_name'][0]].header = header_1d
-            self.streams[self.settings[key]['data_stream_name'][0]].data = data_1d
-            self.streams[self.settings[key]['data_stream_name'][0]].time = epoch_time
+            stream.header = header_1d
+            stream.data = data_1d
+            stream.time = epoch_time
         else:
-            self.streams[self.settings[key]['data_stream_name'][0]] = merger.stream_add_data(
-                stream=self.streams[self.settings[key]['data_stream_name'][0]],
+            stream = merger.stream_add_data(
+                stream=stream,
                 time_new=epoch_time,
                 data_new=data_1d,
                 header_check=True,
                 header_new=header_1d
             )
 
-    if 'data_2d' in self.settings[key]['netcdf_reader']:
+    if 'data_2d' in settings['netcdf_reader']:
         epoch_time, header_2d, data_2d = loader.netcdf_data_2d_load(
-            file_path=path,
-            settings=self.settings[key])
+            file_path=file_path,
+            settings=settings
+        )
 
         data_2d = par.util.get_shape_check(
             time=epoch_time,
@@ -500,12 +503,12 @@ def get_netcdf_stream(
         )
 
         if first_pass:
-            self.streams[self.settings[key]['data_stream_name'][1]].header = header_2d
-            self.streams[self.settings[key]['data_stream_name'][1]].data = data_2d
-            self.streams[self.settings[key]['data_stream_name'][1]].time = epoch_time
+            stream.header = header_2d
+            stream.data = data_2d
+            stream.time = epoch_time
         else:
-            self.streams[self.settings[key]['data_stream_name'][1]] = merger.stream_add_data(
-                stream=self.streams[self.settings[key]['data_stream_name'][1]],
+            stream = merger.stream_add_data(
+                stream=stream,
                 time_new=epoch_time,
                 data_new=data_2d,
                 header_check=True,
