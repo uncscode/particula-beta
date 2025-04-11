@@ -3903,7 +3903,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="p">)</span>
 
 <span class="c1"># all the imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_data_folder</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula.util.convert</span><span class="w"> </span><span class="kn">import</span> <span class="n">distribution_convert_pdf_pms</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">time_manage</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula.util.input_handling</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_units</span>
@@ -3926,7 +3928,9 @@ from particula_beta.data import (
 )
 
 # all the imports
-from particula_beta.data.tests.example_data.get_example_data import get_data_folder
+from particula_beta.data.tests.example_data.get_example_data import (
+    get_data_folder,
+)
 from particula.util.convert import distribution_convert_pdf_pms
 from particula.util import convert, time_manage
 from particula.util.input_handling import convert_units
@@ -4394,8 +4398,7 @@ ax.set_xlabel("Experiment time (hours)")
 ax.set_ylabel("Radius (m)")
 ax.set_title("Fitted Concentration PMF")
 plt.colorbar(label=r"Concentration $\dfrac{1}{m^3}$", ax=ax)
-plt.show()
-</div>
+plt.show()</div>
 </div>
 </div>
 </div>
@@ -4456,7 +4459,7 @@ plt.show()
     <span class="n">pmf_derivative_stream</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
     <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">PuBu_r</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">vmin</span><span class="o">=-</span><span class="mf">3e5</span>
+    <span class="n">vmin</span><span class="o">=-</span><span class="mf">3e5</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Experiment time (hours)"</span><span class="p">)</span>
@@ -4478,7 +4481,7 @@ plt.contourf(
     pmf_derivative_stream.data.T,
     cmap=plt.cm.PuBu_r,
     levels=20,
-    vmin=-3e5
+    vmin=-3e5,
 )
 plt.yscale("log")
 ax.set_xlabel("Experiment time (hours)")

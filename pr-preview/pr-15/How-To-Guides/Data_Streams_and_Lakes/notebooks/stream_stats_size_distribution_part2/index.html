@@ -3756,7 +3756,9 @@ the mean diameter, median diameter, and total PM2.5 mass.</p>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># all the imports</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">loader_interface</span><span class="p">,</span> <span class="n">settings_generator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_data_folder</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.loader_setting_builders</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="c1"># These functions create settings for loading data from files.</span>
     <span class="n">DataChecksBuilder</span><span class="p">,</span>
@@ -3773,7 +3775,9 @@ the mean diameter, median diameter, and total PM2.5 mass.</p>
 <div class="clipboard-copy-txt" id="cell-1"># all the imports
 import matplotlib.pyplot as plt
 from particula_beta.data import loader_interface, settings_generator
-from particula_beta.data.tests.example_data.get_example_data import get_data_folder
+from particula_beta.data.tests.example_data.get_example_data import (
+    get_data_folder,
+)
 from particula_beta.data.loader_setting_builders import (
     # These functions create settings for loading data from files.
     DataChecksBuilder,
@@ -3886,8 +3890,8 @@ show the fix to that soon.</p>
 
 <span class="c1"># collect settings into a dictionary</span>
 <span class="n">combined_settings</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'smps_1d'</span><span class="p">:</span> <span class="n">smps_1d_settings</span><span class="p">,</span>
-    <span class="s1">'smps_2d'</span><span class="p">:</span> <span class="n">smps_2d_settings</span><span class="p">,</span>
+    <span class="s2">"smps_1d"</span><span class="p">:</span> <span class="n">smps_1d_settings</span><span class="p">,</span>
+    <span class="s2">"smps_2d"</span><span class="p">:</span> <span class="n">smps_2d_settings</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># now call the loader interface for files</span>
@@ -3896,7 +3900,7 @@ show the fix to that soon.</p>
     <span class="n">folder_settings</span><span class="o">=</span><span class="n">combined_settings</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lake</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2"># settings for the SMPS data
@@ -3960,8 +3964,8 @@ smps_1d_settings, smps_2d_settings = (
 
 # collect settings into a dictionary
 combined_settings = {
-    'smps_1d': smps_1d_settings,
-    'smps_2d': smps_2d_settings,
+    "smps_1d": smps_1d_settings,
+    "smps_2d": smps_2d_settings,
 }
 
 # now call the loader interface for files
@@ -3970,7 +3974,7 @@ lake = loader_interface.load_folders_interface(
     folder_settings=combined_settings,
 )
 
-print(' ')
+print(" ")
 print(lake)</div>
 </div>
 </div>
@@ -4033,22 +4037,22 @@ example we'll use <code>process.size_distribution</code> to calculate the PM2.5 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">lake</span><span class="p">[</span><span class="s1">'mean_properties'</span><span class="p">]</span> <span class="o">=</span> <span class="n">size_distribution</span><span class="o">.</span><span class="n">sizer_mean_properties</span><span class="p">(</span>
-    <span class="n">stream</span><span class="o">=</span><span class="n">lake</span><span class="p">[</span><span class="s1">'smps_2d'</span><span class="p">],</span>
-    <span class="n">diameter_units</span><span class="o">=</span><span class="s1">'nm'</span><span class="p">,</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">lake</span><span class="p">[</span><span class="s2">"mean_properties"</span><span class="p">]</span> <span class="o">=</span> <span class="n">size_distribution</span><span class="o">.</span><span class="n">sizer_mean_properties</span><span class="p">(</span>
+    <span class="n">stream</span><span class="o">=</span><span class="n">lake</span><span class="p">[</span><span class="s2">"smps_2d"</span><span class="p">],</span>
+    <span class="n">diameter_units</span><span class="o">=</span><span class="s2">"nm"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># list out the header</span>
-<span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">lake</span><span class="p">[</span><span class="s1">'mean_properties'</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">lake</span><span class="p">[</span><span class="s2">"mean_properties"</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">lake['mean_properties'] = size_distribution.sizer_mean_properties(
-    stream=lake['smps_2d'],
-    diameter_units='nm',
+<div class="clipboard-copy-txt" id="cell-3">lake["mean_properties"] = size_distribution.sizer_mean_properties(
+    stream=lake["smps_2d"],
+    diameter_units="nm",
 )
 
 # list out the header
-for header in lake['mean_properties'].header:
+for header in lake["mean_properties"].header:
     print(header)</div>
 </div>
 </div>
@@ -4126,42 +4130,50 @@ the header name, which is not a valid index for a np.ndarray.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">mean_prop_stream</span> <span class="o">=</span> <span class="n">lake</span><span class="p">[</span><span class="s1">'mean_properties'</span><span class="p">]</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">mean_prop_stream</span> <span class="o">=</span> <span class="n">lake</span><span class="p">[</span><span class="s2">"mean_properties"</span><span class="p">]</span>
 
 <span class="c1"># plot the data on twinx axis</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_prop_stream</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
-        <span class="n">mean_prop_stream</span><span class="p">[</span><span class="s1">'Mass_(ug/m3)_PM2.5'</span><span class="p">],</span>
-        <span class="n">label</span><span class="o">=</span><span class="s1">'PM 2.5'</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_prop_stream</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
-        <span class="n">mean_prop_stream</span><span class="p">[</span><span class="s1">'Mass_(ug/m3)_N100'</span><span class="p">],</span>
-        <span class="n">label</span><span class="o">=</span><span class="s1">'N100 mass'</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mean_prop_stream</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
+    <span class="n">mean_prop_stream</span><span class="p">[</span><span class="s2">"Mass_(ug/m3)_PM2.5"</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"PM 2.5"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mean_prop_stream</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
+    <span class="n">mean_prop_stream</span><span class="p">[</span><span class="s2">"Mass_(ug/m3)_N100"</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"N100 mass"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (UTC)"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'PM mass (ug/m3)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"PM mass (ug/m3)"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">mean_prop_stream = lake['mean_properties']
+<div class="clipboard-copy-txt" id="cell-4">mean_prop_stream = lake["mean_properties"]
 
 # plot the data on twinx axis
 fig, ax = plt.subplots()
-ax.plot(mean_prop_stream.datetime64,
-        mean_prop_stream['Mass_(ug/m3)_PM2.5'],
-        label='PM 2.5',
-        color='blue')
-ax.plot(mean_prop_stream.datetime64,
-        mean_prop_stream['Mass_(ug/m3)_N100'],
-        label='N100 mass',
-        color='red')
+ax.plot(
+    mean_prop_stream.datetime64,
+    mean_prop_stream["Mass_(ug/m3)_PM2.5"],
+    label="PM 2.5",
+    color="blue",
+)
+ax.plot(
+    mean_prop_stream.datetime64,
+    mean_prop_stream["Mass_(ug/m3)_N100"],
+    label="N100 mass",
+    color="red",
+)
 ax.set_ylim(0, 50)
 plt.xticks(rotation=45)
 ax.set_xlabel("Time (UTC)")
-ax.set_ylabel('PM mass (ug/m3)')
+ax.set_ylabel("PM mass (ug/m3)")
 ax.legend()
 plt.show()
 fig.tight_layout()</div>

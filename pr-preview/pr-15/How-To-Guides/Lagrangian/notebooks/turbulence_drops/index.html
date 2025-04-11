@@ -3931,10 +3931,16 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.lagrangian</span><span class="w"> </span><span class="kn">import</span> <span class="n">boundary</span><span class="p">,</span> <span class="n">integration</span><span class="p">,</span> <span class="n">collisions</span><span class="p">,</span> <span class="n">particle_property</span><span class="p">,</span> <span class="n">particle_pairs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.lagrangian</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">boundary</span><span class="p">,</span>
+    <span class="n">integration</span><span class="p">,</span>
+    <span class="n">collisions</span><span class="p">,</span>
+    <span class="n">particle_property</span><span class="p">,</span>
+    <span class="n">particle_pairs</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">machine_limit</span>
 
-<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">'cuda'</span><span class="p">)</span> <span class="c1"># or 'cuda:0' to specify a particular GPU</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda"</span><span class="p">)</span>  <span class="c1"># or 'cuda:0' to specify a particular GPU</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">set_default_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
 
@@ -3945,6 +3951,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <span class="c1"># print particula version</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+
 <span class="nb">print</span><span class="p">(</span><span class="s2">"particula version: "</span><span class="p">,</span> <span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1"># Code Section: Importing Necessary Libraries and Initializing Variables
@@ -3952,10 +3959,16 @@ import time
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
-from particula_beta.lagrangian import boundary, integration, collisions, particle_property, particle_pairs
+from particula_beta.lagrangian import (
+    boundary,
+    integration,
+    collisions,
+    particle_property,
+    particle_pairs,
+)
 from particula.util import machine_limit
 
-device = torch.device('cuda') # or 'cuda:0' to specify a particular GPU
+device = torch.device("cuda")  # or 'cuda:0' to specify a particular GPU
 torch.set_default_device(device)
 
 
@@ -3966,6 +3979,7 @@ t_type = torch.float32
 
 # print particula version
 from particula import __version__
+
 print("particula version: ", __version__)</div>
 </div>
 </div>
@@ -4058,17 +4072,17 @@ print("particula version: ", __version__)</div>
     <span class="n">mass_kg</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span>
     <span class="n">number_of_particles</span><span class="o">=</span><span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span>
     <span class="n">t_type</span><span class="o">=</span><span class="n">t_type</span><span class="p">,</span>
-    <span class="n">random_seed</span><span class="o">=</span><span class="n">seed</span>
+    <span class="n">random_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Setting constant density for all particles</span>
 <span class="n">density</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">t_type</span><span class="p">)</span> <span class="o">*</span> <span class="n">density_uniform</span>
 
 <span class="c1"># Initialize particle positions randomly within the cube</span>
-<span class="n">position</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
-    <span class="mi">3</span><span class="p">,</span>
-    <span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span>
-    <span class="n">dtype</span><span class="o">=</span><span class="n">t_type</span><span class="p">)</span> <span class="o">*</span> <span class="n">CUBE_SIDE</span> <span class="o">-</span> <span class="n">CUBE_SIDE</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">position</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">t_type</span><span class="p">)</span> <span class="o">*</span> <span class="n">CUBE_SIDE</span>
+    <span class="o">-</span> <span class="n">CUBE_SIDE</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="p">)</span>
 
 <span class="c1"># Initialize force as zero for all particles</span>
 <span class="n">force</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">t_type</span><span class="p">)</span>
@@ -4083,8 +4097,11 @@ print("particula version: ", __version__)</div>
 <span class="n">total_mass</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">total_iterations</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">t_type</span><span class="p">)</span>
 
 <span class="c1"># Defining gravity acting on all particles</span>
-<span class="n">gravity</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.81</span><span class="p">])</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">gravity</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.81</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="c1"># Initializing Arrays for Saving Position and Mass Data</span>
 <span class="n">save_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">,</span> <span class="n">save_points</span><span class="p">))</span>
@@ -4132,17 +4149,17 @@ velocity = particle_property.random_thermal_velocity(
     mass_kg=mass,
     number_of_particles=TOTAL_NUMBER_OF_PARTICLES,
     t_type=t_type,
-    random_seed=seed
+    random_seed=seed,
 )
 
 # Setting constant density for all particles
 density = torch.ones(TOTAL_NUMBER_OF_PARTICLES, dtype=t_type) * density_uniform
 
 # Initialize particle positions randomly within the cube
-position = torch.rand(
-    3,
-    TOTAL_NUMBER_OF_PARTICLES,
-    dtype=t_type) * CUBE_SIDE - CUBE_SIDE / 2
+position = (
+    torch.rand(3, TOTAL_NUMBER_OF_PARTICLES, dtype=t_type) * CUBE_SIDE
+    - CUBE_SIDE / 2
+)
 
 # Initialize force as zero for all particles
 force = torch.zeros(3, TOTAL_NUMBER_OF_PARTICLES, dtype=t_type)
@@ -4157,8 +4174,11 @@ total_iterations = int(SIMULATION_TIME / TIME_STEP)
 total_mass = torch.zeros(total_iterations, dtype=t_type)
 
 # Defining gravity acting on all particles
-gravity = torch.tensor(
-    [0, 0, -9.81]).repeat(TOTAL_NUMBER_OF_PARTICLES, 1).transpose(0, 1)
+gravity = (
+    torch.tensor([0, 0, -9.81])
+    .repeat(TOTAL_NUMBER_OF_PARTICLES, 1)
+    .transpose(0, 1)
+)
 
 # Initializing Arrays for Saving Position and Mass Data
 save_position = np.zeros((3, TOTAL_NUMBER_OF_PARTICLES, save_points))
@@ -4192,9 +4212,10 @@ radius = particle_property.radius_calculation(mass=mass, density=density)</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># random air velcoity TKE generation</span>
-<span class="n">air_velocity_length</span> <span class="o">=</span> <span class="n">total_iterations</span><span class="o">//</span><span class="n">tke_interval</span>
+<span class="n">air_velocity_length</span> <span class="o">=</span> <span class="n">total_iterations</span> <span class="o">//</span> <span class="n">tke_interval</span>
 <span class="n">normal_dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">normal</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tke_sigma</span><span class="p">)</span>
 <span class="n">air_velocities</span> <span class="o">=</span> <span class="n">normal_dist</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">air_velocity_length</span><span class="p">))</span>
+
 
 <span class="c1"># Calculating the initial turbulent kinetic energy</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">tke_calculation</span><span class="p">(</span><span class="n">air_velocities</span><span class="p">):</span>
@@ -4203,15 +4224,17 @@ radius = particle_property.radius_calculation(mass=mass, density=density)</div>
     <span class="n">tke</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">std_velocities</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tke</span>
 
+
 <span class="n">tke</span> <span class="o">=</span> <span class="n">tke_calculation</span><span class="p">(</span><span class="n">air_velocities</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Initial TKE: "</span><span class="p">,</span> <span class="n">tke</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"velocity shape: "</span><span class="p">,</span> <span class="n">air_velocities</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Air initial velocity: "</span><span class="p">,</span> <span class="n">air_velocities</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3"># random air velcoity TKE generation
-air_velocity_length = total_iterations//tke_interval
+air_velocity_length = total_iterations // tke_interval
 normal_dist = torch.distributions.normal.Normal(0, tke_sigma)
 air_velocities = normal_dist.sample((3, air_velocity_length))
+
 
 # Calculating the initial turbulent kinetic energy
 def tke_calculation(air_velocities):
@@ -4220,11 +4243,11 @@ def tke_calculation(air_velocities):
     tke = 0.5 * sum(std_velocities**2)
     return tke
 
+
 tke = tke_calculation(air_velocities)
 print("Initial TKE: ", tke)
 print("velocity shape: ", air_velocities.shape)
-print("Air initial velocity: ", air_velocities[:, 0])
-</div>
+print("Air initial velocity: ", air_velocities[:, 0])</div>
 </div>
 </div>
 </div>
@@ -4281,7 +4304,8 @@ Air initial velocity:  tensor([ 0.3003, -0.4218, -0.4296])
 
 <span class="c1"># Calculate the initial radius of particles</span>
 <span class="n">radius_initial</span> <span class="o">=</span> <span class="n">particle_property</span><span class="o">.</span><span class="n">radius_calculation</span><span class="p">(</span>
-    <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">)</span>
+    <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span>
+<span class="p">)</span>
 
 <span class="c1"># Plotting the histogram for radius distribution</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -4308,7 +4332,8 @@ Air initial velocity:  tensor([ 0.3003, -0.4218, -0.4296])
 
 # Calculate the initial radius of particles
 radius_initial = particle_property.radius_calculation(
-    mass=mass, density=density)
+    mass=mass, density=density
+)
 
 # Plotting the histogram for radius distribution
 fig, ax = plt.subplots()
@@ -4374,11 +4399,7 @@ plt.show()</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Printing the Maximum and Minimum Radii of the Particles</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Initial Max Diameter [mm]: "</span><span class="p">,</span> <span class="n">radius_initial</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">"Initial Min Diameter [mm]: "</span><span class="p">,</span>
-    <span class="n">radius_initial</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span>
-    <span class="mi">2</span> <span class="o">*</span>
-    <span class="mf">1e3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Initial Min Diameter [mm]: "</span><span class="p">,</span> <span class="n">radius_initial</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span>
 
 <span class="c1"># Initializing the Range of Radii for Friction Factor Calculation</span>
 <span class="c1"># We use a linspace to cover a range from the smallest to 10 times the</span>
@@ -4411,11 +4432,7 @@ plt.show()</div>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5"># Printing the Maximum and Minimum Radii of the Particles
 print("Initial Max Diameter [mm]: ", radius_initial.max().item() * 2 * 1e3)
-print(
-    "Initial Min Diameter [mm]: ",
-    radius_initial.min().item() *
-    2 *
-    1e3)
+print("Initial Min Diameter [mm]: ", radius_initial.min().item() * 2 * 1e3)
 
 # Initializing the Range of Radii for Friction Factor Calculation
 # We use a linspace to cover a range from the smallest to 10 times the
@@ -4530,7 +4547,7 @@ Initial Min Diameter [mm]:  0.03808399196714163
 <span class="n">regen_velocity</span> <span class="o">=</span> <span class="n">velocity</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 <span class="n">regen_mass</span> <span class="o">=</span> <span class="n">mass</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 <span class="n">air_ones</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">TOTAL_NUMBER_OF_PARTICLES</span><span class="p">))</span>
-<span class="n">air_velocity</span> <span class="o">=</span> <span class="n">air_ones</span><span class="o">*</span><span class="n">air_velocities</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">air_velocity</span> <span class="o">=</span> <span class="n">air_ones</span> <span class="o">*</span> <span class="n">air_velocities</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Main Simulation Loop</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_iterations</span><span class="p">):</span>
@@ -4539,10 +4556,12 @@ Initial Min Diameter [mm]:  0.03808399196714163
     <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">interval_coagulation</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Update radius for collision detection</span>
         <span class="n">radius</span> <span class="o">=</span> <span class="n">particle_property</span><span class="o">.</span><span class="n">radius_calculation</span><span class="p">(</span>
-            <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">)</span>
+            <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span>
+        <span class="p">)</span>
         <span class="c1"># Detect potential collision pairs</span>
         <span class="n">valid_collision_indices_pairs</span> <span class="o">=</span> <span class="n">particle_pairs</span><span class="o">.</span><span class="n">full_sweep_and_prune</span><span class="p">(</span>
-            <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+            <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span>
+        <span class="p">)</span>
 
         <span class="c1"># Process collisions and update particle properties</span>
         <span class="k">if</span> <span class="n">valid_collision_indices_pairs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -4551,7 +4570,8 @@ Initial Min Diameter [mm]:  0.03808399196714163
                 <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span>
                 <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span>
                 <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
-                <span class="n">collision_indices_pairs</span><span class="o">=</span><span class="n">valid_collision_indices_pairs</span><span class="p">)</span>
+                <span class="n">collision_indices_pairs</span><span class="o">=</span><span class="n">valid_collision_indices_pairs</span><span class="p">,</span>
+            <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">regnerate_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># regenerate for constant particle number</span>
@@ -4562,12 +4582,15 @@ Initial Min Diameter [mm]:  0.03808399196714163
 
     <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">tke_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># regenerate air velocity</span>
-        <span class="n">air_velocity</span> <span class="o">=</span> <span class="n">air_ones</span><span class="o">*</span><span class="n">air_velocities</span><span class="p">[:,</span> <span class="n">i</span><span class="o">//</span><span class="n">tke_interval</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">air_velocity</span> <span class="o">=</span> <span class="n">air_ones</span> <span class="o">*</span> <span class="n">air_velocities</span><span class="p">[</span>
+            <span class="p">:,</span> <span class="n">i</span> <span class="o">//</span> <span class="n">tke_interval</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Update Friction Factor (Optional, based on specified interval)</span>
     <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">interval_friction_factor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">radius</span> <span class="o">=</span> <span class="n">particle_property</span><span class="o">.</span><span class="n">radius_calculation</span><span class="p">(</span>
-            <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">)</span>
+            <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span>
+        <span class="p">)</span>
         <span class="n">friction_factor_iter</span> <span class="o">=</span> <span class="n">particle_property</span><span class="o">.</span><span class="n">nearest_match</span><span class="p">(</span>
             <span class="n">x_values</span><span class="o">=</span><span class="n">friction_factor_radius</span><span class="p">,</span>
             <span class="n">y_values</span><span class="o">=</span><span class="n">friction_factor_array</span><span class="p">,</span>
@@ -4579,7 +4602,12 @@ Initial Min Diameter [mm]:  0.03808399196714163
 
     <span class="c1"># Integrate Equations of Motion (Leapfrog Method)</span>
     <span class="n">position</span><span class="p">,</span> <span class="n">velocity</span> <span class="o">=</span> <span class="n">integration</span><span class="o">.</span><span class="n">leapfrog</span><span class="p">(</span>
-        <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span> <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="n">TIME_STEP</span><span class="p">)</span>
+        <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span>
+        <span class="n">velocity</span><span class="o">=</span><span class="n">velocity</span><span class="p">,</span>
+        <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span>
+        <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span>
+        <span class="n">time_step</span><span class="o">=</span><span class="n">TIME_STEP</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Apply Boundary Conditions (Cube Wrap-around)</span>
     <span class="n">position</span> <span class="o">=</span> <span class="n">boundary</span><span class="o">.</span><span class="n">wrapped_cube</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">cube_side</span><span class="o">=</span><span class="n">CUBE_SIDE</span><span class="p">)</span>
@@ -4597,7 +4625,8 @@ Initial Min Diameter [mm]:  0.03808399196714163
 <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total wall time: </span><span class="si">{</span><span class="n">end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"Ratio of wall time to simulation time: </span><span class="si">{</span><span class="p">(</span><span class="n">end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">SIMULATION_TIME</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="sa">f</span><span class="s2">"Ratio of wall time to simulation time: </span><span class="si">{</span><span class="p">(</span><span class="n">end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">SIMULATION_TIME</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-6"># Initialize Counter for Saving Data and Start Timer
 save_counter = 0
@@ -4616,7 +4645,7 @@ regen_radius = radius.clone()
 regen_velocity = velocity.clone()
 regen_mass = mass.clone()
 air_ones = torch.ones((3, TOTAL_NUMBER_OF_PARTICLES))
-air_velocity = air_ones*air_velocities[:, 0].unsqueeze(1)
+air_velocity = air_ones * air_velocities[:, 0].unsqueeze(1)
 
 # Main Simulation Loop
 for i in range(total_iterations):
@@ -4625,10 +4654,12 @@ for i in range(total_iterations):
     if i % interval_coagulation == 0:
         # Update radius for collision detection
         radius = particle_property.radius_calculation(
-            mass=mass, density=density)
+            mass=mass, density=density
+        )
         # Detect potential collision pairs
         valid_collision_indices_pairs = particle_pairs.full_sweep_and_prune(
-            position=position, radius=radius)
+            position=position, radius=radius
+        )
 
         # Process collisions and update particle properties
         if valid_collision_indices_pairs.shape[0] &gt; 0:
@@ -4637,7 +4668,8 @@ for i in range(total_iterations):
                 velocity=velocity,
                 mass=mass,
                 radius=radius,
-                collision_indices_pairs=valid_collision_indices_pairs)
+                collision_indices_pairs=valid_collision_indices_pairs,
+            )
 
     if i % regnerate_interval == 0:
         # regenerate for constant particle number
@@ -4648,12 +4680,15 @@ for i in range(total_iterations):
 
     if i % tke_interval == 0:
         # regenerate air velocity
-        air_velocity = air_ones*air_velocities[:, i//tke_interval].unsqueeze(1)
+        air_velocity = air_ones * air_velocities[
+            :, i // tke_interval
+        ].unsqueeze(1)
 
     # Update Friction Factor (Optional, based on specified interval)
     if i % interval_friction_factor == 0:
         radius = particle_property.radius_calculation(
-            mass=mass, density=density)
+            mass=mass, density=density
+        )
         friction_factor_iter = particle_property.nearest_match(
             x_values=friction_factor_radius,
             y_values=friction_factor_array,
@@ -4665,7 +4700,12 @@ for i in range(total_iterations):
 
     # Integrate Equations of Motion (Leapfrog Method)
     position, velocity = integration.leapfrog(
-        position=position, velocity=velocity, force=force, mass=mass, time_step=TIME_STEP)
+        position=position,
+        velocity=velocity,
+        force=force,
+        mass=mass,
+        time_step=TIME_STEP,
+    )
 
     # Apply Boundary Conditions (Cube Wrap-around)
     position = boundary.wrapped_cube(position=position, cube_side=CUBE_SIDE)
@@ -4683,9 +4723,8 @@ save_mass[:, -1] = mass.detach().numpy()
 end_time = time.time()
 print(f"Total wall time: {end_time - start_time} seconds")
 print(
-    f"Ratio of wall time to simulation time: {(end_time - start_time) / SIMULATION_TIME}")
-
-</div>
+    f"Ratio of wall time to simulation time: {(end_time - start_time) / SIMULATION_TIME}"
+)</div>
 </div>
 </div>
 </div>
@@ -4934,7 +4973,9 @@ np.savez_compressed(
 <span class="n">filter_zero_mass</span> <span class="o">=</span> <span class="n">mass_final</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
 <span class="c1"># Calculate the radius and area of each particle</span>
-<span class="n">radius_final</span> <span class="o">=</span> <span class="n">particle_property</span><span class="o">.</span><span class="n">radius_calculation</span><span class="p">(</span><span class="n">mass</span><span class="o">=</span><span class="n">mass_final</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">)</span>
+<span class="n">radius_final</span> <span class="o">=</span> <span class="n">particle_property</span><span class="o">.</span><span class="n">radius_calculation</span><span class="p">(</span>
+    <span class="n">mass</span><span class="o">=</span><span class="n">mass_final</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="n">density</span>
+<span class="p">)</span>
 <span class="n">particle_area</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius_final</span><span class="o">**</span><span class="mi">2</span>
 <span class="c1"># normalize the area</span>
 <span class="n">particle_area</span> <span class="o">=</span> <span class="n">particle_area</span> <span class="o">/</span> <span class="n">particle_area</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -4945,7 +4986,7 @@ np.savez_compressed(
 
 <span class="c1"># Creating a 3D Plot for Visualization</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">'3d'</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">"3d"</span><span class="p">)</span>
 
 <span class="c1"># Choose a color map for the scatter plot</span>
 <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span>
@@ -4957,7 +4998,8 @@ np.savez_compressed(
     <span class="n">position_final</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">filter_zero_mass</span><span class="p">],</span>
     <span class="n">c</span><span class="o">=</span><span class="n">mass_final</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">],</span>
     <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">particle_area</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span> <span class="c1"># scalled Particle size based on normalized area</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">particle_area</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">]</span>
+    <span class="o">*</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># scalled Particle size based on normalized area</span>
 <span class="p">)</span>
 
 <span class="c1"># # Set axis limits based on cube dimensions</span>
@@ -4967,7 +5009,7 @@ np.savez_compressed(
 
 <span class="c1"># Add a color bar indicating particle mass</span>
 <span class="n">color_bar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">scatter_plot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-<span class="n">color_bar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">'Mass [kg]'</span><span class="p">)</span>
+<span class="n">color_bar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">"Mass [kg]"</span><span class="p">)</span>
 
 <span class="c1"># Show the plot with optimized layout</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -4984,7 +5026,9 @@ mass_final = save_mass[:, time_index]
 filter_zero_mass = mass_final &gt; 0
 
 # Calculate the radius and area of each particle
-radius_final = particle_property.radius_calculation(mass=mass_final, density=density)
+radius_final = particle_property.radius_calculation(
+    mass=mass_final, density=density
+)
 particle_area = np.pi * radius_final**2
 # normalize the area
 particle_area = particle_area / particle_area.max()
@@ -4995,7 +5039,7 @@ print(f"Number of particles at the end: {filter_zero_mass.sum()}")
 
 # Creating a 3D Plot for Visualization
 fig = plt.figure()
-ax = fig.add_subplot(projection='3d')
+ax = fig.add_subplot(projection="3d")
 
 # Choose a color map for the scatter plot
 cmap = plt.cm.viridis
@@ -5007,7 +5051,8 @@ scatter_plot = ax.scatter(
     position_final[2, filter_zero_mass],
     c=mass_final[filter_zero_mass],
     cmap=cmap,
-    s=particle_area[filter_zero_mass]*10 # scalled Particle size based on normalized area
+    s=particle_area[filter_zero_mass]
+    * 10,  # scalled Particle size based on normalized area
 )
 
 # # Set axis limits based on cube dimensions
@@ -5017,12 +5062,11 @@ ax.set_zlim(-CUBE_SIDE / 2, CUBE_SIDE / 2)
 
 # Add a color bar indicating particle mass
 color_bar = plt.colorbar(scatter_plot, ax=ax)
-color_bar.set_label('Mass [kg]')
+color_bar.set_label("Mass [kg]")
 
 # Show the plot with optimized layout
 plt.show()
-fig.tight_layout()
-</div>
+fig.tight_layout()</div>
 </div>
 </div>
 </div>
@@ -5081,8 +5125,20 @@ fig.tight_layout()
 
 <span class="c1"># plot initial radius distribution</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">machine_limit</span><span class="o">.</span><span class="n">safe_log10</span><span class="p">(</span><span class="n">radius_initial</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Initial"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">machine_limit</span><span class="o">.</span><span class="n">safe_log10</span><span class="p">(</span><span class="n">radius_final</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">]),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Final"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+    <span class="n">machine_limit</span><span class="o">.</span><span class="n">safe_log10</span><span class="p">(</span><span class="n">radius_initial</span><span class="p">),</span>
+    <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Initial"</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+    <span class="n">machine_limit</span><span class="o">.</span><span class="n">safe_log10</span><span class="p">(</span><span class="n">radius_final</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">]),</span>
+    <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Final"</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"log10 Radius (m)"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Number of Particles"</span><span class="p">)</span>
@@ -5090,15 +5146,30 @@ fig.tight_layout()
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Initial Max Diameter [mm]: "</span><span class="p">,</span> <span class="n">radius_initial</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Final Max Diameter [mm]: "</span><span class="p">,</span> <span class="n">radius_final</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Initial Max Diameter [mm]: "</span><span class="p">,</span> <span class="n">radius_initial</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Final Max Diameter [mm]: "</span><span class="p">,</span>
+    <span class="n">radius_final</span><span class="p">[</span><span class="n">filter_zero_mass</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-9"># Visualizing the Mass Distribution at Different Stages
 
 # plot initial radius distribution
 fig, ax = plt.subplots()
-ax.hist(machine_limit.safe_log10(radius_initial), bins=20, range=(-5,-4), label="Initial", alpha=0.25)
-ax.hist(machine_limit.safe_log10(radius_final[filter_zero_mass]), bins=20, range=(-5,-4), label="Final", alpha=0.5)
+ax.hist(
+    machine_limit.safe_log10(radius_initial),
+    bins=20,
+    range=(-5, -4),
+    label="Initial",
+    alpha=0.25,
+)
+ax.hist(
+    machine_limit.safe_log10(radius_final[filter_zero_mass]),
+    bins=20,
+    range=(-5, -4),
+    label="Final",
+    alpha=0.5,
+)
 ax.set_yscale("log")
 ax.set_xlabel("log10 Radius (m)")
 ax.set_ylabel("Number of Particles")
@@ -5106,8 +5177,11 @@ ax.set_title("Initial Particle Radius Distribution")
 ax.legend()
 plt.show()
 
-print("Initial Max Diameter [mm]: ", radius_initial.max().item()*2*1e3)
-print("Final Max Diameter [mm]: ", radius_final[filter_zero_mass].max().item()*2*1e3)</div>
+print("Initial Max Diameter [mm]: ", radius_initial.max().item() * 2 * 1e3)
+print(
+    "Final Max Diameter [mm]: ",
+    radius_final[filter_zero_mass].max().item() * 2 * 1e3,
+)</div>
 </div>
 </div>
 </div>

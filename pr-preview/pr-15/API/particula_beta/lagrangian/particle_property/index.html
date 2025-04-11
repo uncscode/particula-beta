@@ -4055,7 +4055,7 @@
 <p>Auto-generated documentation for <a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py">particula_beta.lagrangian.particle_property</a> module.</p>
 </blockquote>
 <h2 id="friction_factor_wrapper">friction_factor_wrapper<a class="headerlink" href="#friction_factor_wrapper" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L70">Show source in particle_property.py:70</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L68">Show source in particle_property.py:68</a></p>
 <p>Calculate the friction factor for a given radius, temperature, and
 pressure.</p>
 <p>This function wraps several underlying calculations related to
@@ -4079,7 +4079,7 @@ representing the particle friction factor.</li>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="generate_particle_masses">generate_particle_masses<a class="headerlink" href="#generate_particle_masses" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L122">Show source in particle_property.py:122</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L120">Show source in particle_property.py:120</a></p>
 <p>Generate an array of particle masses based on a log-normal distribution of
 particle radii and a given density.</p>
 <h4 id="arguments_1">Arguments<a class="headerlink" href="#arguments_1" title="Permanent link">&para;</a></h4>
@@ -4112,7 +4112,7 @@ particle radii and a given density.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="mass_calculation">mass_calculation<a class="headerlink" href="#mass_calculation" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L44">Show source in particle_property.py:44</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L43">Show source in particle_property.py:43</a></p>
 <p>Calculate the mass of a sphere given its radius and density using the
 formula for the volume of a sphere.</p>
 <p>This function assumes a uniform density and spherical shape to compute the
@@ -4135,7 +4135,7 @@ Volume = Mass / Density. The volume of a sphere is given by
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">mass_calculation</span><span class="p">(</span><span class="n">radius</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">density</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="nearest_match">nearest_match<a class="headerlink" href="#nearest_match" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L254">Show source in particle_property.py:254</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L255">Show source in particle_property.py:255</a></p>
 <p>Perform nearest neighbor interpolation (on torch objects) to find y-values
 corresponding to new x-values. The function identifies the nearest x-value
 for each value in x_new and returns the corresponding y-value.</p>
@@ -4188,7 +4188,7 @@ Volume = Mass / Density. The volume of a sphere is given by
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">radius_calculation</span><span class="p">(</span><span class="n">mass</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">density</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="random_thermal_velocity">random_thermal_velocity<a class="headerlink" href="#random_thermal_velocity" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L221">Show source in particle_property.py:221</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L222">Show source in particle_property.py:222</a></p>
 <p>Generate a random thermal velocity for each particle.</p>
 <h4 id="arguments_5">Arguments<a class="headerlink" href="#arguments_5" title="Permanent link">&para;</a></h4>
 <ul>
@@ -4210,7 +4210,7 @@ Volume = Mass / Density. The volume of a sphere is given by
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="speed">speed<a class="headerlink" href="#speed" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L206">Show source in particle_property.py:206</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_property.py#L207">Show source in particle_property.py:207</a></p>
 <p>Calculate the speed of a particle.</p>
 <h4 id="arguments_6">Arguments<a class="headerlink" href="#arguments_6" title="Permanent link">&para;</a></h4>
 <ul>

@@ -4007,20 +4007,23 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="c1"># Importing specific functions from the particula package for data loading</span>
 <span class="c1"># and handling</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">loader</span><span class="p">,</span> <span class="n">loader_interface</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_data_folder</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.loader_setting_builders</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DataChecksBuilder</span><span class="p">,</span>
     <span class="n">Loader1DSettingsBuilder</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1">
-import os  # For handling file paths and directories
+<div class="clipboard-copy-txt" id="cell-1">import os  # For handling file paths and directories
 import matplotlib.pyplot as plt  # For plotting data
 
 # Importing specific functions from the particula package for data loading
 # and handling
 from particula_beta.data import loader, loader_interface
-from particula_beta.data.tests.example_data.get_example_data import get_data_folder
+from particula_beta.data.tests.example_data.get_example_data import (
+    get_data_folder,
+)
 from particula_beta.data.loader_setting_builders import (
     DataChecksBuilder,
     Loader1DSettingsBuilder,
@@ -4051,27 +4054,31 @@ from particula_beta.data.loader_setting_builders import (
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Setting up the path for data files</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>  <span class="c1"># Re-importing os for clarity</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_data_folder</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">current_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>  <span class="c1"># Getting the current working directory</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Current path for this script:'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">current_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">'particula'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Displaying the current path</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Current path for this script:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">current_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"particula"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Displaying the current path</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="n">get_data_folder</span><span class="p">()</span>  <span class="c1"># Getting the example data folder path</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Path to data folder:'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">'particula'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Displaying the data folder path</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Path to data folder:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"particula"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Displaying the data folder path</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2"># Setting up the path for data files
 import os  # Re-importing os for clarity
-from particula_beta.data.tests.example_data.get_example_data import get_data_folder
+from particula_beta.data.tests.example_data.get_example_data import (
+    get_data_folder,
+)
 
 current_path = os.getcwd()  # Getting the current working directory
-print('Current path for this script:')
-print(current_path.rsplit('particula')[-1])  # Displaying the current path
+print("Current path for this script:")
+print(current_path.rsplit("particula")[-1])  # Displaying the current path
 
 path = get_data_folder()  # Getting the example data folder path
-print('Path to data folder:')
-print(path.rsplit('particula')[-1])  # Displaying the data folder path</div>
+print("Path to data folder:")
+print(path.rsplit("particula")[-1])  # Displaying the data folder path</div>
 </div>
 </div>
 </div>
@@ -4124,9 +4131,8 @@ _beta\data\tests\example_data
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">data_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="n">path</span><span class="p">,</span>
-    <span class="s1">'CPC_3010_data'</span><span class="p">,</span>
-    <span class="s1">'CPC_3010_data_20220709_Jul.csv'</span><span class="p">)</span>
+    <span class="n">path</span><span class="p">,</span> <span class="s2">"CPC_3010_data"</span><span class="p">,</span> <span class="s2">"CPC_3010_data_20220709_Jul.csv"</span>
+<span class="p">)</span>
 
 <span class="c1"># load the data</span>
 <span class="n">raw_data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">data_raw_loader</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
@@ -4135,9 +4141,8 @@ _beta\data\tests\example_data
 <span class="nb">print</span><span class="p">(</span><span class="n">raw_data</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3">data_file = os.path.join(
-    path,
-    'CPC_3010_data',
-    'CPC_3010_data_20220709_Jul.csv')
+    path, "CPC_3010_data", "CPC_3010_data_20220709_Jul.csv"
+)
 
 # load the data
 raw_data = loader.data_raw_loader(data_file)
@@ -4219,10 +4224,7 @@ print(raw_data[:2])</div>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"data checks: </span><span class="si">{</span><span class="n">data_checks</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Cleaning the data using loader.data_format_checks</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">data_format_checks</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">raw_data</span><span class="p">,</span>
-    <span class="n">data_checks</span><span class="o">=</span><span class="n">data_checks</span>
-<span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">data_format_checks</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">data_checks</span><span class="o">=</span><span class="n">data_checks</span><span class="p">)</span>
 
 <span class="c1"># Printing the length of data after cleaning</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"data length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -4254,10 +4256,7 @@ data_checks = (
 print(f"data checks: {data_checks}")
 
 # Cleaning the data using loader.data_format_checks
-data = loader.data_format_checks(
-    data=raw_data,
-    data_checks=data_checks
-)
+data = loader.data_format_checks(data=raw_data, data_checks=data_checks)
 
 # Printing the length of data after cleaning
 print(f"data length: {len(data)}")
@@ -4330,12 +4329,12 @@ There was 26 lines removed from the data
 <span class="n">epoch_time</span><span class="p">,</span> <span class="n">data_array</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">sample_data</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
     <span class="n">time_column</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Indicate the column(s) that contain time data.</span>
-                      <span class="c1"># For instance, if time data spans multiple columns,</span>
-                      <span class="c1"># list them here, like [0, 2] for columns 0 and 2.</span>
+    <span class="c1"># For instance, if time data spans multiple columns,</span>
+    <span class="c1"># list them here, like [0, 2] for columns 0 and 2.</span>
     <span class="n">time_format</span><span class="o">=</span><span class="s2">"epoch"</span><span class="p">,</span>  <span class="c1"># Define the format of the time data.</span>
-                          <span class="c1"># Use "epoch" for epoch time, or specify another format</span>
-                          <span class="c1"># compatible with datetime.strptime(), such as</span>
-                          <span class="c1"># "%m/%d/%Y %I:%M:%S %p".</span>
+    <span class="c1"># Use "epoch" for epoch time, or specify another format</span>
+    <span class="c1"># compatible with datetime.strptime(), such as</span>
+    <span class="c1"># "%m/%d/%Y %I:%M:%S %p".</span>
     <span class="c1"># Specify columns that contain the actual data for analysis.</span>
     <span class="n">data_columns</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
     <span class="c1"># Indicate the delimiter used in the data (e.g., comma for CSV files).</span>
@@ -4354,12 +4353,12 @@ There was 26 lines removed from the data
 epoch_time, data_array = loader.sample_data(
     data=data,
     time_column=[0],  # Indicate the column(s) that contain time data.
-                      # For instance, if time data spans multiple columns,
-                      # list them here, like [0, 2] for columns 0 and 2.
+    # For instance, if time data spans multiple columns,
+    # list them here, like [0, 2] for columns 0 and 2.
     time_format="epoch",  # Define the format of the time data.
-                          # Use "epoch" for epoch time, or specify another format
-                          # compatible with datetime.strptime(), such as
-                          # "%m/%d/%Y %I:%M:%S %p".
+    # Use "epoch" for epoch time, or specify another format
+    # compatible with datetime.strptime(), such as
+    # "%m/%d/%Y %I:%M:%S %p".
     # Specify columns that contain the actual data for analysis.
     data_columns=[1, 2],
     # Indicate the delimiter used in the data (e.g., comma for CSV files).
@@ -4443,11 +4442,13 @@ First 5 data entries: [[3.3510e+04 1.7000e+01]
 
 <span class="c1"># Plotting the data</span>
 <span class="c1"># `epoch_time` on the x-axis and the first column of `data_array` on the y-axis</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epoch_time</span><span class="p">,</span>
-        <span class="n">data_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Selecting the first column of data_array</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"data column 1"</span><span class="p">,</span>  <span class="c1"># Label for this data series</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>  <span class="c1"># No line connecting the data points</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span>  <span class="c1"># Style of the data points; here, it's a dot</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">epoch_time</span><span class="p">,</span>
+    <span class="n">data_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Selecting the first column of data_array</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"data column 1"</span><span class="p">,</span>  <span class="c1"># Label for this data series</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>  <span class="c1"># No line connecting the data points</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># Style of the data points; here, it's a dot</span>
 
 <span class="c1"># Setting the x-axis label to "Time (epoch)"</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (epoch)"</span><span class="p">)</span>
@@ -4470,11 +4471,13 @@ fig, ax = plt.subplots()
 
 # Plotting the data
 # `epoch_time` on the x-axis and the first column of `data_array` on the y-axis
-ax.plot(epoch_time,
-        data_array[:, 0],  # Selecting the first column of data_array
-        label="data column 1",  # Label for this data series
-        linestyle="none",  # No line connecting the data points
-        marker=".")  # Style of the data points; here, it's a dot
+ax.plot(
+    epoch_time,
+    data_array[:, 0],  # Selecting the first column of data_array
+    label="data column 1",  # Label for this data series
+    linestyle="none",  # No line connecting the data points
+    marker=".",
+)  # Style of the data points; here, it's a dot
 
 # Setting the x-axis label to "Time (epoch)"
 ax.set_xlabel("Time (epoch)")
@@ -4566,9 +4569,9 @@ fig.tight_layout()</div>
 <span class="p">)</span>
 
 <span class="c1"># Printing the generated settings dictionary to verify its contents</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Settings dictionary:'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Settings dictionary:"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-7"># Using the LoaderSetting1DBuilder class to generate the settings dictionary
 
@@ -4588,9 +4591,9 @@ settings = (
 )
 
 # Printing the generated settings dictionary to verify its contents
-print('Settings dictionary:')
+print("Settings dictionary:")
 for key, value in settings.items():
-    print(f'{key}: {value}')</div>
+    print(f"{key}: {value}")</div>
 </div>
 </div>
 </div>
@@ -4662,7 +4665,9 @@ timezone_identifier: UTC
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Importing the loader interface from the particula package</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">loader_interface</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_data_folder</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># Getting the working path where the data files are located</span>
 <span class="n">working_path</span> <span class="o">=</span> <span class="n">get_data_folder</span><span class="p">()</span>
@@ -4671,29 +4676,29 @@ timezone_identifier: UTC
 <span class="c1"># These settings were previously generated or can be created manually</span>
 <span class="n">cpc_settings</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1"># Folder name containing the data files</span>
-    <span class="s1">'relative_data_folder'</span><span class="p">:</span> <span class="s1">'CPC_3010_data'</span><span class="p">,</span>
+    <span class="s2">"relative_data_folder"</span><span class="p">:</span> <span class="s2">"CPC_3010_data"</span><span class="p">,</span>
     <span class="c1"># Pattern to match filenames (e.g., all CSV files)</span>
-    <span class="s1">'filename_regex'</span><span class="p">:</span> <span class="s1">'*.csv'</span><span class="p">,</span>
-    <span class="s1">'header_row'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Row number of the header in the data file</span>
-    <span class="s1">'MIN_SIZE_BYTES'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># Minimum file size in bytes for a file to be considered</span>
+    <span class="s2">"filename_regex"</span><span class="p">:</span> <span class="s2">"*.csv"</span><span class="p">,</span>
+    <span class="s2">"header_row"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Row number of the header in the data file</span>
+    <span class="s2">"MIN_SIZE_BYTES"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># Minimum file size in bytes for a file to be considered</span>
     <span class="c1"># Function to be used for loading the data</span>
-    <span class="s1">'data_loading_function'</span><span class="p">:</span> <span class="s1">'general_1d_load'</span><span class="p">,</span>
-    <span class="s1">'header_row'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Row number of the header in the data file</span>
-    <span class="s1">'data_checks'</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"data_loading_function"</span><span class="p">:</span> <span class="s2">"general_1d_load"</span><span class="p">,</span>
+    <span class="s2">"header_row"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Row number of the header in the data file</span>
+    <span class="s2">"data_checks"</span><span class="p">:</span> <span class="p">{</span>
         <span class="c1"># Range of character count per line (min, max)</span>
-        <span class="s1">'characters'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+        <span class="s2">"characters"</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
         <span class="c1"># Number of times a character (comma) should appear in each line</span>
-        <span class="s1">'char_counts'</span><span class="p">:</span> <span class="p">{</span><span class="s1">','</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
-        <span class="s1">'skip_rows'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Number of rows to skip at the beginning of the file</span>
-        <span class="s1">'skip_end'</span><span class="p">:</span> <span class="mi">0</span>  <span class="c1"># Number of rows to skip at the end of the file</span>
+        <span class="s2">"char_counts"</span><span class="p">:</span> <span class="p">{</span><span class="s2">","</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+        <span class="s2">"skip_rows"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Number of rows to skip at the beginning of the file</span>
+        <span class="s2">"skip_end"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Number of rows to skip at the end of the file</span>
     <span class="p">},</span>
-    <span class="s1">'data_column'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Columns in the file that contain the data</span>
-    <span class="s1">'data_header'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'data 1'</span><span class="p">,</span> <span class="s1">'data 2'</span><span class="p">],</span>  <span class="c1"># Headers for the data columns</span>
-    <span class="s1">'time_column'</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Column in the file that contains the time data</span>
-    <span class="s1">'time_format'</span><span class="p">:</span> <span class="s1">'epoch'</span><span class="p">,</span>  <span class="c1"># Format of the time data (epoch, ISO 8601, etc.)</span>
-    <span class="s1">'delimiter'</span><span class="p">:</span> <span class="s1">','</span><span class="p">,</span>  <span class="c1"># Delimiter used in the data file (e.g., comma for CSV)</span>
-    <span class="s1">'time_shift_seconds'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Shift in time data if needed, in seconds</span>
-    <span class="s1">'timezone_identifier'</span><span class="p">:</span> <span class="s1">'UTC'</span>  <span class="c1"># Timezone identifier for the time data</span>
+    <span class="s2">"data_column"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Columns in the file that contain the data</span>
+    <span class="s2">"data_header"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"data 1"</span><span class="p">,</span> <span class="s2">"data 2"</span><span class="p">],</span>  <span class="c1"># Headers for the data columns</span>
+    <span class="s2">"time_column"</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Column in the file that contains the time data</span>
+    <span class="s2">"time_format"</span><span class="p">:</span> <span class="s2">"epoch"</span><span class="p">,</span>  <span class="c1"># Format of the time data (epoch, ISO 8601, etc.)</span>
+    <span class="s2">"delimiter"</span><span class="p">:</span> <span class="s2">","</span><span class="p">,</span>  <span class="c1"># Delimiter used in the data file (e.g., comma for CSV)</span>
+    <span class="s2">"time_shift_seconds"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Shift in time data if needed, in seconds</span>
+    <span class="s2">"timezone_identifier"</span><span class="p">:</span> <span class="s2">"UTC"</span><span class="p">,</span>  <span class="c1"># Timezone identifier for the time data</span>
 <span class="p">}</span>
 
 <span class="c1"># Now call the loader interface to load the data using the specified settings</span>
@@ -4707,7 +4712,9 @@ timezone_identifier: UTC
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-8"># Importing the loader interface from the particula package
 from particula_beta.data import loader_interface
-from particula_beta.data.tests.example_data.get_example_data import get_data_folder
+from particula_beta.data.tests.example_data.get_example_data import (
+    get_data_folder,
+)
 
 # Getting the working path where the data files are located
 working_path = get_data_folder()
@@ -4716,29 +4723,29 @@ working_path = get_data_folder()
 # These settings were previously generated or can be created manually
 cpc_settings = {
     # Folder name containing the data files
-    'relative_data_folder': 'CPC_3010_data',
+    "relative_data_folder": "CPC_3010_data",
     # Pattern to match filenames (e.g., all CSV files)
-    'filename_regex': '*.csv',
-    'header_row': 0,  # Row number of the header in the data file
-    'MIN_SIZE_BYTES': 10,  # Minimum file size in bytes for a file to be considered
+    "filename_regex": "*.csv",
+    "header_row": 0,  # Row number of the header in the data file
+    "MIN_SIZE_BYTES": 10,  # Minimum file size in bytes for a file to be considered
     # Function to be used for loading the data
-    'data_loading_function': 'general_1d_load',
-    'header_row': 0,  # Row number of the header in the data file
-    'data_checks': {
+    "data_loading_function": "general_1d_load",
+    "header_row": 0,  # Row number of the header in the data file
+    "data_checks": {
         # Range of character count per line (min, max)
-        'characters': [10, 100],
+        "characters": [10, 100],
         # Number of times a character (comma) should appear in each line
-        'char_counts': {',': 4},
-        'skip_rows': 0,  # Number of rows to skip at the beginning of the file
-        'skip_end': 0  # Number of rows to skip at the end of the file
+        "char_counts": {",": 4},
+        "skip_rows": 0,  # Number of rows to skip at the beginning of the file
+        "skip_end": 0,  # Number of rows to skip at the end of the file
     },
-    'data_column': [1, 2],  # Columns in the file that contain the data
-    'data_header': ['data 1', 'data 2'],  # Headers for the data columns
-    'time_column': [0],  # Column in the file that contains the time data
-    'time_format': 'epoch',  # Format of the time data (epoch, ISO 8601, etc.)
-    'delimiter': ',',  # Delimiter used in the data file (e.g., comma for CSV)
-    'time_shift_seconds': 0,  # Shift in time data if needed, in seconds
-    'timezone_identifier': 'UTC'  # Timezone identifier for the time data
+    "data_column": [1, 2],  # Columns in the file that contain the data
+    "data_header": ["data 1", "data 2"],  # Headers for the data columns
+    "time_column": [0],  # Column in the file that contains the time data
+    "time_format": "epoch",  # Format of the time data (epoch, ISO 8601, etc.)
+    "delimiter": ",",  # Delimiter used in the data file (e.g., comma for CSV)
+    "time_shift_seconds": 0,  # Shift in time data if needed, in seconds
+    "timezone_identifier": "UTC",  # Timezone identifier for the time data
 }
 
 # Now call the loader interface to load the data using the specified settings
@@ -4830,7 +4837,7 @@ data_stream = loader_interface.load_files_interface(
 <span class="nb">print</span><span class="p">(</span><span class="n">data_stream</span><span class="o">.</span><span class="n">time</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
 
 <span class="c1"># Example 4: Retrieve and Print Data from a Specific Column using Header Name</span>
-<span class="n">column_name</span> <span class="o">=</span> <span class="s1">'data 1'</span>  <span class="c1"># Replace with an actual column name from your header</span>
+<span class="n">column_name</span> <span class="o">=</span> <span class="s2">"data 1"</span>  <span class="c1"># Replace with an actual column name from your header</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">5 Entries from data Column '</span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2">':"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_stream</span><span class="p">[</span><span class="n">column_name</span><span class="p">][:</span><span class="mi">5</span><span class="p">])</span>
 
@@ -4859,7 +4866,7 @@ print("\nTime Stamps for the First 5 Data Entries:")
 print(data_stream.time[:5])
 
 # Example 4: Retrieve and Print Data from a Specific Column using Header Name
-column_name = 'data 1'  # Replace with an actual column name from your header
+column_name = "data 1"  # Replace with an actual column name from your header
 print(f"\n5 Entries from data Column '{column_name}':")
 print(data_stream[column_name][:5])
 
@@ -4985,15 +4992,17 @@ Names of the Source Files for the Data Stream:
 <span class="c1"># Plotting data from the data_stream object</span>
 <span class="c1"># data_stream.datetime64 is used for the x-axis (time data)</span>
 <span class="c1"># data_stream.data[:, 0] selects the first column of data for the y-axis</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_stream</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
-        <span class="n">data_stream</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Selecting the first column of data</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"data column 1"</span><span class="p">,</span>  <span class="c1"># Label for the plotted data series</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>  <span class="c1"># No line connecting the data points</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span>  <span class="c1"># Style of the data points; here, it's a dot</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">data_stream</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
+    <span class="n">data_stream</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Selecting the first column of data</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"data column 1"</span><span class="p">,</span>  <span class="c1"># Label for the plotted data series</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>  <span class="c1"># No line connecting the data points</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># Style of the data points; here, it's a dot</span>
 
 <span class="c1"># Adjusting the x-axis labels for better readability</span>
 <span class="c1"># Rotating the labels by -35 degrees</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">rotation</span><span class="o">=-</span><span class="mi">35</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">'x'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">rotation</span><span class="o">=-</span><span class="mi">35</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">)</span>
 
 <span class="c1"># Setting the labels for the x-axis and y-axis</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (UTC)"</span><span class="p">)</span>  <span class="c1"># Label for the x-axis</span>
@@ -5019,15 +5028,17 @@ fig, ax = plt.subplots()
 # Plotting data from the data_stream object
 # data_stream.datetime64 is used for the x-axis (time data)
 # data_stream.data[:, 0] selects the first column of data for the y-axis
-ax.plot(data_stream.datetime64,
-        data_stream.data[:, 0],  # Selecting the first column of data
-        label="data column 1",  # Label for the plotted data series
-        linestyle="none",  # No line connecting the data points
-        marker=".")  # Style of the data points; here, it's a dot
+ax.plot(
+    data_stream.datetime64,
+    data_stream.data[:, 0],  # Selecting the first column of data
+    label="data column 1",  # Label for the plotted data series
+    linestyle="none",  # No line connecting the data points
+    marker=".",
+)  # Style of the data points; here, it's a dot
 
 # Adjusting the x-axis labels for better readability
 # Rotating the labels by -35 degrees
-plt.tick_params(rotation=-35, axis='x')
+plt.tick_params(rotation=-35, axis="x")
 
 # Setting the labels for the x-axis and y-axis
 ax.set_xlabel("Time (UTC)")  # Label for the x-axis

@@ -4090,16 +4090,19 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># particula imports</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula.particles.properties.lognormal_size_distribution</span><span class="w"> </span><span class="kn">import</span> <span class="n">lognormal_pmf_distribution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula.particles.properties.lognormal_size_distribution</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">lognormal_pmf_distribution</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.process</span><span class="w"> </span><span class="kn">import</span> <span class="n">scattering_truncation</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1">import numpy as np
 import matplotlib.pyplot as plt
 
 # particula imports
-from particula.particles.properties.lognormal_size_distribution import lognormal_pmf_distribution
-from particula_beta.data.process import scattering_truncation
-</div>
+from particula.particles.properties.lognormal_size_distribution import (
+    lognormal_pmf_distribution,
+)
+from particula_beta.data.process import scattering_truncation</div>
 </div>
 </div>
 </div>
@@ -4149,12 +4152,14 @@ from particula_beta.data.process import scattering_truncation
 <span class="n">wavelength</span> <span class="o">=</span> <span class="mf">450.0</span>  <span class="c1"># Wavelength of incident light in nanometers (nm)</span>
 
 <span class="c1"># Perform the truncation correction for a single particle of a given diameter</span>
-<span class="n">trunc_corr</span><span class="p">,</span> <span class="n">z_axis</span><span class="p">,</span> <span class="n">qsca_trunc</span><span class="p">,</span> <span class="n">qsca_ideal</span><span class="p">,</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="n">scattering_truncation</span><span class="o">.</span><span class="n">trunc_mono</span><span class="p">(</span>
-    <span class="n">m_sphere</span><span class="o">=</span><span class="n">m_sphere</span><span class="p">,</span>  <span class="c1"># Refractive index of the particle</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>  <span class="c1"># Wavelength of incident light</span>
-    <span class="n">diameter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># Diameter of the particle in nanometers</span>
-    <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Request full output for detailed analysis</span>
-    <span class="n">calibrated_trunc</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">trunc_corr</span><span class="p">,</span> <span class="n">z_axis</span><span class="p">,</span> <span class="n">qsca_trunc</span><span class="p">,</span> <span class="n">qsca_ideal</span><span class="p">,</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">scattering_truncation</span><span class="o">.</span><span class="n">trunc_mono</span><span class="p">(</span>
+        <span class="n">m_sphere</span><span class="o">=</span><span class="n">m_sphere</span><span class="p">,</span>  <span class="c1"># Refractive index of the particle</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>  <span class="c1"># Wavelength of incident light</span>
+        <span class="n">diameter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># Diameter of the particle in nanometers</span>
+        <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Request full output for detailed analysis</span>
+        <span class="n">calibrated_trunc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 
 <span class="c1"># Output the calculated scattering efficiencies and truncation correction</span>
@@ -4168,12 +4173,14 @@ m_sphere = 1.5  # Refractive index of the particle
 wavelength = 450.0  # Wavelength of incident light in nanometers (nm)
 
 # Perform the truncation correction for a single particle of a given diameter
-trunc_corr, z_axis, qsca_trunc, qsca_ideal, theta1, theta2 = scattering_truncation.trunc_mono(
-    m_sphere=m_sphere,  # Refractive index of the particle
-    wavelength=wavelength,  # Wavelength of incident light
-    diameter=100,  # Diameter of the particle in nanometers
-    full_output=True,  # Request full output for detailed analysis
-    calibrated_trunc=True
+trunc_corr, z_axis, qsca_trunc, qsca_ideal, theta1, theta2 = (
+    scattering_truncation.trunc_mono(
+        m_sphere=m_sphere,  # Refractive index of the particle
+        wavelength=wavelength,  # Wavelength of incident light
+        diameter=100,  # Diameter of the particle in nanometers
+        full_output=True,  # Request full output for detailed analysis
+        calibrated_trunc=True,
+    )
 )
 
 # Output the calculated scattering efficiencies and truncation correction
@@ -4239,15 +4246,15 @@ Truncation correction factor: 0.99888593093735
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">diameter_sizes</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">discretize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">calibrated_trunc</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">calibrated_trunc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Plot the truncation correction factor as a function of particle diameter</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="n">truncation_array</span><span class="p">,</span> <span class="s1">'.'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Particle diameter (nm)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Truncation correction factor'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Truncation correction factor as a function of particle diameter'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="n">truncation_array</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Particle diameter (nm)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Truncation correction factor"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Truncation correction factor as a function of particle diameter"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3"># Generating diameters in lin space from 50 nm to 1000 nm with 200 points
@@ -4258,15 +4265,15 @@ truncation_array = scattering_truncation.truncation_for_diameters(
     wavelength=wavelength,
     diameter_sizes=diameters,
     discretize=False,
-    calibrated_trunc=True
+    calibrated_trunc=True,
 )
 
 # Plot the truncation correction factor as a function of particle diameter
 plt.figure()
-plt.plot(diameters, truncation_array, '.')
-plt.xlabel('Particle diameter (nm)')
-plt.ylabel('Truncation correction factor')
-plt.title('Truncation correction factor as a function of particle diameter')
+plt.plot(diameters, truncation_array, ".")
+plt.xlabel("Particle diameter (nm)")
+plt.ylabel("Truncation correction factor")
+plt.title("Truncation correction factor as a function of particle diameter")
 plt.show()</div>
 </div>
 </div>
@@ -4321,7 +4328,9 @@ plt.show()</div>
 <span class="n">wavelength</span> <span class="o">=</span> <span class="mf">450.0</span>  <span class="c1"># in nanometers</span>
 
 <span class="c1"># Generate diameters using a log-spaced array for better representation</span>
-<span class="n">diameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">800</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># From 50 nm to 800 nm</span>
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">800</span><span class="p">),</span> <span class="mi">100</span>
+<span class="p">)</span>  <span class="c1"># From 50 nm to 800 nm</span>
 
 <span class="c1"># Parameters for the log-normal size distribution</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.4</span>  <span class="c1"># Geometric standard deviation</span>
@@ -4332,7 +4341,7 @@ plt.show()</div>
     <span class="n">x_values</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">modes</span><span class="p">]),</span>
     <span class="n">geometric_standard_deviation</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sigma</span><span class="p">]),</span>
-    <span class="n">number_of_particles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">number_total</span><span class="p">])</span>
+    <span class="n">number_of_particles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">number_total</span><span class="p">]),</span>
 <span class="p">)</span>
 
 <span class="c1"># Calculate the truncation correction for the entire size distribution</span>
@@ -4341,26 +4350,32 @@ plt.show()</div>
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">diameter_sizes</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc</span><span class="p">,</span>
-    <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Visualize the size distribution and truncation correction</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="n">number_conc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Size Distribution"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Particle Diameter (nm)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Number Concentration (#/cm³)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Truncation Correction: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> for the entire distribution"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Particle Diameter (nm)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Number Concentration (#/cm³)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Truncation Correction: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> for the entire distribution"</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overall truncation correction for the distribution: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Overall truncation correction for the distribution: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4"># Define the refractive index and wavelength for the aerosols
 m_sphere = 1.5
 wavelength = 450.0  # in nanometers
 
 # Generate diameters using a log-spaced array for better representation
-diameters = np.logspace(np.log10(50), np.log10(800), 100)  # From 50 nm to 800 nm
+diameters = np.logspace(
+    np.log10(50), np.log10(800), 100
+)  # From 50 nm to 800 nm
 
 # Parameters for the log-normal size distribution
 sigma = 1.4  # Geometric standard deviation
@@ -4371,7 +4386,7 @@ number_conc = lognormal_pmf_distribution(
     x_values=diameters,
     mode=np.array([modes]),
     geometric_standard_deviation=np.array([sigma]),
-    number_of_particles=np.array([number_total])
+    number_of_particles=np.array([number_total]),
 )
 
 # Calculate the truncation correction for the entire size distribution
@@ -4380,19 +4395,23 @@ trunc_correction = scattering_truncation.correction_for_distribution(
     wavelength=wavelength,
     diameter_sizes=diameters,
     number_per_cm3=number_conc,
-    discretize=True
+    discretize=True,
 )
 
 # Visualize the size distribution and truncation correction
 plt.figure()
 plt.plot(diameters, number_conc, label="Size Distribution")
-plt.xlabel('Particle Diameter (nm)')
-plt.ylabel('Number Concentration (#/cm³)')
-plt.title(f"Truncation Correction: {trunc_correction:.5f} for the entire distribution")
+plt.xlabel("Particle Diameter (nm)")
+plt.ylabel("Number Concentration (#/cm³)")
+plt.title(
+    f"Truncation Correction: {trunc_correction:.5f} for the entire distribution"
+)
 plt.legend()
 plt.show()
 
-print(f"Overall truncation correction for the distribution: {trunc_correction}")</div>
+print(
+    f"Overall truncation correction for the distribution: {trunc_correction}"
+)</div>
 </div>
 </div>
 </div>
@@ -4454,9 +4473,8 @@ print(f"Overall truncation correction for the distribution: {trunc_correction}")
 
 <span class="c1"># Generate diameters using a log-spaced array for better representation</span>
 <span class="n">diameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">2500</span><span class="p">),</span>
-    <span class="mi">100</span><span class="p">)</span>  <span class="c1"># From 50 nm to 800 nm</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">2500</span><span class="p">),</span> <span class="mi">100</span>
+<span class="p">)</span>  <span class="c1"># From 50 nm to 800 nm</span>
 
 <span class="c1"># Parameters for the log-normal size distribution</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.4</span>  <span class="c1"># Geometric standard deviation</span>
@@ -4468,7 +4486,7 @@ print(f"Overall truncation correction for the distribution: {trunc_correction}")
     <span class="n">x_values</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">modes</span><span class="p">]),</span>
     <span class="n">geometric_standard_deviation</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sigma</span><span class="p">]),</span>
-    <span class="n">number_of_particles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">number_total</span><span class="p">])</span>
+    <span class="n">number_of_particles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">number_total</span><span class="p">]),</span>
 <span class="p">)</span>
 
 <span class="c1"># Calculate the truncation correction for the entire size distribution</span>
@@ -4477,19 +4495,23 @@ print(f"Overall truncation correction for the distribution: {trunc_correction}")
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">diameter_sizes</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_large</span><span class="p">,</span>
-    <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Visualize the size distribution and truncation correction</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="n">number_conc_large</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Size Distribution"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Particle Diameter (nm)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Number Concentration (#/cm³)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Truncation Correction: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> for the entire distribution"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Particle Diameter (nm)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Number Concentration (#/cm³)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Truncation Correction: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> for the entire distribution"</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overall truncation correction for the distribution: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Overall truncation correction for the distribution: </span><span class="si">{</span><span class="n">trunc_correction</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5"># Define the refractive index and wavelength for the aerosols
 m_sphere = 1.5
@@ -4497,9 +4519,8 @@ wavelength = 450.0  # in nanometers
 
 # Generate diameters using a log-spaced array for better representation
 diameters = np.logspace(
-    np.log10(200),
-    np.log10(2500),
-    100)  # From 50 nm to 800 nm
+    np.log10(200), np.log10(2500), 100
+)  # From 50 nm to 800 nm
 
 # Parameters for the log-normal size distribution
 sigma = 1.4  # Geometric standard deviation
@@ -4511,7 +4532,7 @@ number_conc_large = lognormal_pmf_distribution(
     x_values=diameters,
     mode=np.array([modes]),
     geometric_standard_deviation=np.array([sigma]),
-    number_of_particles=np.array([number_total])
+    number_of_particles=np.array([number_total]),
 )
 
 # Calculate the truncation correction for the entire size distribution
@@ -4520,19 +4541,23 @@ trunc_correction = scattering_truncation.correction_for_distribution(
     wavelength=wavelength,
     diameter_sizes=diameters,
     number_per_cm3=number_conc_large,
-    discretize=True
+    discretize=True,
 )
 
 # Visualize the size distribution and truncation correction
 plt.figure()
 plt.plot(diameters, number_conc_large, label="Size Distribution")
-plt.xlabel('Particle Diameter (nm)')
-plt.ylabel('Number Concentration (#/cm³)')
-plt.title(f"Truncation Correction: {trunc_correction:.5f} for the entire distribution")
+plt.xlabel("Particle Diameter (nm)")
+plt.ylabel("Number Concentration (#/cm³)")
+plt.title(
+    f"Truncation Correction: {trunc_correction:.5f} for the entire distribution"
+)
 plt.legend()
 plt.show()
 
-print(f"Overall truncation correction for the distribution: {trunc_correction}")</div>
+print(
+    f"Overall truncation correction for the distribution: {trunc_correction}"
+)</div>
 </div>
 </div>
 </div>

@@ -3948,7 +3948,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Import the necessary libraries and modules</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">loader_interface</span><span class="p">,</span> <span class="n">settings_generator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.tests.example_data.get_example_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_data_folder</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.lake</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lake</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.loader_setting_builders</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="c1"># These functions create settings for loading data from files.</span>
@@ -3960,13 +3962,15 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <span class="c1"># Set the parent directory where the data folders are located</span>
 <span class="n">path</span> <span class="o">=</span> <span class="n">get_data_folder</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Path to data folder:'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">'particula'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Path to data folder:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"particula"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1"># Import the necessary libraries and modules
 import matplotlib.pyplot as plt
 from particula_beta.data import loader_interface, settings_generator
-from particula_beta.data.tests.example_data.get_example_data import get_data_folder
+from particula_beta.data.tests.example_data.get_example_data import (
+    get_data_folder,
+)
 from particula_beta.data.lake import Lake
 from particula_beta.data.loader_setting_builders import (
     # These functions create settings for loading data from files.
@@ -3978,8 +3982,8 @@ from particula_beta.data.loader_setting_builders import (
 
 # Set the parent directory where the data folders are located
 path = get_data_folder()
-print('Path to data folder:')
-print(path.rsplit('particula')[-1])</div>
+print("Path to data folder:")
+print(path.rsplit("particula")[-1])</div>
 </div>
 </div>
 </div>
@@ -4056,8 +4060,8 @@ _beta\data\tests\example_data
 <span class="n">settings_generator</span><span class="o">.</span><span class="n">save_settings_for_stream</span><span class="p">(</span>
     <span class="n">settings</span><span class="o">=</span><span class="n">cpc_settings</span><span class="p">,</span>
     <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">subfolder</span><span class="o">=</span><span class="s1">'CPC_3010_data'</span><span class="p">,</span>
-    <span class="n">settings_suffix</span><span class="o">=</span><span class="s1">'_cpc'</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">"CPC_3010_data"</span><span class="p">,</span>
+    <span class="n">settings_suffix</span><span class="o">=</span><span class="s2">"_cpc"</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2"># settings for the CPC data
@@ -4087,8 +4091,8 @@ cpc_settings = (
 settings_generator.save_settings_for_stream(
     settings=cpc_settings,
     path=path,
-    subfolder='CPC_3010_data',
-    settings_suffix='_cpc',
+    subfolder="CPC_3010_data",
+    settings_suffix="_cpc",
 )</div>
 </div>
 </div>
@@ -4188,14 +4192,14 @@ settings_generator.save_settings_for_stream(
 <span class="n">settings_generator</span><span class="o">.</span><span class="n">save_settings_for_stream</span><span class="p">(</span>
     <span class="n">settings</span><span class="o">=</span><span class="n">smps_1d_settings</span><span class="p">,</span>
     <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">subfolder</span><span class="o">=</span><span class="s1">'SMPS_data'</span><span class="p">,</span>
-    <span class="n">settings_suffix</span><span class="o">=</span><span class="s1">'_smps_1d'</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">"SMPS_data"</span><span class="p">,</span>
+    <span class="n">settings_suffix</span><span class="o">=</span><span class="s2">"_smps_1d"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">settings_generator</span><span class="o">.</span><span class="n">save_settings_for_stream</span><span class="p">(</span>
     <span class="n">settings</span><span class="o">=</span><span class="n">smps_2d_settings</span><span class="p">,</span>
     <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">subfolder</span><span class="o">=</span><span class="s1">'SMPS_data'</span><span class="p">,</span>
-    <span class="n">settings_suffix</span><span class="o">=</span><span class="s1">'_smps_2d'</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">"SMPS_data"</span><span class="p">,</span>
+    <span class="n">settings_suffix</span><span class="o">=</span><span class="s2">"_smps_2d"</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3"># settings for the SMPS data
@@ -4261,14 +4265,14 @@ smps_1d_settings, smps_2d_settings = (
 settings_generator.save_settings_for_stream(
     settings=smps_1d_settings,
     path=path,
-    subfolder='SMPS_data',
-    settings_suffix='_smps_1d',
+    subfolder="SMPS_data",
+    settings_suffix="_smps_1d",
 )
 settings_generator.save_settings_for_stream(
     settings=smps_2d_settings,
     path=path,
-    subfolder='SMPS_data',
-    settings_suffix='_smps_2d',
+    subfolder="SMPS_data",
+    settings_suffix="_smps_2d",
 )</div>
 </div>
 </div>
@@ -4307,26 +4311,24 @@ settings_generator.save_settings_for_stream(
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">smps_1d_stream_settings</span> <span class="o">=</span> <span class="n">settings_generator</span><span class="o">.</span><span class="n">load_settings_for_stream</span><span class="p">(</span>
     <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">subfolder</span><span class="o">=</span><span class="s1">'SMPS_data'</span><span class="p">,</span>
-    <span class="n">settings_suffix</span><span class="o">=</span><span class="s1">'_smps_1d'</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">"SMPS_data"</span><span class="p">,</span>
+    <span class="n">settings_suffix</span><span class="o">=</span><span class="s2">"_smps_1d"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">stream_smps_1d</span> <span class="o">=</span> <span class="n">loader_interface</span><span class="o">.</span><span class="n">load_files_interface</span><span class="p">(</span>
-    <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">settings</span><span class="o">=</span><span class="n">smps_1d_stream_settings</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">smps_1d_stream_settings</span>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">stream_smps_1d</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4">smps_1d_stream_settings = settings_generator.load_settings_for_stream(
     path=path,
-    subfolder='SMPS_data',
-    settings_suffix='_smps_1d',
+    subfolder="SMPS_data",
+    settings_suffix="_smps_1d",
 )
 
 stream_smps_1d = loader_interface.load_files_interface(
-    path=path,
-    settings=smps_1d_stream_settings
+    path=path, settings=smps_1d_stream_settings
 )
 
 print(stream_smps_1d.header)</div>
@@ -4382,34 +4384,33 @@ print(stream_smps_1d.header)</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># collect settings into a dictionary</span>
 <span class="n">combined_settings</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'cpc'</span><span class="p">:</span> <span class="n">cpc_settings</span><span class="p">,</span>
-    <span class="s1">'smps_1d'</span><span class="p">:</span> <span class="n">smps_1d_settings</span><span class="p">,</span>
-    <span class="s1">'smps_2d'</span><span class="p">:</span> <span class="n">smps_2d_settings</span><span class="p">,</span>
+    <span class="s2">"cpc"</span><span class="p">:</span> <span class="n">cpc_settings</span><span class="p">,</span>
+    <span class="s2">"smps_1d"</span><span class="p">:</span> <span class="n">smps_1d_settings</span><span class="p">,</span>
+    <span class="s2">"smps_2d"</span><span class="p">:</span> <span class="n">smps_2d_settings</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># save the lake settings to a file</span>
 <span class="n">settings_generator</span><span class="o">.</span><span class="n">save_settings_for_lake</span><span class="p">(</span>
     <span class="n">settings</span><span class="o">=</span><span class="n">combined_settings</span><span class="p">,</span>
     <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">subfolder</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span>
-    <span class="n">settings_suffix</span><span class="o">=</span><span class="s1">'_cpc_smps'</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">settings_suffix</span><span class="o">=</span><span class="s2">"_cpc_smps"</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5"># collect settings into a dictionary
 combined_settings = {
-    'cpc': cpc_settings,
-    'smps_1d': smps_1d_settings,
-    'smps_2d': smps_2d_settings,
+    "cpc": cpc_settings,
+    "smps_1d": smps_1d_settings,
+    "smps_2d": smps_2d_settings,
 }
 
 # save the lake settings to a file
 settings_generator.save_settings_for_lake(
     settings=combined_settings,
     path=path,
-    subfolder='',
-    settings_suffix='_cpc_smps',
-)
-</div>
+    subfolder="",
+    settings_suffix="_cpc_smps",
+)</div>
 </div>
 </div>
 </div>
@@ -4447,8 +4448,8 @@ settings_generator.save_settings_for_lake(
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">lake_settings</span> <span class="o">=</span> <span class="n">settings_generator</span><span class="o">.</span><span class="n">load_settings_for_lake</span><span class="p">(</span>
     <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-    <span class="n">subfolder</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span>
-    <span class="n">settings_suffix</span><span class="o">=</span><span class="s1">'_cpc_smps'</span><span class="p">,</span>
+    <span class="n">subfolder</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">settings_suffix</span><span class="o">=</span><span class="s2">"_cpc_smps"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># now call the loader interface for files</span>
@@ -4457,13 +4458,13 @@ settings_generator.save_settings_for_lake(
     <span class="n">folder_settings</span><span class="o">=</span><span class="n">combined_settings</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lake</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-6">lake_settings = settings_generator.load_settings_for_lake(
     path=path,
-    subfolder='',
-    settings_suffix='_cpc_smps',
+    subfolder="",
+    settings_suffix="_cpc_smps",
 )
 
 # now call the loader interface for files
@@ -4472,7 +4473,7 @@ lake = loader_interface.load_folders_interface(
     folder_settings=combined_settings,
 )
 
-print(' ')
+print(" ")
 print(lake)</div>
 </div>
 </div>

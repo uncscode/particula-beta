@@ -4252,38 +4252,44 @@ from particula_beta.data.process import kappa_via_extinction</div>
     <span class="n">disttype</span><span class="o">=</span><span class="s2">"lognormal"</span><span class="p">,</span>  <span class="c1"># Type of distribution</span>
     <span class="n">gsigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>  <span class="c1"># Geometric standard deviation</span>
     <span class="n">mode</span><span class="o">=</span><span class="n">modes</span><span class="p">,</span>  <span class="c1"># Modes of the distribution</span>
-    <span class="n">nparticles</span><span class="o">=</span><span class="n">number_total</span>  <span class="c1"># Total number of particles</span>
+    <span class="n">nparticles</span><span class="o">=</span><span class="n">number_total</span><span class="p">,</span>  <span class="c1"># Total number of particles</span>
 <span class="p">)</span><span class="o">.</span><span class="n">m</span>
 
 <span class="c1"># Convert the distribution from pdf to probability mass function (pmf)</span>
-<span class="n">number_conc_pms</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">distribution_convert_pdf_pms</span><span class="p">(</span>
-    <span class="n">x_array</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>  <span class="c1"># Array of diameters</span>
-    <span class="n">distribution</span><span class="o">=</span><span class="n">pdf_dist</span><span class="p">,</span>  <span class="c1"># The generated pdf</span>
-    <span class="n">to_pdf</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># Specifies the conversion to pmf</span>
-<span class="p">)</span> <span class="o">*</span> <span class="n">number_total</span>  <span class="c1"># Scale to the total number of particles</span>
+<span class="n">number_conc_pms</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">convert</span><span class="o">.</span><span class="n">distribution_convert_pdf_pms</span><span class="p">(</span>
+        <span class="n">x_array</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>  <span class="c1"># Array of diameters</span>
+        <span class="n">distribution</span><span class="o">=</span><span class="n">pdf_dist</span><span class="p">,</span>  <span class="c1"># The generated pdf</span>
+        <span class="n">to_pdf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Specifies the conversion to pmf</span>
+    <span class="p">)</span>
+    <span class="o">*</span> <span class="n">number_total</span>
+<span class="p">)</span>  <span class="c1"># Scale to the total number of particles</span>
 
 
 <span class="c1"># Convert particle diameters from the base distribution to volumes</span>
-<span class="n">volume_sizer</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">length_to_volume</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="n">length_type</span><span class="o">=</span><span class="s1">'diameter'</span><span class="p">)</span>
+<span class="n">volume_sizer</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">length_to_volume</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="n">length_type</span><span class="o">=</span><span class="s2">"diameter"</span><span class="p">)</span>
 
 <span class="c1"># Calculate water volume absorbed by particles at different RH</span>
 <span class="n">volume_water_low</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">kappa_volume_water</span><span class="p">(</span>
-    <span class="n">volume_solute</span><span class="o">=</span><span class="n">volume_sizer</span><span class="p">,</span>
-    <span class="n">kappa</span><span class="o">=</span><span class="n">kappa</span><span class="p">,</span>
-    <span class="n">water_activity</span><span class="o">=</span><span class="n">water_activity_low</span><span class="p">)</span>  <span class="c1"># showing the input parameters</span>
+    <span class="n">volume_solute</span><span class="o">=</span><span class="n">volume_sizer</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="n">kappa</span><span class="p">,</span> <span class="n">water_activity</span><span class="o">=</span><span class="n">water_activity_low</span>
+<span class="p">)</span>  <span class="c1"># showing the input parameters</span>
 <span class="n">volume_water_mid</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">kappa_volume_water</span><span class="p">(</span>
-    <span class="n">volume_sizer</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">water_activity_mid</span><span class="p">)</span>
+    <span class="n">volume_sizer</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">water_activity_mid</span>
+<span class="p">)</span>
 <span class="n">volume_water_high</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">kappa_volume_water</span><span class="p">(</span>
-    <span class="n">volume_sizer</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">water_activity_high</span><span class="p">)</span>
+    <span class="n">volume_sizer</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">water_activity_high</span>
+<span class="p">)</span>
 
 <span class="c1"># Calculate new particle diameters after hygroscopic growth</span>
 <span class="n">diameters_low</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">volume_to_length</span><span class="p">(</span>
-    <span class="n">volume</span><span class="o">=</span><span class="n">volume_sizer</span> <span class="o">+</span> <span class="n">volume_water_low</span><span class="p">,</span>
-    <span class="n">length_type</span><span class="o">=</span><span class="s1">'diameter'</span><span class="p">)</span>  <span class="c1"># showing the input parameters</span>
+    <span class="n">volume</span><span class="o">=</span><span class="n">volume_sizer</span> <span class="o">+</span> <span class="n">volume_water_low</span><span class="p">,</span> <span class="n">length_type</span><span class="o">=</span><span class="s2">"diameter"</span>
+<span class="p">)</span>  <span class="c1"># showing the input parameters</span>
 <span class="n">diameters_mid</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">volume_to_length</span><span class="p">(</span>
-    <span class="n">volume_sizer</span> <span class="o">+</span> <span class="n">volume_water_mid</span><span class="p">,</span> <span class="s1">'diameter'</span><span class="p">)</span>
+    <span class="n">volume_sizer</span> <span class="o">+</span> <span class="n">volume_water_mid</span><span class="p">,</span> <span class="s2">"diameter"</span>
+<span class="p">)</span>
 <span class="n">diameters_high</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">volume_to_length</span><span class="p">(</span>
-    <span class="n">volume_sizer</span> <span class="o">+</span> <span class="n">volume_water_high</span><span class="p">,</span> <span class="s1">'diameter'</span><span class="p">)</span>
+    <span class="n">volume_sizer</span> <span class="o">+</span> <span class="n">volume_water_high</span><span class="p">,</span> <span class="s2">"diameter"</span>
+<span class="p">)</span>
 
 <span class="c1"># Plotting the base and grown size distributions</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -4291,15 +4297,18 @@ from particula_beta.data.process import kappa_via_extinction</div>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">diameters_low</span><span class="p">,</span>
     <span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Low Water Activity: </span><span class="si">{</span><span class="n">water_activity_low</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH"</span><span class="p">)</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Low Water Activity: </span><span class="si">{</span><span class="n">water_activity_low</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">diameters_mid</span><span class="p">,</span>
     <span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Mid Water Activity: </span><span class="si">{</span><span class="n">water_activity_mid</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH"</span><span class="p">)</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Mid Water Activity: </span><span class="si">{</span><span class="n">water_activity_mid</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">diameters_high</span><span class="p">,</span>
     <span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"High Water Activity: </span><span class="si">{</span><span class="n">water_activity_high</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH"</span><span class="p">)</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"High Water Activity: </span><span class="si">{</span><span class="n">water_activity_high</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Diameter (nm)"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Number concentration (#/cm^3)"</span><span class="p">)</span>
@@ -4331,38 +4340,44 @@ pdf_dist = distribution_discretization.discretize(
     disttype="lognormal",  # Type of distribution
     gsigma=sigma,  # Geometric standard deviation
     mode=modes,  # Modes of the distribution
-    nparticles=number_total  # Total number of particles
+    nparticles=number_total,  # Total number of particles
 ).m
 
 # Convert the distribution from pdf to probability mass function (pmf)
-number_conc_pms = convert.distribution_convert_pdf_pms(
-    x_array=diameters,  # Array of diameters
-    distribution=pdf_dist,  # The generated pdf
-    to_pdf=False  # Specifies the conversion to pmf
-) * number_total  # Scale to the total number of particles
+number_conc_pms = (
+    convert.distribution_convert_pdf_pms(
+        x_array=diameters,  # Array of diameters
+        distribution=pdf_dist,  # The generated pdf
+        to_pdf=False,  # Specifies the conversion to pmf
+    )
+    * number_total
+)  # Scale to the total number of particles
 
 
 # Convert particle diameters from the base distribution to volumes
-volume_sizer = convert.length_to_volume(diameters, length_type='diameter')
+volume_sizer = convert.length_to_volume(diameters, length_type="diameter")
 
 # Calculate water volume absorbed by particles at different RH
 volume_water_low = convert.kappa_volume_water(
-    volume_solute=volume_sizer,
-    kappa=kappa,
-    water_activity=water_activity_low)  # showing the input parameters
+    volume_solute=volume_sizer, kappa=kappa, water_activity=water_activity_low
+)  # showing the input parameters
 volume_water_mid = convert.kappa_volume_water(
-    volume_sizer, kappa, water_activity_mid)
+    volume_sizer, kappa, water_activity_mid
+)
 volume_water_high = convert.kappa_volume_water(
-    volume_sizer, kappa, water_activity_high)
+    volume_sizer, kappa, water_activity_high
+)
 
 # Calculate new particle diameters after hygroscopic growth
 diameters_low = convert.volume_to_length(
-    volume=volume_sizer + volume_water_low,
-    length_type='diameter')  # showing the input parameters
+    volume=volume_sizer + volume_water_low, length_type="diameter"
+)  # showing the input parameters
 diameters_mid = convert.volume_to_length(
-    volume_sizer + volume_water_mid, 'diameter')
+    volume_sizer + volume_water_mid, "diameter"
+)
 diameters_high = convert.volume_to_length(
-    volume_sizer + volume_water_high, 'diameter')
+    volume_sizer + volume_water_high, "diameter"
+)
 
 # Plotting the base and grown size distributions
 fig, ax = plt.subplots()
@@ -4370,15 +4385,18 @@ ax.plot(diameters, number_conc_pms, label="Base Distribution")
 ax.plot(
     diameters_low,
     number_conc_pms,
-    label=f"Low Water Activity: {water_activity_low*100}% RH")
+    label=f"Low Water Activity: {water_activity_low*100}% RH",
+)
 ax.plot(
     diameters_mid,
     number_conc_pms,
-    label=f"Mid Water Activity: {water_activity_mid*100}% RH")
+    label=f"Mid Water Activity: {water_activity_mid*100}% RH",
+)
 ax.plot(
     diameters_high,
     number_conc_pms,
-    label=f"High Water Activity: {water_activity_high*100}% RH")
+    label=f"High Water Activity: {water_activity_high*100}% RH",
+)
 ax.set_xscale("log")
 ax.set_xlabel("Diameter (nm)")
 ax.set_ylabel("Number concentration (#/cm^3)")
@@ -4446,13 +4464,13 @@ plt.show()</div>
     <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
     <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># Base condition for sizer water activity</span>
-    <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>    <span class="c1"># Dry condition water activity</span>
+    <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># Dry condition water activity</span>
     <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_low</span><span class="p">,</span>  <span class="c1"># Low RH condition</span>
     <span class="n">refractive_index_dry</span><span class="o">=</span><span class="n">refractive_index_dry</span><span class="p">,</span>
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">return_coefficients</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">return_all_optics</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">return_all_optics</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">ext_mid</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">extinction_ratio_wet_dry</span><span class="p">(</span>
     <span class="n">kappa</span><span class="o">=</span><span class="n">kappa</span><span class="p">,</span>
@@ -4500,13 +4518,13 @@ ext_low, ext_base = kappa_via_extinction.extinction_ratio_wet_dry(
     number_per_cm3=number_conc_pms,
     diameters=diameters,
     water_activity_sizer=0.0,  # Base condition for sizer water activity
-    water_activity_dry=0.0,    # Dry condition water activity
+    water_activity_dry=0.0,  # Dry condition water activity
     water_activity_wet=water_activity_low,  # Low RH condition
     refractive_index_dry=refractive_index_dry,
     wavelength=wavelength,
     discretize=True,
     return_coefficients=True,
-    return_all_optics=False
+    return_all_optics=False,
 )
 ext_mid, _ = kappa_via_extinction.extinction_ratio_wet_dry(
     kappa=kappa,
@@ -4605,7 +4623,7 @@ Extinction at 90.0% RH: 1242.6228046612712
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span> <span class="mf">1e-12</span><span class="p">,</span>
+    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
     <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">fit_mid</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
@@ -4620,7 +4638,7 @@ Extinction at 90.0% RH: 1242.6228046612712
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span> <span class="mf">1e-12</span><span class="p">,</span>
+    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
     <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">fit_high</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
@@ -4635,7 +4653,7 @@ Extinction at 90.0% RH: 1242.6228046612712
     <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
     <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span> <span class="mf">1e-12</span><span class="p">,</span>
+    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
     <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -4657,7 +4675,7 @@ Extinction at 90.0% RH: 1242.6228046612712
     wavelength=wavelength,
     discretize=True,
     kappa_bounds=(0, 1),
-    kappa_tolerance= 1e-12,
+    kappa_tolerance=1e-12,
     kappa_maxiter=200,
 )
 fit_mid = kappa_via_extinction.fit_extinction_ratio_with_kappa(
@@ -4672,7 +4690,7 @@ fit_mid = kappa_via_extinction.fit_extinction_ratio_with_kappa(
     wavelength=wavelength,
     discretize=True,
     kappa_bounds=(0, 1),
-    kappa_tolerance= 1e-12,
+    kappa_tolerance=1e-12,
     kappa_maxiter=200,
 )
 fit_high = kappa_via_extinction.fit_extinction_ratio_with_kappa(
@@ -4687,7 +4705,7 @@ fit_high = kappa_via_extinction.fit_extinction_ratio_with_kappa(
     wavelength=wavelength,
     discretize=True,
     kappa_bounds=(0, 1),
-    kappa_tolerance= 1e-12,
+    kappa_tolerance=1e-12,
     kappa_maxiter=200,
 )
 
@@ -4763,31 +4781,36 @@ Kappa at 90.0% RH: 0.610062704938107
     <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
     <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
-    <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span>
+    <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Repeat fitting with humid sizer at mid RH and extinction measurements at</span>
 <span class="c1"># low and high RH</span>
-<span class="n">fit_humid_sizer_mid_and_humid_ext_low</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
-    <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_low</span><span class="p">,</span>  <span class="c1"># Dry extinction at low RH</span>
-    <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_high</span><span class="p">,</span>  <span class="c1"># Wet extinction at high RH</span>
-    <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">diameters</span><span class="o">=</span><span class="n">diameters_mid</span><span class="p">,</span>  <span class="c1"># Diameters adjusted for mid RH</span>
-    <span class="n">water_activity_sizer</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>  <span class="c1"># Mid RH for sizer</span>
-    <span class="n">water_activity_dry</span><span class="o">=</span><span class="n">water_activity_low</span><span class="p">,</span>  <span class="c1"># Low RH for dry condition</span>
-    <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_high</span><span class="p">,</span>  <span class="c1"># High RH for wet condition</span>
-    <span class="n">refractive_index_dry</span><span class="o">=</span><span class="n">refractive_index_dry</span><span class="p">,</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
-    <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
-    <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span>
+<span class="n">fit_humid_sizer_mid_and_humid_ext_low</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
+        <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_low</span><span class="p">,</span>  <span class="c1"># Dry extinction at low RH</span>
+        <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_high</span><span class="p">,</span>  <span class="c1"># Wet extinction at high RH</span>
+        <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
+        <span class="n">diameters</span><span class="o">=</span><span class="n">diameters_mid</span><span class="p">,</span>  <span class="c1"># Diameters adjusted for mid RH</span>
+        <span class="n">water_activity_sizer</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>  <span class="c1"># Mid RH for sizer</span>
+        <span class="n">water_activity_dry</span><span class="o">=</span><span class="n">water_activity_low</span><span class="p">,</span>  <span class="c1"># Low RH for dry condition</span>
+        <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_high</span><span class="p">,</span>  <span class="c1"># High RH for wet condition</span>
+        <span class="n">refractive_index_dry</span><span class="o">=</span><span class="n">refractive_index_dry</span><span class="p">,</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
+        <span class="n">discretize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+        <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 
 <span class="c1"># Print the fitted kappa values</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"Kappa from humid sizer at </span><span class="si">{</span><span class="n">water_activity_mid</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH and dry Ext: </span><span class="si">{</span><span class="n">fit_humid_sizer_mid</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kappa from humid sizer at </span><span class="si">{</span><span class="n">water_activity_mid</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH and humid Ext from </span><span class="si">{</span><span class="n">water_activity_low</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH to </span><span class="si">{</span><span class="n">water_activity_high</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH: </span><span class="si">{</span><span class="n">fit_humid_sizer_mid_and_humid_ext_low</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="sa">f</span><span class="s2">"Kappa from humid sizer at </span><span class="si">{</span><span class="n">water_activity_mid</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH and dry Ext: </span><span class="si">{</span><span class="n">fit_humid_sizer_mid</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Kappa from humid sizer at </span><span class="si">{</span><span class="n">water_activity_mid</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH and humid Ext from </span><span class="si">{</span><span class="n">water_activity_low</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH to </span><span class="si">{</span><span class="n">water_activity_high</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH: </span><span class="si">{</span><span class="n">fit_humid_sizer_mid_and_humid_ext_low</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5"># Perform kappa-HGF fitting with a humid sizer at mid RH
 fit_humid_sizer_mid = kappa_via_extinction.fit_extinction_ratio_with_kappa(
@@ -4803,31 +4826,36 @@ fit_humid_sizer_mid = kappa_via_extinction.fit_extinction_ratio_with_kappa(
     discretize=True,
     kappa_bounds=(0, 1),
     kappa_tolerance=1e-12,
-    kappa_maxiter=200
+    kappa_maxiter=200,
 )
 
 # Repeat fitting with humid sizer at mid RH and extinction measurements at
 # low and high RH
-fit_humid_sizer_mid_and_humid_ext_low = kappa_via_extinction.fit_extinction_ratio_with_kappa(
-    b_ext_dry=ext_low,  # Dry extinction at low RH
-    b_ext_wet=ext_high,  # Wet extinction at high RH
-    number_per_cm3=number_conc_pms,
-    diameters=diameters_mid,  # Diameters adjusted for mid RH
-    water_activity_sizer=water_activity_mid,  # Mid RH for sizer
-    water_activity_dry=water_activity_low,  # Low RH for dry condition
-    water_activity_wet=water_activity_high,  # High RH for wet condition
-    refractive_index_dry=refractive_index_dry,
-    wavelength=wavelength,
-    discretize=True,
-    kappa_bounds=(0, 1),
-    kappa_tolerance=1e-12,
-    kappa_maxiter=200
+fit_humid_sizer_mid_and_humid_ext_low = (
+    kappa_via_extinction.fit_extinction_ratio_with_kappa(
+        b_ext_dry=ext_low,  # Dry extinction at low RH
+        b_ext_wet=ext_high,  # Wet extinction at high RH
+        number_per_cm3=number_conc_pms,
+        diameters=diameters_mid,  # Diameters adjusted for mid RH
+        water_activity_sizer=water_activity_mid,  # Mid RH for sizer
+        water_activity_dry=water_activity_low,  # Low RH for dry condition
+        water_activity_wet=water_activity_high,  # High RH for wet condition
+        refractive_index_dry=refractive_index_dry,
+        wavelength=wavelength,
+        discretize=True,
+        kappa_bounds=(0, 1),
+        kappa_tolerance=1e-12,
+        kappa_maxiter=200,
+    )
 )
 
 # Print the fitted kappa values
 print(
-    f"Kappa from humid sizer at {water_activity_mid*100}% RH and dry Ext: {fit_humid_sizer_mid}")
-print(f"Kappa from humid sizer at {water_activity_mid*100}% RH and humid Ext from {water_activity_low*100}% RH to {water_activity_high*100}% RH: {fit_humid_sizer_mid_and_humid_ext_low}")</div>
+    f"Kappa from humid sizer at {water_activity_mid*100}% RH and dry Ext: {fit_humid_sizer_mid}"
+)
+print(
+    f"Kappa from humid sizer at {water_activity_mid*100}% RH and humid Ext from {water_activity_low*100}% RH to {water_activity_high*100}% RH: {fit_humid_sizer_mid_and_humid_ext_low}"
+)</div>
 </div>
 </div>
 </div>
@@ -4879,107 +4907,121 @@ Kappa 0.6099999998804534 from humid sizer 60.0% RH and humid Ext 30.0% RH:
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Fitting kappa-HGF with varied assumptions on the dry refractive index</span>
-<span class="n">fit_refractive_index_lower</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
-    <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
-    <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_mid</span><span class="p">,</span>
-    <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
-    <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>
-    <span class="n">refractive_index_dry</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span>  <span class="c1"># Assumption of a lower refractive index</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
-    <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
-    <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span>
+<span class="n">fit_refractive_index_lower</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
+        <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
+        <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_mid</span><span class="p">,</span>
+        <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
+        <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
+        <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>
+        <span class="n">refractive_index_dry</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span>  <span class="c1"># Assumption of a lower refractive index</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
+        <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+        <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="n">fit_refractive_index_higher</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
-    <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
-    <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_mid</span><span class="p">,</span>
-    <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
-    <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>
-    <span class="n">refractive_index_dry</span><span class="o">=</span><span class="mf">1.55</span><span class="p">,</span>  <span class="c1"># Assumption of a higher refractive index</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
-    <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
-    <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span>
+<span class="n">fit_refractive_index_higher</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
+        <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
+        <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_mid</span><span class="p">,</span>
+        <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
+        <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
+        <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>
+        <span class="n">refractive_index_dry</span><span class="o">=</span><span class="mf">1.55</span><span class="p">,</span>  <span class="c1"># Assumption of a higher refractive index</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
+        <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+        <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="n">fit_refractive_index_close</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
-    <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
-    <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_mid</span><span class="p">,</span>
-    <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
-    <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
-    <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>
-    <span class="n">refractive_index_dry</span><span class="o">=</span><span class="mf">1.48</span><span class="p">,</span>  <span class="c1"># A close but distinct refractive index</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
-    <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
-    <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span>
+<span class="n">fit_refractive_index_close</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
+        <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
+        <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_mid</span><span class="p">,</span>
+        <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="p">,</span>
+        <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
+        <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">water_activity_wet</span><span class="o">=</span><span class="n">water_activity_mid</span><span class="p">,</span>
+        <span class="n">refractive_index_dry</span><span class="o">=</span><span class="mf">1.48</span><span class="p">,</span>  <span class="c1"># A close but distinct refractive index</span>
+        <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span>
+        <span class="n">kappa_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">kappa_tolerance</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+        <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 
 <span class="c1"># Output the fitted kappa values for each refractive index assumption</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kappa from lower refractive index 1.4: </span><span class="si">{</span><span class="n">fit_refractive_index_lower</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"Kappa from higher refractive index 1.55: </span><span class="si">{</span><span class="n">fit_refractive_index_higher</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="sa">f</span><span class="s2">"Kappa from higher refractive index 1.55: </span><span class="si">{</span><span class="n">fit_refractive_index_higher</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kappa from close refractive index 1.48: </span><span class="si">{</span><span class="n">fit_refractive_index_close</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-6"># Fitting kappa-HGF with varied assumptions on the dry refractive index
-fit_refractive_index_lower = kappa_via_extinction.fit_extinction_ratio_with_kappa(
-    b_ext_dry=ext_base,
-    b_ext_wet=ext_mid,
-    number_per_cm3=number_conc_pms,
-    diameters=diameters,
-    water_activity_sizer=0.0,
-    water_activity_dry=0.0,
-    water_activity_wet=water_activity_mid,
-    refractive_index_dry=1.4,  # Assumption of a lower refractive index
-    wavelength=wavelength,
-    kappa_bounds=(0, 1),
-    kappa_tolerance=1e-12,
-    kappa_maxiter=200
+fit_refractive_index_lower = (
+    kappa_via_extinction.fit_extinction_ratio_with_kappa(
+        b_ext_dry=ext_base,
+        b_ext_wet=ext_mid,
+        number_per_cm3=number_conc_pms,
+        diameters=diameters,
+        water_activity_sizer=0.0,
+        water_activity_dry=0.0,
+        water_activity_wet=water_activity_mid,
+        refractive_index_dry=1.4,  # Assumption of a lower refractive index
+        wavelength=wavelength,
+        kappa_bounds=(0, 1),
+        kappa_tolerance=1e-12,
+        kappa_maxiter=200,
+    )
 )
 
-fit_refractive_index_higher = kappa_via_extinction.fit_extinction_ratio_with_kappa(
-    b_ext_dry=ext_base,
-    b_ext_wet=ext_mid,
-    number_per_cm3=number_conc_pms,
-    diameters=diameters,
-    water_activity_sizer=0.0,
-    water_activity_dry=0.0,
-    water_activity_wet=water_activity_mid,
-    refractive_index_dry=1.55,  # Assumption of a higher refractive index
-    wavelength=wavelength,
-    kappa_bounds=(0, 1),
-    kappa_tolerance=1e-12,
-    kappa_maxiter=200
+fit_refractive_index_higher = (
+    kappa_via_extinction.fit_extinction_ratio_with_kappa(
+        b_ext_dry=ext_base,
+        b_ext_wet=ext_mid,
+        number_per_cm3=number_conc_pms,
+        diameters=diameters,
+        water_activity_sizer=0.0,
+        water_activity_dry=0.0,
+        water_activity_wet=water_activity_mid,
+        refractive_index_dry=1.55,  # Assumption of a higher refractive index
+        wavelength=wavelength,
+        kappa_bounds=(0, 1),
+        kappa_tolerance=1e-12,
+        kappa_maxiter=200,
+    )
 )
 
-fit_refractive_index_close = kappa_via_extinction.fit_extinction_ratio_with_kappa(
-    b_ext_dry=ext_base,
-    b_ext_wet=ext_mid,
-    number_per_cm3=number_conc_pms,
-    diameters=diameters,
-    water_activity_sizer=0.0,
-    water_activity_dry=0.0,
-    water_activity_wet=water_activity_mid,
-    refractive_index_dry=1.48,  # A close but distinct refractive index
-    wavelength=wavelength,
-    kappa_bounds=(0, 1),
-    kappa_tolerance=1e-12,
-    kappa_maxiter=200
+fit_refractive_index_close = (
+    kappa_via_extinction.fit_extinction_ratio_with_kappa(
+        b_ext_dry=ext_base,
+        b_ext_wet=ext_mid,
+        number_per_cm3=number_conc_pms,
+        diameters=diameters,
+        water_activity_sizer=0.0,
+        water_activity_dry=0.0,
+        water_activity_wet=water_activity_mid,
+        refractive_index_dry=1.48,  # A close but distinct refractive index
+        wavelength=wavelength,
+        kappa_bounds=(0, 1),
+        kappa_tolerance=1e-12,
+        kappa_maxiter=200,
+    )
 )
 
 # Output the fitted kappa values for each refractive index assumption
 print(f"Kappa from lower refractive index 1.4: {fit_refractive_index_lower}")
 print(
-    f"Kappa from higher refractive index 1.55: {fit_refractive_index_higher}")
+    f"Kappa from higher refractive index 1.55: {fit_refractive_index_higher}"
+)
 print(f"Kappa from close refractive index 1.48: {fit_refractive_index_close}")</div>
 </div>
 </div>
@@ -5036,7 +5078,8 @@ Kappa from close refractive index 1.48: 0.6563062276765905
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fit_low_number</span> <span class="o">=</span> <span class="n">kappa_via_extinction</span><span class="o">.</span><span class="n">fit_extinction_ratio_with_kappa</span><span class="p">(</span>
     <span class="n">b_ext_dry</span><span class="o">=</span><span class="n">ext_base</span><span class="p">,</span>
     <span class="n">b_ext_wet</span><span class="o">=</span><span class="n">ext_high</span><span class="p">,</span>
-    <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span><span class="o">*</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># 20% of the base number concentration</span>
+    <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_conc_pms</span>
+    <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># 20% of the base number concentration</span>
     <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
     <span class="n">water_activity_sizer</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">water_activity_dry</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -5049,12 +5092,15 @@ Kappa from close refractive index 1.48: 0.6563062276765905
     <span class="n">kappa_maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="c1"># print result</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kappa at </span><span class="si">{</span><span class="n">water_activity_high</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH with 20% of the particles: </span><span class="si">{</span><span class="n">fit_low_number</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Kappa at </span><span class="si">{</span><span class="n">water_activity_high</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% RH with 20% of the particles: </span><span class="si">{</span><span class="n">fit_low_number</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-7">fit_low_number = kappa_via_extinction.fit_extinction_ratio_with_kappa(
     b_ext_dry=ext_base,
     b_ext_wet=ext_high,
-    number_per_cm3=number_conc_pms*0.2,  # 20% of the base number concentration
+    number_per_cm3=number_conc_pms
+    * 0.2,  # 20% of the base number concentration
     diameters=diameters,
     water_activity_sizer=0.0,
     water_activity_dry=0.0,
@@ -5067,7 +5113,9 @@ Kappa from close refractive index 1.48: 0.6563062276765905
     kappa_maxiter=200,
 )
 # print result
-print(f"Kappa at {water_activity_high*100}% RH with 20% of the particles: {fit_low_number}")</div>
+print(
+    f"Kappa at {water_activity_high*100}% RH with 20% of the particles: {fit_low_number}"
+)</div>
 </div>
 </div>
 </div>

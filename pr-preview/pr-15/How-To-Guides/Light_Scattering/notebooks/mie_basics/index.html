@@ -4096,45 +4096,43 @@ from particula_beta.data.process import mie_bulk</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Calculate Mie coefficients for a non absorbing sphere</span>
 <span class="n">mie_coefficients</span> <span class="o">=</span> <span class="n">mie_bulk</span><span class="o">.</span><span class="n">discretize_auto_mieq</span><span class="p">(</span>
-    <span class="n">m_sphere</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="mf">550.0</span><span class="p">,</span>
-    <span class="n">diameter</span><span class="o">=</span><span class="mf">200.0</span>
+    <span class="n">m_sphere</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mf">550.0</span><span class="p">,</span> <span class="n">diameter</span><span class="o">=</span><span class="mf">200.0</span>
 <span class="p">)</span>
 <span class="c1"># Calculate Mie coefficients for a absorbing sphere</span>
 <span class="n">mie_coefficients_abs</span> <span class="o">=</span> <span class="n">mie_bulk</span><span class="o">.</span><span class="n">discretize_auto_mieq</span><span class="p">(</span>
-    <span class="n">m_sphere</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="n">j</span><span class="p">,</span>
-    <span class="n">wavelength</span><span class="o">=</span><span class="mf">550.0</span><span class="p">,</span>
-    <span class="n">diameter</span><span class="o">=</span><span class="mf">200.0</span>
+    <span class="n">m_sphere</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="mf">550.0</span><span class="p">,</span> <span class="n">diameter</span><span class="o">=</span><span class="mf">200.0</span>
 <span class="p">)</span>
 
 <span class="c1"># Print the table header, with padding spaces</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Property'</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Non-absorbing Sphere'</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Absorbing Sphere'</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Property'</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Non-absorbing Sphere'</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'Absorbing Sphere'</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
 <span class="c1"># Print each row of Q efficiencies</span>
-<span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Qext'</span><span class="p">,</span> <span class="s1">'Qsca'</span><span class="p">,</span> <span class="s1">'Qabs'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">,</span> <span class="s1">'Qpr'</span><span class="p">,</span> <span class="s1">'Qback'</span><span class="p">,</span> <span class="s1">'Qratio'</span><span class="p">]</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Qext"</span><span class="p">,</span> <span class="s2">"Qsca"</span><span class="p">,</span> <span class="s2">"Qabs"</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">,</span> <span class="s2">"Qpr"</span><span class="p">,</span> <span class="s2">"Qback"</span><span class="p">,</span> <span class="s2">"Qratio"</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">properties</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prop</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mie_coefficients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mie_coefficients_abs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prop</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mie_coefficients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mie_coefficients_abs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2"># Calculate Mie coefficients for a non absorbing sphere
 mie_coefficients = mie_bulk.discretize_auto_mieq(
-    m_sphere=1.5,
-    wavelength=550.0,
-    diameter=200.0
+    m_sphere=1.5, wavelength=550.0, diameter=200.0
 )
 # Calculate Mie coefficients for a absorbing sphere
 mie_coefficients_abs = mie_bulk.discretize_auto_mieq(
-    m_sphere=1.5 + 0.5j,
-    wavelength=550.0,
-    diameter=200.0
+    m_sphere=1.5 + 0.5j, wavelength=550.0, diameter=200.0
 )
 
 # Print the table header, with padding spaces
-print(f"{'Property':&lt;10} {'Non-absorbing Sphere':&lt;25} {'Absorbing Sphere':&lt;25}")
+print(
+    f"{'Property':&lt;10} {'Non-absorbing Sphere':&lt;25} {'Absorbing Sphere':&lt;25}"
+)
 # Print each row of Q efficiencies
-properties = ['Qext', 'Qsca', 'Qabs', 'g', 'Qpr', 'Qback', 'Qratio']
+properties = ["Qext", "Qsca", "Qabs", "g", "Qpr", "Qback", "Qratio"]
 for i, prop in enumerate(properties):
     print(
-        f"{prop:&lt;10} {mie_coefficients[i]:&lt;25} {mie_coefficients_abs[i]:&lt;25}")</div>
+        f"{prop:&lt;10} {mie_coefficients[i]:&lt;25} {mie_coefficients_abs[i]:&lt;25}"
+    )</div>
 </div>
 </div>
 </div>
@@ -4236,7 +4234,7 @@ Qratio     0.6831665348650324        0.6021941554199722
     <span class="n">diameter</span><span class="o">=</span><span class="n">diameter_sizes</span><span class="p">,</span>
     <span class="n">number_per_cm3</span><span class="o">=</span><span class="n">number_per_cm3</span><span class="p">,</span>
     <span class="n">n_medium</span><span class="o">=</span><span class="n">n_medium</span><span class="p">,</span>
-    <span class="n">as_dict</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">as_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Print or process the Mie scattering results</span>
@@ -4270,7 +4268,7 @@ mie_results = mie_bulk.mie_size_distribution(
     diameter=diameter_sizes,
     number_per_cm3=number_per_cm3,
     n_medium=n_medium,
-    as_dict=True
+    as_dict=True,
 )
 
 # Print or process the Mie scattering results

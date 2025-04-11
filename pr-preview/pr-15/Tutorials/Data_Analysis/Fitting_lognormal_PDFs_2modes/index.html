@@ -3897,12 +3897,16 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">particula.particles.properties</span><span class="w"> </span><span class="kn">import</span> <span class="n">lognormal_pdf_distribution</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.process.ml_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_and_train_2mode_sizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">particula_beta.data.process.ml_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">generate_and_train_2mode_sizer</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1">import numpy as np
 import matplotlib.pyplot as plt
 from particula.particles.properties import lognormal_pdf_distribution
-from particula_beta.data.process.ml_analysis import generate_and_train_2mode_sizer</div>
+from particula_beta.data.process.ml_analysis import (
+    generate_and_train_2mode_sizer,
+)</div>
 </div>
 </div>
 </div>
@@ -4334,7 +4338,13 @@ Best optimization method: trust-constr
 <span class="c1"># Plot the original, guess, and optimized PDFs</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">concentration_pdf</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Original Data"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">concentration_pdf_guess</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"ML Guess"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">x_values</span><span class="p">,</span>
+    <span class="n">concentration_pdf_guess</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"ML Guess"</span><span class="p">,</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">x_values</span><span class="p">,</span>
     <span class="n">concentration_pdf_optimized</span><span class="p">,</span>
@@ -4349,9 +4359,7 @@ Best optimization method: trust-constr
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">
-
-# Generate concentration PDFs for guess and optimized values
+<div class="clipboard-copy-txt" id="cell-6"># Generate concentration PDFs for guess and optimized values
 concentration_pdf_guess = lognormal_pdf_distribution(
     x_values=x_values,
     mode=mode_values_guess,
@@ -4369,7 +4377,13 @@ concentration_pdf_optimized = lognormal_pdf_distribution(
 # Plot the original, guess, and optimized PDFs
 plt.figure(figsize=(10, 7))
 plt.plot(x_values, concentration_pdf, label="Original Data", linewidth=2)
-plt.plot(x_values, concentration_pdf_guess, label="ML Guess", linestyle="--", linewidth=3)
+plt.plot(
+    x_values,
+    concentration_pdf_guess,
+    label="ML Guess",
+    linestyle="--",
+    linewidth=3,
+)
 plt.plot(
     x_values,
     concentration_pdf_optimized,
@@ -4463,8 +4477,7 @@ plt.show()</div>
     <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">
-# Example
+<div class="clipboard-copy-txt" id="cell-7"># Example
 x_values_example1 = np.logspace(1.2, 4, 150)
 concentration_pdf_example1 = lognormal_pdf_distribution(
     x_values=x_values_example1,
