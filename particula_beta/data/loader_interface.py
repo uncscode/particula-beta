@@ -431,71 +431,85 @@ def get_2d_stream(
     return stream
 
 
-# def initialise_netcdf_stream(
-#     self,
-#     key: str,
-#     path: str,
-#     first_pass: bool
-# ) -> None:
-#     """
-#     Initialise a netcdf stream using the settings in the DataLake
-#     object. This can load either 1D or 2D data, as specified in the
-#     settings.
-#     Args:
-#     ----------
-#         key (str): The key of the stream to initialise.
-#         path (str): The path of the file to load data from.
-#         first_pass (bool): Whether this is the first time loading data.
+def get_netcdf_stream(
+    self,
+    key: str,
+    path: str,
+    first_pass: bool
+) -> Stream:
+    """
+    Initialise a netcdf stream using the settings in the DataLake
+    object. This can load either 1D or 2D data, as specified in the
+    settings.
+    Args:
+    ----------
+        key (str): The key of the stream to initialise.
+        path (str): The path of the file to load data from.
+        first_pass (bool): Whether this is the first time loading data.
 
-#     Returns:
-#     ----------
-#         None.
-#     """
-#     # ValueKey error if netcdf_reader not in settings
-#     if 'netcdf_reader' not in self.settings[key]:
-#         raise ValueError('netcdf_reader not in settings')
+    Returns:
+    ----------
+        None.
+    """
+    # Input validation
+    if not isinstance(self.settings[key], dict):
+        raise TypeError("The 'settings' parameter must be in a dictionary.")
 
-#     # Load the data 1d data
-#     if 'data_1d' in self.settings[key]['netcdf_reader']:
-#         epoch_time, header_1d, data_1d = loader.netcdf_data_1d_load(
-#             file_path=path,
-#             settings=self.settings[key])
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f"The file path specified does not exist: {path}")
 
-#         if first_pass:  # create the stream
-#             self.streams[
-#                 self.settings[key]['data_stream_name'][0]
-#             ] = stream(
-#                 header_list=header_1d,
-#                 average_times=[600],
-#                 average_base=self.settings[key]['base_interval_sec']
-#             )
+    if not isinstance(first_pass, bool):
+        raise TypeError("The 'first_pass' parameter must be a boolean.")
+    if 'netcdf_reader' not in self.settings[key]:
+        raise ValueError('netcdf_reader not in settings')
 
-#         self.streams[
-#             self.settings[key]['data_stream_name'][0]
-#         ].add_data(
-#             time_stream=epoch_time,
-#             data_stream=data_1d,
-#         )
+    # Load the data 1d data
+    if 'data_1d' in self.settings[key]['netcdf_reader']:
+        epoch_time, header_1d, data_1d = loader.netcdf_data_1d_load(
+            file_path=path,
+            settings=self.settings[key])
 
-#     if 'data_2d' in self.settings[key]['netcdf_reader']:
-#         epoch_time, header_2d, data_2d = loader.netcdf_data_2d_load(
-#             file_path=path,
-#             settings=self.settings[key])
+        data_1d = par.util.get_shape_check(
+            time=epoch_time,
+            data=data_1d,
+            header=header_1d
+        )
 
-#         if first_pass:  # create the stream
-#             self.streams[
-#                 self.settings[key]['data_stream_name'][1]
-#             ] = stream(
-#                 header_list=header_2d,
-#                 average_times=[600],
-#                 average_base=self.settings[key]['base_interval_sec']
-#             )
+        if first_pass:
+            self.streams[self.settings[key]['data_stream_name'][0]].header = header_1d
+            self.streams[self.settings[key]['data_stream_name'][0]].data = data_1d
+            self.streams[self.settings[key]['data_stream_name'][0]].time = epoch_time
+        else:
+            self.streams[self.settings[key]['data_stream_name'][0]] = merger.stream_add_data(
+                stream=self.streams[self.settings[key]['data_stream_name'][0]],
+                time_new=epoch_time,
+                data_new=data_1d,
+                header_check=True,
+                header_new=header_1d
+            )
 
-#         self.streams[
-#             self.settings[key]['data_stream_name'][1]
-#         ].add_data(
-#             time_stream=epoch_time,
-#             data_stream=data_2d,
-#             header_check=True,
-#             header=header_2d
-#         )
+    if 'data_2d' in self.settings[key]['netcdf_reader']:
+        epoch_time, header_2d, data_2d = loader.netcdf_data_2d_load(
+            file_path=path,
+            settings=self.settings[key])
+
+        data_2d = par.util.get_shape_check(
+            time=epoch_time,
+            data=data_2d,
+            header=header_2d
+        )
+
+        if first_pass:
+            self.streams[self.settings[key]['data_stream_name'][1]].header = header_2d
+            self.streams[self.settings[key]['data_stream_name'][1]].data = data_2d
+            self.streams[self.settings[key]['data_stream_name'][1]].time = epoch_time
+        else:
+            self.streams[self.settings[key]['data_stream_name'][1]] = merger.stream_add_data(
+                stream=self.streams[self.settings[key]['data_stream_name'][1]],
+                time_new=epoch_time,
+                data_new=data_2d,
+                header_check=True,
+                header_new=header_2d
+            )
+
+    return stream
