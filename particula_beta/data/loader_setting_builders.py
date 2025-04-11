@@ -339,11 +339,21 @@ class NetcdfReaderBuilder(
 
     def __init__(self):
         required_parameters = [
-            "cdf_header_1d",
-            "stream_header_1d",
+            "data_1d",
+            "header_1d",
         ]
         BuilderABC.__init__(self, required_parameters)
-        NetcdfReaderMixin.__init__(self)
+        self.data_1d = None
+        self.header_1d = None
+        self.data_2d = None  # optional
+        self.header_2d = None  # optional
+
+    def set_data_1d(self, data_1d: list[str]):
+        """Set the data headers to read from the NetCDF file."""
+        if not isinstance(data_1d, list):
+            raise ValueError("data_1d must be a list of strings.")
+        self.data_1d = data_1d
+        return self
 
     def build(self) -> Dict[str, Any]:
         """Build and return the NetCDF reader dictionary."""
