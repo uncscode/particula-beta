@@ -385,14 +385,14 @@ class NetcdfReader2dBuilder(
 
     def set_data_2d(self, data_2d: list[str] | str):
         """Set the data headers for 2D data in the NetCDF file."""
-        if not isinstance(data_2d, list):
+        if not isinstance(data_2d, list | str):
             raise ValueError("data_2d must be a list of strings.")
         self.data_2d = data_2d
         return self
 
     def set_header_2d(self, header_2d: list[str] | str):
         """Set the header for 2D data for the Stream file."""
-        if not isinstance(header_2d, list):
+        if not isinstance(header_2d, list | str):
             raise ValueError("header_2d must be a list of strings.")
         self.header_2d = header_2d
         return self
