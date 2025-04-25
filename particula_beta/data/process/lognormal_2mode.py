@@ -269,6 +269,9 @@ def optimize_fit_looped(
     r2 = np.zeros(n_rows, dtype=np.float64)
 
     for row in tqdm(range(n_rows), desc="Lognormal 2-mode", total=n_rows):
+        if np.sum(geometric_standard_deviation_guess[row]) == 0:
+            continue  # skip fitting if gsd is zero
+
         (
             optimized_mode_values[row],
             optimized_gsd[row],
@@ -423,6 +426,9 @@ def create_lognormal_2mode_from_fit(
 
     # Calculate the fitted PMF for each set of optimized parameters
     for i, m1 in enumerate(mode_1):
+        if m1 == 0:
+            continue
+
         fitted_concentration_pmf[i] = (
             par.particles.get_lognormal_pmf_distribution(
                 x_values=radius_m_values,

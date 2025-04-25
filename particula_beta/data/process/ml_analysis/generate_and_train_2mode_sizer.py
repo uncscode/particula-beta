@@ -564,6 +564,9 @@ def looped_lognormal_2mode_ml_guess(
     number_of_particles_guess = np.zeros([n_rows, 2], dtype=np.float64)
 
     for row in range(n_rows):
+        row_total = np.sum(concentration_pdf[row])
+        if row_total == 0 or np.isnan(row_total):
+            continue  # Skip rows with zero or NaN total concentration
         (
             mode_values_guess[row],
             geometric_standard_deviation_guess[row],
