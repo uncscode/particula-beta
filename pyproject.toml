@@ -24,7 +24,7 @@ keywords = [
 
 dependencies = [
     "particula",
-    "numpy", "scipy<1.14.0", "pint", "hypersolver==0.0.8", "pandas",
+    "numpy", "scipy", "pint", "hypersolver==0.0.8", "pandas",
     "netCDF4", "shapely", "PyMieScatt", "tqdm", "pytz",
     "matplotlib", "torch", "scikit-learn"
 ]
