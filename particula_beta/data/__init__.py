@@ -133,6 +133,9 @@ from particula_beta.data.process.stats import (
     mask_outliers,
     distribution_integration,
 )
+from particula_beta.data.process.sample_distribution import (
+    get_samples_from_tabulated_pdf,
+)
 
 # util
 from particula_beta.data.util.convert_length import (
