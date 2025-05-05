@@ -391,7 +391,9 @@ class NetcdfReader2dBuilder(
         return self
 
     def set_header_2d(self, header_2d: list[str] | str):
-        """Set the header for 2D data for the Stream file."""
+        """Set the header for 2D data for the Stream file.
+            set to str("None") to used a 0-nth index for the header.
+        """
         if not isinstance(header_2d, list | str):
             raise ValueError("header_2d must be a list of strings.")
         self.header_2d = header_2d
