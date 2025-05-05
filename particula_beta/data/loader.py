@@ -1153,9 +1153,12 @@ def netcdf_data_2d_load(
     # convert masked array to numpy array
     data_2d = np.ma.filled(data_2d.astype(float), np.nan)
     # get header
-    header_2d = nc_file.variables.get(settings["netcdf_reader"]["header_2d"])[
-        :
-    ]
+    if str(settings["netcdf_reader"]["header_2d"]).lower() in "none":
+        header_2d = np.arange(len(data_2d[0, :]))  # column bins
+    else:
+        header_2d = nc_file.variables.get(
+            settings["netcdf_reader"]["header_2d"]
+        )[:]
     nc_file.close()
 
     # convert header to list of strings

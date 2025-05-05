@@ -1,6 +1,6 @@
 """A module for the Stream and StreamAveraged(Stream) classes."""
 
-from typing import List, Union
+from typing import List, Union, Dict
 import logging
 from dataclasses import dataclass, field
 import numpy as np
@@ -38,6 +38,7 @@ class Stream:
     data: NDArray[np.float64] = field(default_factory=lambda: np.array([]))
     time: NDArray[np.float64] = field(default_factory=lambda: np.array([]))
     files: List[str] = field(default_factory=list)
+    info: Dict = field(default_factory=dict)
 
     def __post_init__(self):
         self.validate_inputs()
