@@ -4851,7 +4851,7 @@ loading .</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="netcdfreader2dbuilderbuild">NetcdfReader2dBuilder().build<a class="headerlink" href="#netcdfreader2dbuilderbuild" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L400">Show source in loader_setting_builders.py:400</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L402">Show source in loader_setting_builders.py:402</a></p>
 <p>Build and return the NetCDF reader dictionary.</p>
 <h4 id="signature_16">Signature<a class="headerlink" href="#signature_16" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
@@ -4864,12 +4864,13 @@ loading .</p>
 </code></pre></div>
 <h3 id="netcdfreader2dbuilderset_header_2d">NetcdfReader2dBuilder().set_header_2d<a class="headerlink" href="#netcdfreader2dbuilderset_header_2d" title="Permanent link">&para;</a></h3>
 <p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L393">Show source in loader_setting_builders.py:393</a></p>
-<p>Set the header for 2D data for the Stream file.</p>
+<p>Set the header for 2D data for the Stream file.
+set to str("None") to used a 0-nth index for the header.</p>
 <h4 id="signature_18">Signature<a class="headerlink" href="#signature_18" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_header_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header_2d</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="netcdfsettingsbuilder">NetcdfSettingsBuilder<a class="headerlink" href="#netcdfsettingsbuilder" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L411">Show source in loader_setting_builders.py:411</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L413">Show source in loader_setting_builders.py:413</a></p>
 <p>Builder class for creating settings for loading and checking data
 from ARM NetCDF files.</p>
 <h4 id="signature_19">Signature<a class="headerlink" href="#signature_19" title="Permanent link">&para;</a></h4>
@@ -4896,13 +4897,13 @@ from ARM NetCDF files.</p>
 <li><a href="../mixin/#timezoneidentifiermixin">TimezoneIdentifierMixin</a></li>
 </ul>
 <h3 id="netcdfsettingsbuilderbuild">NetcdfSettingsBuilder().build<a class="headerlink" href="#netcdfsettingsbuilderbuild" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L455">Show source in loader_setting_builders.py:455</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L457">Show source in loader_setting_builders.py:457</a></p>
 <p>Build and return the settings dictionary for 1D data loading.</p>
 <h4 id="signature_20">Signature<a class="headerlink" href="#signature_20" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="netcdfsettingsbuilderset_netcdf_reader">NetcdfSettingsBuilder().set_netcdf_reader<a class="headerlink" href="#netcdfsettingsbuilderset_netcdf_reader" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L445">Show source in loader_setting_builders.py:445</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/loader_setting_builders.py#L447">Show source in loader_setting_builders.py:447</a></p>
 <p>Set the NetCDF reader settings.</p>
 <h4 id="signature_21">Signature<a class="headerlink" href="#signature_21" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_netcdf_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">netcdf_reader</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span> <span class="o">...</span>
