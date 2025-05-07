@@ -93,6 +93,7 @@ def average_std(
         data=average,
         time=new_time_array,
         files=stream.files,
+        info=getattr(stream, "info", {}),
         average_interval=average_interval,
         start_time=new_time_array[0],
         stop_time=new_time_array[-1],
