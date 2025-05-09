@@ -177,15 +177,15 @@ def compute_bulk_optics(
         big_g = np.sum(g * q_sca * area_dist) / b_sca if b_sca != 0 else 0
         b_pr = b_ext - big_g * b_sca
     else:  # then pdf so the integral is used
-        b_ext = np.trapz(q_ext * area_dist, dp)
+        b_ext = np.trapezoid(q_ext * area_dist, dp)
         if extinction_only:
             return b_ext, None, None, None, None, None, None
-        b_sca = np.trapz(q_sca * area_dist, dp)
+        b_sca = np.trapezoid(q_sca * area_dist, dp)
         b_abs = b_ext - b_sca
-        b_back = np.trapz(q_back * area_dist, dp)
-        b_ratio = np.trapz(q_ratio * area_dist, dp)
+        b_back = np.trapezoid(q_back * area_dist, dp)
+        b_ratio = np.trapezoid(q_ratio * area_dist, dp)
         big_g = (
-            np.trapz(g * q_sca * area_dist, dp) / b_sca if b_sca != 0 else 0
+            np.trapezoid(g * q_sca * area_dist, dp) / b_sca if b_sca != 0 else 0
         )
         b_pr = b_ext - big_g * b_sca
     return b_ext, b_sca, b_abs, b_pr, b_back, b_ratio, big_g
