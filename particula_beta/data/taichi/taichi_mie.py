@@ -25,7 +25,7 @@ from scipy.special import jv, yv
 
 # ---------------------------------------------------------------------------
 #  Taichi initialisation (GPU if available)
-ti.init(arch=ti.cpu)
+ti.init(arch=ti.cpu, default_fp=ti.f64)  # use 64-bit floats everywhere
 # ---------------------------------------------------------------------------
 #  Analytic Rayleigh regime (x ≲ 0.05)
 # ---------------------------------------------------------------------------
