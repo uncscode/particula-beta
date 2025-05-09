@@ -197,7 +197,7 @@ def bessel_jv_batch(
 def bessel_yv_batch(
     nu: np.ndarray,
     z: np.ndarray | complex,
-    max_iter: int = 500,        # même valeur que pour bessel_jv_batch
+    max_iter: int = 500,        # same value as in bessel_jv_batch
 ):
     nu = np.asarray(nu, dtype=float)
 
