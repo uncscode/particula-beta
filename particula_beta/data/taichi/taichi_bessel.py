@@ -245,7 +245,8 @@ def bessel_yv_batch(
         z_safe = z_arr[~int_mask]
 
         j_pos = bessel_jv_batch(nu_safe, z_safe, max_iter=max_iter)
-        j_neg = bessel_jv_batch(-nu_safe, z_safe, max_iter=max_iter)
+        # use SciPy for J_{-ν}; the series is unstable for negative orders
+        j_neg = np.asarray(jv(-nu_safe, z_safe), dtype=complex)
 
         n_particles = nu_safe.size
         # allocate device arrays (same as before but sized n_particles)
