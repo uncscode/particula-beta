@@ -109,8 +109,7 @@ def bessel_jv_complex_kernel(
             s_re, s_im = c_add(s_re, s_im, t_re, t_im)
 
             # ---------- NEW: stop when the term is already negligible -------------
-            if (t_re * t_re + t_im * t_im) < 1.0e-24:   # |term| < 1 × 10⁻¹²
-                ti.break_loop()
+            ti.break_if((t_re * t_re + t_im * t_im) < 1.0e-24)
 
         out_re[i] = s_re
         out_im[i] = s_im
