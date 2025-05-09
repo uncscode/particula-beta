@@ -61,3 +61,10 @@ def test_bessel_yv_accuracy():
         taichi_out.imag, scipy_out.imag, rtol=RTOL, atol=ATOL,
         err_msg="Imag part mismatch for Bessel Y"
     )
+
+
+# Run the tests if this file is executed directly
+if __name__ == "__main__":
+    test_bessel_jv_accuracy()
+    test_bessel_yv_accuracy()
+    print("All tests passed!")
