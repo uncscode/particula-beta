@@ -176,25 +176,10 @@ def _compute_mie_q_kernel(  # pylint: disable=too-many-arguments
             continue
 
         if size_param <= rayleigh_cutoff:
-            # ---- analytic Rayleigh ----------------------------------------
-            m_re_p = refractive_index_real[p]
-            m_im_p = refractive_index_imag[p]
-            # (m² − 1)/(m² + 2)
-            m2_re = m_re_p * m_re_p - m_im_p * m_im_p
-            m2_im = 2.0 * m_re_p * m_im_p
-            num_re = m2_re - 1.0
-            num_im = m2_im
-            den_re = m2_re + 2.0
-            den_im = m2_im
-            den_mag2 = den_re * den_re + den_im * den_im
-            ll_re = (num_re * den_re + num_im * den_im) / den_mag2
-            ll_im = (num_im * den_re - num_re * den_im) / den_mag2
-            ll_mag2 = ll_re * ll_re + ll_im * ll_im
-            qsca = (8.0 / 3.0) * ll_mag2 * size_param**4
-            qabs = 4.0 * size_param * ll_im
-            efficiencies_out[p, 0] = qsca + qabs  # Qext
-            efficiencies_out[p, 1] = qsca  # Qsca
-            efficiencies_out[p, 2] = qabs  # Qabs
+            # Rayleigh handled on CPU; kernel just leaves zeros
+            efficiencies_out[p, 0] = 0.0
+            efficiencies_out[p, 1] = 0.0
+            efficiencies_out[p, 2] = 0.0
         else:
             # ---- full Lorenz‑Mie summation -------------------------------
             qext = 0.0
@@ -260,6 +245,8 @@ def compute_mie_efficiencies(  # noqa: C901 – high cyclomatic, but user‑faci
     effective_wavelength = wavelength / n_medium
     size_parameter_array = math.pi * diameter / effective_wavelength
 
+    small_mask = size_parameter_array <= rayleigh_cutoff
+
     # Pre‑compute coefficients on CPU
     (
         max_order_array,
@@ -310,7 +297,21 @@ def compute_mie_efficiencies(  # noqa: C901 – high cyclomatic, but user‑faci
         efficiencies_ti,
     )
 
-    return efficiencies_ti.to_numpy()
+    efficiencies = efficiencies_ti.to_numpy()
+
+    # -- analytical Rayleigh regime handled on CPU -------------------------
+    if np.any(small_mask):
+        m_small = refractive_index_array[small_mask]
+        x_small = size_parameter_array[small_mask]
+
+        # vectorized via short loop (N << total)
+        rayleigh_vals = np.empty((x_small.size, 3), dtype=np.float64)
+        for i, (m_val, x_val) in enumerate(zip(m_small, x_small, strict=True)):
+            rayleigh_vals[i] = _rayleigh_q(m_val.real, m_val.imag, x_val)
+
+        efficiencies[small_mask] = rayleigh_vals
+
+    return efficiencies
 
 
 # ---------------------------------------------------------------------------
