@@ -28,13 +28,9 @@ import taichi as ti
 from scipy.special import jv, yv  # still used for CPU‑side prep where needed
 from math import gamma, pi  # host Gamma for pre‑factor
 
-# ---------------------------------------------------------------------------
-#  Taichi initialisation (GPU if available)
-# ---------------------------------------------------------------------------
-try:
-    ti.init(arch=ti.cpu)
-except Exception:  # pragma: no cover – fallback for CI without GPU/driver
-    ti.init(arch=ti.cpu)
+
+
+ti.init(arch=ti.cpu)
 
 
 # ---------------------------------------------------------------------------
@@ -112,8 +108,6 @@ def bessel_jv_complex_kernel(
             ratio_im = z2_im / denom
             t_re, t_im = c_mul(t_re, t_im, ratio_re, ratio_im)
             s_re, s_im = c_add(s_re, s_im, t_re, t_im)
-            if ti.abs(t_re) + ti.abs(t_im) < 1e-12:
-                break
 
         out_re[i] = s_re
         out_im[i] = s_im
@@ -135,8 +129,8 @@ def bessel_yv_complex_kernel(
 ):
     """Compute Yν(z) from Jν and J−ν:  Y = (Jν cos πν − J−ν)/sin πν."""
     for i in range(n):
-        s = ti.sin(ti.math.pi64 * nu[i])   # sin(πν)
-        c = ti.cos(ti.math.pi64 * nu[i])   # cos(πν)
+        s = ti.sin(ti.math.pi * nu[i])   # sin(πν)
+        c = ti.cos(ti.math.pi * nu[i])   # cos(πν)
         # The Python wrapper will never call the kernel for integer-ish ν,
         # so we can safely divide by s directly.
         denom = s
@@ -156,7 +150,7 @@ def bessel_yv_complex_kernel(
 def bessel_jv_batch(
     nu: np.ndarray,
     z: np.ndarray | complex,
-    max_iter: int = 50,
+    max_iter: int = 500,
 ):
     """Vectorised *Jν(z)* for arrays of ν and z (complex)."""
     nu = np.asarray(nu, dtype=float)
