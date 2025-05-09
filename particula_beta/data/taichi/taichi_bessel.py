@@ -154,46 +154,70 @@ def bessel_jv_batch(
     z: np.ndarray | complex,
     max_iter: int = 500,
 ):
-    """Vectorised *Jν(z)* for arrays of ν and z (complex)."""
+    # --- normalise inputs --------------------------------------------------
     nu = np.asarray(nu, dtype=float)
+
+    # make z arrays (real & imag) of matching length ------------------------
     if np.isscalar(z):
         zr = np.full_like(nu, np.real(z))
         zi = np.full_like(nu, np.imag(z))
     else:
         z = np.asarray(z, dtype=complex)
-        zr, zi = z.real, z.imag
-        if zr.size != nu.size:
+        if z.size != nu.size:
             raise ValueError("nu and z arrays must be same length")
+        zr, zi = z.real, z.imag
 
-    gamma_inv = 1.0 / np.array([gamma(n + 1.0) for n in nu], dtype=float)
+    # ----------------------------------------------------------------------
+    # SERIES VALID ONLY FOR |z| ≲ 20 → use SciPy for larger arguments
+    # ----------------------------------------------------------------------
+    mag = np.hypot(zr, zi)
+    series_mask = mag <= 20.0
 
-    n_particles = nu.size
-    # device arrays
-    nu_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    zr_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    zi_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    gamma_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    out_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    out_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+    result = np.empty_like(zr, dtype=complex)
 
-    # copy
-    nu_ti.from_numpy(nu)
-    zr_ti.from_numpy(zr)
-    zi_ti.from_numpy(zi)
-    gamma_ti.from_numpy(gamma_inv)
+    # ---- Taichi power-series branch --------------------------------------
+    if np.any(series_mask):
+        idx = np.where(series_mask)[0]
+        nu_ser = nu[idx]
+        zr_ser, zi_ser = zr[idx], zi[idx]
 
-    bessel_jv_complex_kernel(
-        n_particles,
-        nu_ti,
-        zr_ti,
-        zi_ti,
-        gamma_ti,
-        max_iter,
-        out_re_ti,
-        out_im_ti,
-    )
+        gamma_inv = 1.0 / np.array([gamma(val + 1.0) for val in nu_ser],
+                                   dtype=float)
 
-    return out_re_ti.to_numpy() + 1j * out_im_ti.to_numpy()
+        n_particles = nu_ser.size
+        # device buffers
+        nu_ti   = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        zr_ti   = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        zi_ti   = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        gam_ti  = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        out_r_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        out_i_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+
+        nu_ti.from_numpy(nu_ser)
+        zr_ti.from_numpy(zr_ser)
+        zi_ti.from_numpy(zi_ser)
+        gam_ti.from_numpy(gamma_inv)
+
+        bessel_jv_complex_kernel(
+            n_particles,
+            nu_ti,
+            zr_ti,
+            zi_ti,
+            gam_ti,
+            max_iter,
+            out_r_ti,
+            out_i_ti,
+        )
+
+        result[idx] = out_r_ti.to_numpy() + 1j * out_i_ti.to_numpy()
+
+    # ---- SciPy fallback for |z| > 20 -------------------------------------
+    if np.any(~series_mask):
+        idx = np.where(~series_mask)[0]
+        z_big = zr[idx] + 1j * zi[idx]
+        result[idx] = jv(nu[idx], z_big)
+
+    return result
 
 
 def bessel_yv_batch(
