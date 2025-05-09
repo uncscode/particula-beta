@@ -7,7 +7,6 @@ agreement with SciPy’s reference implementation.
 """
 
 import numpy as np
-import pytest
 from scipy.special import jv, yv
 
 from particula_beta.data.taichi.taichi_bessel import (
@@ -32,23 +31,33 @@ def _random_nu_z(sample_size: int):
     return nu, z
 
 
-@pytest.mark.parametrize("func_pair", [
-    (bessel_jv_batch, jv, "J"),
-    (bessel_yv_batch, yv, "Y"),
-])
-def test_bessel_func_accuracy(func_pair):
-    """Compare Taichi kernels against SciPy for a batch of random inputs."""
-    taichi_func, scipy_func, tag = func_pair
+def test_bessel_jv_accuracy():
+    """Compare Taichi Jν(z) against SciPy over a broad positive range."""
     nu, z = _random_nu_z(SAMPLE_SIZE)
-
-    taichi_out = taichi_func(nu, z)
-    scipy_out = scipy_func(nu, z)
+    taichi_out = bessel_jv_batch(nu, z)
+    scipy_out = jv(nu, z)
 
     np.testing.assert_allclose(
         taichi_out.real, scipy_out.real, rtol=RTOL, atol=ATOL,
-        err_msg=f"Real part mismatch for Bessel {tag}"
+        err_msg="Real part mismatch for Bessel J"
     )
     np.testing.assert_allclose(
         taichi_out.imag, scipy_out.imag, rtol=RTOL, atol=ATOL,
-        err_msg=f"Imag part mismatch for Bessel {tag}"
+        err_msg="Imag part mismatch for Bessel J"
+    )
+
+
+def test_bessel_yv_accuracy():
+    """Compare Taichi Yν(z) against SciPy over a broad positive range."""
+    nu, z = _random_nu_z(SAMPLE_SIZE)
+    taichi_out = bessel_yv_batch(nu, z)
+    scipy_out = yv(nu, z)
+
+    np.testing.assert_allclose(
+        taichi_out.real, scipy_out.real, rtol=RTOL, atol=ATOL,
+        err_msg="Real part mismatch for Bessel Y"
+    )
+    np.testing.assert_allclose(
+        taichi_out.imag, scipy_out.imag, rtol=RTOL, atol=ATOL,
+        err_msg="Imag part mismatch for Bessel Y"
     )
