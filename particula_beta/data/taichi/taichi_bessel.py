@@ -20,8 +20,6 @@ Accuracy is sufficient for typical Lorenz‑Mie half‑integer orders (n + ½)
 |z| ≲ 20; kernel‑side tolerance is **1 × 10⁻¹²** or *max_iter* = 50.
 """
 
-from __future__ import annotations
-
 import math
 from typing import Tuple
 
@@ -34,7 +32,7 @@ from math import gamma, pi  # host Gamma for pre‑factor
 #  Taichi initialisation (GPU if available)
 # ---------------------------------------------------------------------------
 try:
-    ti.init(arch=ti.gpu if ti.cuda.is_available() else ti.cpu)
+    ti.init(arch=ti.cpu)
 except Exception:  # pragma: no cover – fallback for CI without GPU/driver
     ti.init(arch=ti.cpu)
 
@@ -141,7 +139,7 @@ def bessel_yv_complex_kernel(
         c = ti.cos(pi * nu[i])
         # Avoid division by zero for integer orders – simple ε‑regularisation
         eps = 1e-12
-        denom = s if ti.abs(s) > eps else eps * ti.sign(s + eps)
+        denom = s if ti.abs(s) > eps else eps * ti.math.sign(s + eps)
 
         num_re = j_re[i] * c - j_neg_re[i]
         num_im = j_im[i] * c - j_neg_im[i]
@@ -249,8 +247,9 @@ def bessel_yv_batch(
 if __name__ == "__main__":  # pragma: no cover
     # Compare against SciPy for a few random (ν, z)
     rng = np.random.default_rng(0)
-    nu_test = rng.uniform(0.0, 5.0, 8)
-    z_test = rng.normal(size=8) + 1j * rng.normal(size=8)
+    test_size = 1000
+    nu_test = rng.uniform(0.0, 5.0, size=test_size)
+    z_test = rng.normal(size=test_size) + 1j * rng.normal(size=test_size)
 
     j_ti = bessel_jv_batch(nu_test, z_test)
     y_ti = bessel_yv_batch(nu_test, z_test)
@@ -258,5 +257,5 @@ if __name__ == "__main__":  # pragma: no cover
     j_sp = jv(nu_test, z_test)
     y_sp = yv(nu_test, z_test)
 
-    print("max |ΔJ|:", np.max(np.abs(j_ti - j_sp)))
-    print("max |ΔY|:", np.max(np.abs(y_ti - y_sp)))
+    print("max |delta-J|:", np.max(np.abs(j_ti - j_sp)))
+    print("max |delta-Y|:", np.max(np.abs(y_ti - y_sp)))
