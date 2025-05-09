@@ -135,11 +135,11 @@ def bessel_yv_complex_kernel(
 ):
     """Compute Yν(z) from Jν and J−ν:  Y = (Jν cos πν − J−ν)/sin πν."""
     for i in range(n):
-        s = ti.sin(pi * nu[i])
-        c = ti.cos(pi * nu[i])
-        # Avoid division by zero for integer orders – simple ε‑regularisation
-        eps = 1e-12
-        denom = s if ti.abs(s) > eps else eps * ti.math.sign(s + eps)
+        s = ti.sin(ti.math.pi64 * nu[i])   # sin(πν)
+        c = ti.cos(ti.math.pi64 * nu[i])   # cos(πν)
+        # The Python wrapper will never call the kernel for integer-ish ν,
+        # so we can safely divide by s directly.
+        denom = s
 
         num_re = j_re[i] * c - j_neg_re[i]
         num_im = j_im[i] * c - j_neg_im[i]
@@ -205,40 +205,63 @@ def bessel_yv_batch(
     z: np.ndarray | complex,
     max_iter: int = 50,
 ):
-    """Vectorised *Yν(z)* via identity with J±ν."""
     nu = np.asarray(nu, dtype=float)
-    j_pos = bessel_jv_batch(nu, z, max_iter=max_iter)
-    j_neg = bessel_jv_batch(-nu, z, max_iter=max_iter)
 
-    n_particles = nu.size
-    # device arrays to compute Y in‑kernel (cheap arithmetic)
-    nu_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    j_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    j_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    jn_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    jn_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    out_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    out_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+    # --- make z an array of the same length --------------------------------
+    if np.isscalar(z):
+        z_arr = np.full_like(nu, z, dtype=complex)
+    else:
+        z_arr = np.asarray(z, dtype=complex)
+        if z_arr.size != nu.size:
+            raise ValueError("nu and z arrays must be same length")
 
-    # copy
-    nu_ti.from_numpy(nu)
-    j_re_ti.from_numpy(j_pos.real)
-    j_im_ti.from_numpy(j_pos.imag)
-    jn_re_ti.from_numpy(j_neg.real)
-    jn_im_ti.from_numpy(j_neg.imag)
+    # --- split the work: GPU for “safe” ν, SciPy for near-integer ν ---------
+    int_mask = np.isclose(nu, np.round(nu), atol=1e-8)
+    y_out = np.empty_like(z_arr, dtype=complex)
 
-    bessel_yv_complex_kernel(
-        n_particles,
-        nu_ti,
-        j_re_ti,
-        j_im_ti,
-        jn_re_ti,
-        jn_im_ti,
-        out_re_ti,
-        out_im_ti,
-    )
+    # ---- GPU path ----------------------------------------------------------
+    if np.any(~int_mask):
+        nu_safe = nu[~int_mask]
+        z_safe = z_arr[~int_mask]
 
-    return out_re_ti.to_numpy() + 1j * out_im_ti.to_numpy()
+        j_pos = bessel_jv_batch(nu_safe, z_safe, max_iter=max_iter)
+        j_neg = bessel_jv_batch(-nu_safe, z_safe, max_iter=max_iter)
+
+        n_particles = nu_safe.size
+        # allocate device arrays (same as before but sized n_particles)
+        nu_ti   = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        j_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        j_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        jn_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        jn_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        out_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+        out_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
+
+        # copy to device
+        nu_ti.from_numpy(nu_safe)
+        j_re_ti.from_numpy(j_pos.real)
+        j_im_ti.from_numpy(j_pos.imag)
+        jn_re_ti.from_numpy(j_neg.real)
+        jn_im_ti.from_numpy(j_neg.imag)
+
+        # run kernel
+        bessel_yv_complex_kernel(
+            n_particles,
+            nu_ti,
+            j_re_ti,
+            j_im_ti,
+            jn_re_ti,
+            jn_im_ti,
+            out_re_ti,
+            out_im_ti,
+        )
+        y_out[~int_mask] = out_re_ti.to_numpy() + 1j * out_im_ti.to_numpy()
+
+    # ---- SciPy fallback for near-integer orders ---------------------------
+    if np.any(int_mask):
+        y_out[int_mask] = yv(nu[int_mask], z_arr[int_mask])
+
+    return y_out
 
 
 # ---------------------------------------------------------------------------
