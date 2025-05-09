@@ -29,7 +29,6 @@ from scipy.special import jv, yv  # still used for CPU‑side prep where needed
 from math import gamma, pi  # host Gamma for pre‑factor
 
 
-
 ti.init(arch=ti.cpu)
 
 
@@ -127,19 +126,18 @@ def bessel_yv_complex_kernel(
     out_re: ti.types.ndarray(dtype=ti.f64),
     out_im: ti.types.ndarray(dtype=ti.f64),
 ):
-    """Compute Yν(z) from Jν and J−ν:  Y = (Jν cos πν − J−ν)/sin πν."""
+    """Compute Yₙᵤ(z) from pre‑computed Jₙᵤ and J₋ₙᵤ (complex)."""
     for i in range(n):
-        s = ti.sin(ti.math.pi * nu[i])   # sin(πν)
-        c = ti.cos(ti.math.pi * nu[i])   # cos(πν)
-        # The Python wrapper will never call the kernel for integer-ish ν,
-        # so we can safely divide by s directly.
-        denom = s
+        angle = ti.math.pi * nu[i]  # reuse for both trig calls
+        s = ti.sin(angle)
+        c = ti.cos(angle)
 
+        inv_s = 1.0 / s  # multiply instead of divide
         num_re = j_re[i] * c - j_neg_re[i]
         num_im = j_im[i] * c - j_neg_im[i]
 
-        out_re[i] = num_re / denom
-        out_im[i] = num_im / denom
+        out_re[i] = num_re * inv_s
+        out_im[i] = num_im * inv_s
 
 
 # ---------------------------------------------------------------------------
@@ -265,7 +263,7 @@ if __name__ == "__main__":  # pragma: no cover
     # Compare against SciPy for a few random (ν, z)
     rng = np.random.default_rng(0)
     test_size = 1000
-    nu_test = rng.uniform(0.0, 5.0, size=test_size)
+    nu_test = rng.uniform(0.1, 10.0, size=test_size)
     z_test = rng.normal(size=test_size) + 1j * rng.normal(size=test_size)
 
     j_ti = bessel_jv_batch(nu_test, z_test)
@@ -276,3 +274,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     print("max |delta-J|:", np.max(np.abs(j_ti - j_sp)))
     print("max |delta-Y|:", np.max(np.abs(y_ti - y_sp)))
+    print("max |delta-J| (real):", np.max(np.abs(j_ti.real - j_sp.real)))
+    print("max |delta-J| (imag):", np.max(np.abs(j_ti.imag - j_sp.imag)))
+    print("max |delta-Y| (real):", np.max(np.abs(y_ti.real - y_sp.real)))
+    print("max |delta-Y| (imag):", np.max(np.abs(y_ti.imag - y_sp.imag)))

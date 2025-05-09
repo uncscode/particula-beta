@@ -6,19 +6,12 @@ three efficiencies that are returned (Qext, Qsca, Qabs).  A mix of particles
 both inside and outside the Rayleigh regime (x ≤ 0.05) is included.
 """
 
-from __future__ import annotations
-
 import numpy as np
 import pytest
 
-try:
-    import PyMieScatt as ps  # reference implementation
-except ModuleNotFoundError:  # pragma: no cover
-    ps = None  # allow test discovery even if dependency missing
 
-pytestmark = pytest.mark.skipif(
-    ps is None, reason="PyMieScatt is required for reference values"
-)
+import PyMieScatt as ps  # reference implementation
+
 
 from particula_beta.data.taichi.taichi_mie import (  # noqa: E402
     compute_mie_efficiencies,
@@ -56,13 +49,19 @@ def _reference_pms(
 
 @pytest.mark.parametrize(
     "m_particle",
-    [1.33 + 0.0j, 1.5 + 0.01j],  # non-absorbing and weakly absorbing
+    [1.33 + 0.0j,
+     1.5 + 0.01j,
+     1.1 + 0.0j,
+     2.0 + 0.0j,
+     2.0 + 1.0j,
+     1.5 + 1.0j,
+     ],  # non-absorbing and weakly absorbing
 )
 def test_mie_efficiencies_against_pymiescatt(m_particle: complex) -> None:
     """Ensure Taichi and PyMieScatt agree within tight tolerances."""
     wavelength_nm = 550.0  # visible green
     # two Rayleigh-scale diameters + three Mie-scale diameters
-    diam_nm = np.array([1.0, 5.0, 100.0, 200.0, 400.0], dtype=float)
+    diam_nm = np.array([1.0, 5.0, 100.0, 200.0, 400.0, 1000.0, 10_000, 100_000], dtype=float)
 
     qs_taichi = compute_mie_efficiencies(m_particle, wavelength_nm, diam_nm)
     qs_ref = _reference_pms(m_particle, wavelength_nm, diam_nm)
