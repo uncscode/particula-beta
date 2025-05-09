@@ -99,9 +99,9 @@ def _mie_ab(
 # ---------------------------------------------------------------------------
 
 
-def _prepare_coefficients(
-    m_arr: np.ndarray,
-    x_arr: np.ndarray,
+def _compute_mie_coefficients(
+    refractive_index_array: np.ndarray,
+    size_parameter_array: np.ndarray,
     rayleigh_cutoff: float,
 ) -> Tuple[
     np.ndarray,
@@ -110,75 +110,75 @@ def _prepare_coefficients(
     np.ndarray,
     np.ndarray,
 ]:
-    """Pre‑compute padded coefficient arrays for all particles."""
+    """Return padded Mie-series coefficient tensors for every particle."""
     # --- pre-allocate ----------------------------------------------------
-    n_particles = x_arr.size
+    particle_count = size_parameter_array.size
 
     # Bohren–Huffman estimate (upper-bound; identical to _mie_ab length)
-    nmax_est = np.rint(2 + x_arr + 4 * np.power(x_arr, 1.0 / 3.0)).astype(
+    estimated_max_order = np.rint(2 + size_parameter_array + 4 * np.power(size_parameter_array, 1.0 / 3.0)).astype(
         np.int32
     )
-    nmax_arr = np.where(
-        (x_arr <= rayleigh_cutoff) | (x_arr == 0.0), 0, nmax_est
+    max_order_array = np.where(
+        (size_parameter_array <= rayleigh_cutoff) | (size_parameter_array == 0.0), 0, estimated_max_order
     )
 
-    nmax_max = int(nmax_arr.max(initial=0))
+    global_max_order = int(max_order_array.max(initial=0))
 
-    an_r = np.zeros((n_particles, nmax_max), dtype=np.float64)
-    an_i = np.zeros_like(an_r)
-    bn_r = np.zeros_like(an_r)
-    bn_i = np.zeros_like(an_r)
+    coeff_a_real = np.zeros((particle_count, global_max_order), dtype=np.float64)
+    coeff_a_imag = np.zeros_like(coeff_a_real)
+    coeff_b_real = np.zeros_like(coeff_a_real)
+    coeff_b_imag = np.zeros_like(coeff_a_real)
 
     # --- fill coefficients in-place -------------------------------------
-    for idx in range(n_particles):
-        nm = nmax_arr[idx]
-        if nm == 0:
+    for idx in range(particle_count):
+        particle_max_order = max_order_array[idx]
+        if particle_max_order == 0:
             continue  # Rayleigh or zero-size – keep zeros
-        an, bn = _mie_ab(m_arr[idx], x_arr[idx])
+        an, bn = _mie_ab(refractive_index_array[idx], size_parameter_array[idx])
 
-        # Actual length (defensive – should equal nm)
-        k = an.size
-        nmax_arr[idx] = k
+        # Actual length (defensive – should equal particle_max_order)
+        actual_order = an.size
+        max_order_array[idx] = actual_order
 
-        an_r[idx, :k] = an.real
-        an_i[idx, :k] = an.imag
-        bn_r[idx, :k] = bn.real
-        bn_i[idx, :k] = bn.imag
+        coeff_a_real[idx, :actual_order] = an.real
+        coeff_a_imag[idx, :actual_order] = an.imag
+        coeff_b_real[idx, :actual_order] = bn.real
+        coeff_b_imag[idx, :actual_order] = bn.imag
 
-    return nmax_arr, an_r, an_i, bn_r, bn_i
+    return max_order_array, coeff_a_real, coeff_a_imag, coeff_b_real, coeff_b_imag
 
 
 # ---------------------------------------------------------------------------
 #  Taichi kernel – *vectorised* Mie Q for all particles
 # ---------------------------------------------------------------------------
 @ti.kernel  # noqa: D401 – single sentence not needed
-def mie_q(  # pylint: disable=too-many-arguments
-    n_particles: ti.i32,
-    nmax_max: ti.i32,
+def _compute_mie_q_kernel(  # pylint: disable=too-many-arguments
+    particle_count: ti.i32,
+    global_max_order: ti.i32,
     rayleigh_cutoff: ti.f64,
-    x_arr: ti.types.ndarray(dtype=ti.f64, ndim=1),
-    m_re: ti.types.ndarray(dtype=ti.f64, ndim=1),
-    m_im: ti.types.ndarray(dtype=ti.f64, ndim=1),
-    nmax_arr: ti.types.ndarray(dtype=ti.i32, ndim=1),
-    an_r: ti.types.ndarray(dtype=ti.f64, ndim=2),
-    an_i: ti.types.ndarray(dtype=ti.f64, ndim=2),
-    bn_r: ti.types.ndarray(dtype=ti.f64, ndim=2),
-    bn_i: ti.types.ndarray(dtype=ti.f64, ndim=2),
-    qs_out: ti.types.ndarray(dtype=ti.f64, ndim=2),  # shape (N, 3)
+    size_parameter_array: ti.types.ndarray(dtype=ti.f64, ndim=1),
+    refractive_index_real: ti.types.ndarray(dtype=ti.f64, ndim=1),
+    refractive_index_imag: ti.types.ndarray(dtype=ti.f64, ndim=1),
+    max_order_array: ti.types.ndarray(dtype=ti.i32, ndim=1),
+    coeff_a_real: ti.types.ndarray(dtype=ti.f64, ndim=2),
+    coeff_a_imag: ti.types.ndarray(dtype=ti.f64, ndim=2),
+    coeff_b_real: ti.types.ndarray(dtype=ti.f64, ndim=2),
+    coeff_b_imag: ti.types.ndarray(dtype=ti.f64, ndim=2),
+    efficiencies_out: ti.types.ndarray(dtype=ti.f64, ndim=2),  # shape (N, 3)
 ):
-    """Populate ``qs_out`` with Qext, Qsca, Qabs for every particle."""
-    for p in range(n_particles):
-        x = x_arr[p]
-        if x == 0.0:
-            qs_out[p, 0] = 0.0
-            qs_out[p, 1] = 0.0
-            qs_out[p, 2] = 0.0
+    """Populate ``efficiencies_out`` with Qext, Qsca, Qabs for every particle."""
+    for p in range(particle_count):
+        size_param = size_parameter_array[p]
+        if size_param == 0.0:
+            efficiencies_out[p, 0] = 0.0
+            efficiencies_out[p, 1] = 0.0
+            efficiencies_out[p, 2] = 0.0
             continue
 
-        if x <= rayleigh_cutoff:
+        if size_param <= rayleigh_cutoff:
             # ---- analytic Rayleigh ----------------------------------------
-            m_re_p = m_re[p]
-            m_im_p = m_im[p]
+            m_re_p = refractive_index_real[p]
+            m_im_p = refractive_index_imag[p]
             # (m² − 1)/(m² + 2)
             m2_re = m_re_p * m_re_p - m_im_p * m_im_p
             m2_im = 2.0 * m_re_p * m_im_p
@@ -190,30 +190,30 @@ def mie_q(  # pylint: disable=too-many-arguments
             ll_re = (num_re * den_re + num_im * den_im) / den_mag2
             ll_im = (num_im * den_re - num_re * den_im) / den_mag2
             ll_mag2 = ll_re * ll_re + ll_im * ll_im
-            qsca = (8.0 / 3.0) * ll_mag2 * x**4
-            qabs = 4.0 * x * ll_im
-            qs_out[p, 0] = qsca + qabs  # Qext
-            qs_out[p, 1] = qsca  # Qsca
-            qs_out[p, 2] = qabs  # Qabs
+            qsca = (8.0 / 3.0) * ll_mag2 * size_param**4
+            qabs = 4.0 * size_param * ll_im
+            efficiencies_out[p, 0] = qsca + qabs  # Qext
+            efficiencies_out[p, 1] = qsca  # Qsca
+            efficiencies_out[p, 2] = qabs  # Qabs
         else:
             # ---- full Lorenz‑Mie summation -------------------------------
             qext = 0.0
             qsca = 0.0
-            for j in range(nmax_arr[p]):
+            for j in range(max_order_array[p]):
                 n = j + 1
                 n1 = 2 * n + 1
-                ar = an_r[p, j]
-                ai = an_i[p, j]
-                br = bn_r[p, j]
-                bi = bn_i[p, j]
+                ar = coeff_a_real[p, j]
+                ai = coeff_a_imag[p, j]
+                br = coeff_b_real[p, j]
+                bi = coeff_b_imag[p, j]
                 qext += n1 * (ar + br)
                 qsca += n1 * (ar * ar + ai * ai + br * br + bi * bi)
-            x2 = x * x
+            x2 = size_param * size_param
             qext *= 2.0 / x2
             qsca *= 2.0 / x2
-            qs_out[p, 0] = qext
-            qs_out[p, 1] = qsca
-            qs_out[p, 2] = qext - qsca  # Qabs
+            efficiencies_out[p, 0] = qext
+            efficiencies_out[p, 1] = qsca
+            efficiencies_out[p, 2] = qext - qsca  # Qabs
 
 
 # ---------------------------------------------------------------------------
@@ -221,14 +221,14 @@ def mie_q(  # pylint: disable=too-many-arguments
 # ---------------------------------------------------------------------------
 
 
-def mie_q_batch(  # noqa: C901 – high cyclomatic, but user‑facing wrapper
+def compute_mie_efficiencies(  # noqa: C901 – high cyclomatic, but user‑facing wrapper
     m: np.ndarray | complex,
     wavelength: float,
     diameter: np.ndarray,
     n_medium: float = 1.0,
     rayleigh_cutoff: float = 0.05,
 ) -> np.ndarray:
-    """Vectorised Mie efficiencies.
+    """Compute Mie efficiencies (Qext, Qsca, Qabs) for a particle batch.
 
     Args:
         m: Array of complex refractive indices (shape *N*) or a single value.
@@ -243,74 +243,74 @@ def mie_q_batch(  # noqa: C901 – high cyclomatic, but user‑facing wrapper
         inputs.
     """
     diameter = np.asarray(diameter, dtype=float)
-    n_particles = diameter.size
+    particle_count = diameter.size
 
     # Broadcast scalar m to array if necessary
     if np.isscalar(m):
-        m_arr = np.full(n_particles, m, dtype=np.complex128)
+        refractive_index_array = np.full(particle_count, m, dtype=np.complex128)
     else:
-        m_arr = np.asarray(m, dtype=np.complex128)
-        if m_arr.size != n_particles:
+        refractive_index_array = np.asarray(m, dtype=np.complex128)
+        if refractive_index_array.size != particle_count:
             raise ValueError(
                 "m and diameter must have same length if m is array."
             )
 
     # Medium normalisation
-    m_arr /= n_medium
-    wavelength_eff = wavelength / n_medium
-    x_arr = math.pi * diameter / wavelength_eff
+    refractive_index_array /= n_medium
+    effective_wavelength = wavelength / n_medium
+    size_parameter_array = math.pi * diameter / effective_wavelength
 
     # Pre‑compute coefficients on CPU
     (
-        nmax_arr,
-        an_r_np,
-        an_i_np,
-        bn_r_np,
-        bn_i_np,
-    ) = _prepare_coefficients(m_arr, x_arr, rayleigh_cutoff)
+        max_order_array,
+        coeff_a_real_np,
+        coeff_a_imag_np,
+        coeff_b_real_np,
+        coeff_b_imag_np,
+    ) = _compute_mie_coefficients(refractive_index_array, size_parameter_array, rayleigh_cutoff)
 
-    nmax_max = an_r_np.shape[1]
+    global_max_order = coeff_a_real_np.shape[1]
 
     # --- Taichi device arrays ---------------------------------------------
-    x_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    m_re_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    m_im_ti = ti.ndarray(dtype=ti.f64, shape=n_particles)
-    nmax_ti = ti.ndarray(dtype=ti.i32, shape=n_particles)
+    size_parameter_ti = ti.ndarray(dtype=ti.f64, shape=particle_count)
+    refr_index_real_ti = ti.ndarray(dtype=ti.f64, shape=particle_count)
+    refr_index_imag_ti = ti.ndarray(dtype=ti.f64, shape=particle_count)
+    max_order_ti = ti.ndarray(dtype=ti.i32, shape=particle_count)
 
-    an_r_ti = ti.ndarray(dtype=ti.f64, shape=(n_particles, nmax_max))
-    an_i_ti = ti.ndarray(dtype=ti.f64, shape=(n_particles, nmax_max))
-    bn_r_ti = ti.ndarray(dtype=ti.f64, shape=(n_particles, nmax_max))
-    bn_i_ti = ti.ndarray(dtype=ti.f64, shape=(n_particles, nmax_max))
+    coeff_a_real_ti = ti.ndarray(dtype=ti.f64, shape=(particle_count, global_max_order))
+    coeff_a_imag_ti = ti.ndarray(dtype=ti.f64, shape=(particle_count, global_max_order))
+    coeff_b_real_ti = ti.ndarray(dtype=ti.f64, shape=(particle_count, global_max_order))
+    coeff_b_imag_ti = ti.ndarray(dtype=ti.f64, shape=(particle_count, global_max_order))
 
-    qs_out_ti = ti.ndarray(dtype=ti.f64, shape=(n_particles, 3))
+    efficiencies_ti = ti.ndarray(dtype=ti.f64, shape=(particle_count, 3))
 
     # Copy data to device
-    x_ti.from_numpy(x_arr)
-    m_re_ti.from_numpy(m_arr.real)
-    m_im_ti.from_numpy(m_arr.imag)
-    nmax_ti.from_numpy(nmax_arr)
-    an_r_ti.from_numpy(an_r_np)
-    an_i_ti.from_numpy(an_i_np)
-    bn_r_ti.from_numpy(bn_r_np)
-    bn_i_ti.from_numpy(bn_i_np)
+    size_parameter_ti.from_numpy(size_parameter_array)
+    refr_index_real_ti.from_numpy(refractive_index_array.real)
+    refr_index_imag_ti.from_numpy(refractive_index_array.imag)
+    max_order_ti.from_numpy(max_order_array)
+    coeff_a_real_ti.from_numpy(coeff_a_real_np)
+    coeff_a_imag_ti.from_numpy(coeff_a_imag_np)
+    coeff_b_real_ti.from_numpy(coeff_b_real_np)
+    coeff_b_imag_ti.from_numpy(coeff_b_imag_np)
 
     # Kernel launch
-    mie_q(
-        n_particles,
-        nmax_max,
+    _compute_mie_q_kernel(
+        particle_count,
+        global_max_order,
         rayleigh_cutoff,
-        x_ti,
-        m_re_ti,
-        m_im_ti,
-        nmax_ti,
-        an_r_ti,
-        an_i_ti,
-        bn_r_ti,
-        bn_i_ti,
-        qs_out_ti,
+        size_parameter_ti,
+        refr_index_real_ti,
+        refr_index_imag_ti,
+        max_order_ti,
+        coeff_a_real_ti,
+        coeff_a_imag_ti,
+        coeff_b_real_ti,
+        coeff_b_imag_ti,
+        efficiencies_ti,
     )
 
-    return qs_out_ti.to_numpy()
+    return efficiencies_ti.to_numpy()
 
 
 # ---------------------------------------------------------------------------
@@ -321,7 +321,7 @@ if __name__ == "__main__":  # pragma: no cover
     diam_nm = np.linspace(50.0, 500.0, 16)
     m_particle = 1.5 + 0.01j
 
-    q = mie_q_batch(m_particle, wl_nm, diam_nm)
+    q = compute_mie_efficiencies(m_particle, wl_nm, diam_nm)
     print("Columns: Qext, Qsca, Qabs")
     np.set_printoptions(precision=4, suppress=True)
     print(q)
