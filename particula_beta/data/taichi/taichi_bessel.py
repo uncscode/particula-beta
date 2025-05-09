@@ -102,11 +102,15 @@ def bessel_jv_complex_kernel(
         z2_im = -z2_im
 
         for k in range(1, max_iter):
-            denom = (k) * (k + nu[i])
+            denom = k * (k + nu[i])
             ratio_re = z2_re / denom
             ratio_im = z2_im / denom
             t_re, t_im = c_mul(t_re, t_im, ratio_re, ratio_im)
             s_re, s_im = c_add(s_re, s_im, t_re, t_im)
+
+            # ---------- NEW: stop when the term is already negligible -------------
+            if (t_re * t_re + t_im * t_im) < 1.0e-24:   # |term| < 1 × 10⁻¹²
+                ti.break_loop()
 
         out_re[i] = s_re
         out_im[i] = s_im
