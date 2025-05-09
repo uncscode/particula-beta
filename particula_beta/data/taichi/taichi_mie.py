@@ -111,43 +111,41 @@ def _prepare_coefficients(
     np.ndarray,
 ]:
     """Pre‑compute padded coefficient arrays for all particles."""
-    n_particles = len(x_arr)
-    nmax_list = []
-    an_r_list, an_i_list, bn_r_list, bn_i_list = [], [], [], []
+    # --- pre-allocate ----------------------------------------------------
+    n_particles = x_arr.size
 
-    for m, x in zip(m_arr, x_arr):
-        if x <= rayleigh_cutoff or x == 0.0:
-            nmax_list.append(0)
-            an_r_list.append([0.0])
-            an_i_list.append([0.0])
-            bn_r_list.append([0.0])
-            bn_i_list.append([0.0])
-        else:
-            an, bn = _mie_ab(m, x)
-            nmax_list.append(an.size)
-            an_r_list.append(an.real)
-            an_i_list.append(an.imag)
-            bn_r_list.append(bn.real)
-            bn_i_list.append(bn.imag)
-
-    nmax_max = max(nmax_list)
-
-    def _pad(lst: list[np.ndarray]) -> np.ndarray:
-        return np.stack(
-            [
-                np.pad(a, (0, nmax_max - a.size), constant_values=0.0)
-                for a in lst
-            ],
-            axis=0,
-        )
-
-    return (
-        np.asarray(nmax_list, dtype=np.int32),
-        _pad(an_r_list),
-        _pad(an_i_list),
-        _pad(bn_r_list),
-        _pad(bn_i_list),
+    # Bohren–Huffman estimate (upper-bound; identical to _mie_ab length)
+    nmax_est = np.rint(2 + x_arr + 4 * np.power(x_arr, 1.0 / 3.0)).astype(
+        np.int32
     )
+    nmax_arr = np.where(
+        (x_arr <= rayleigh_cutoff) | (x_arr == 0.0), 0, nmax_est
+    )
+
+    nmax_max = int(nmax_arr.max(initial=0))
+
+    an_r = np.zeros((n_particles, nmax_max), dtype=np.float64)
+    an_i = np.zeros_like(an_r)
+    bn_r = np.zeros_like(an_r)
+    bn_i = np.zeros_like(an_r)
+
+    # --- fill coefficients in-place -------------------------------------
+    for idx in range(n_particles):
+        nm = nmax_arr[idx]
+        if nm == 0:
+            continue  # Rayleigh or zero-size – keep zeros
+        an, bn = _mie_ab(m_arr[idx], x_arr[idx])
+
+        # Actual length (defensive – should equal nm)
+        k = an.size
+        nmax_arr[idx] = k
+
+        an_r[idx, :k] = an.real
+        an_i[idx, :k] = an.imag
+        bn_r[idx, :k] = bn.real
+        bn_i[idx, :k] = bn.imag
+
+    return nmax_arr, an_r, an_i, bn_r, bn_i
 
 
 # ---------------------------------------------------------------------------
