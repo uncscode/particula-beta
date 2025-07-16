@@ -13,7 +13,8 @@ from scipy.optimize import minimize  # type: ignore
 from sklearn.metrics import r2_score, mean_squared_error  # type: ignore
 from tqdm import tqdm
 
-from particula.dynamics import dilution, wall_loss, coagulation
+# from particula.dynamics import dilution, wall_loss, coagulation
+import particula as par
 from particula_beta.data.stream import Stream
 
 
@@ -167,9 +168,9 @@ def calculate_pmf_rates(
 
     # Coagulation kernel / w_correction
     kernel = (
-        coagulation.brownian_coagulation_kernel_via_system_state(
-            radius_particle=radius_bins,
-            mass_particle=mass_particle,
+        par.dynamics.get_brownian_kernel_via_system_state(
+            particle_radius=radius_bins,
+            particle_mass=mass_particle,
             temperature=temperature,
             pressure=pressure,
             alpha_collision_efficiency=alpha_collision_efficiency,
@@ -178,11 +179,11 @@ def calculate_pmf_rates(
     )
 
     # Coagulation loss and gain
-    coagulation_loss = coagulation.discrete_loss(
+    coagulation_loss = par.dynamics.get_coagulation_loss_rate_discrete(
         concentration=concentration_pmf,
         kernel=kernel,  # type: ignore
     )
-    coagulation_gain = coagulation.discrete_gain(
+    coagulation_gain = par.dynamics.get_coagulation_gain_rate_discrete(
         radius=radius_bins,
         concentration=concentration_pmf,
         kernel=kernel,  # type: ignore
@@ -190,16 +191,16 @@ def calculate_pmf_rates(
     coagulation_net = coagulation_gain - coagulation_loss
 
     # Dilution loss rate
-    dilution_coefficient = dilution.volume_dilution_coefficient(
+    dilution_coefficient = par.dynamics.get_volume_dilution_coefficient(
         volume=volume, input_flow_rate=input_flow_rate
     )
-    dilution_loss = dilution.dilution_rate(
+    dilution_loss = par.dynamics.get_dilution_rate(
         coefficient=dilution_coefficient,
         concentration=concentration_pmf,
     )
 
     # Wall loss rate
-    wall_loss_rate = wall_loss.rectangle_wall_loss_rate(
+    wall_loss_rate = par.dynamics.get_rectangle_wall_loss_rate(
         wall_eddy_diffusivity=wall_eddy_diffusivity,
         particle_radius=radius_bins,
         particle_density=particle_density,
