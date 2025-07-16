@@ -136,6 +136,15 @@ from particula_beta.data.process.stats import (
 from particula_beta.data.process.sample_distribution import (
     get_samples_from_tabulated_pdf,
 )
+from particula_beta.data.process.chamber_rate_fitting import (
+    optimize_and_calculate_rates_looped,
+    optimize_chamber_parameters,
+    calculate_optimized_rates,
+    calculate_pmf_rates,
+    create_guess_and_bounds,
+    ChamberParameters,
+)
+
 
 # util
 from particula_beta.data.util.convert_length import (
