@@ -23,10 +23,10 @@ keywords = [
 ]
 
 dependencies = [
-    "particula",
-    "numpy", "scipy", "pint", "hypersolver==0.0.8", "pandas",
+    "particula","numpy>=2.0.0", "scipy>=1.12",
+    "pint", "hypersolver==0.0.8", "pandas",
     "netCDF4", "shapely", "PyMieScatt", "tqdm", "pytz",
-    "matplotlib", "torch", "scikit-learn"
+    "matplotlib", "torch", "scikit-learn", "taichi", "pytest"
 ]
 
 # This is set automatically by flit using `particula_beta.__version__`
