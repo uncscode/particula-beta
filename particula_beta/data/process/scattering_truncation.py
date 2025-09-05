@@ -9,7 +9,7 @@ from numpy.typing import NDArray
 
 from tqdm import tqdm
 import PyMieScatt as ps
-from scipy.integrate import trapezoid as trapz
+from scipy.integrate import trapezoid
 import particula as par
 
 from particula_beta.data.process import mie_angular, mie_bulk
@@ -142,7 +142,7 @@ def trunc_mono(
         )
 
     # Integrate the Mie scattering efficiency over all angles
-    q_mie = trapz((2 * su * np.sin(theta)) / size_param**2, theta)
+    q_mie = trapezoid((2 * su * np.sin(theta)) / size_param**2, theta)
 
     # Initialize arrays for z-axis positions, angles, and scattering
     # efficiencies
@@ -170,14 +170,14 @@ def trunc_mono(
         su_trunc, theta_trunc = get_truncated_scattering(
             su, theta, theta1[i], theta2[i]
         )
-        qsca_trunc[i] = trapz(
+        qsca_trunc[i] = trapezoid(
             (2 * su_trunc * np.sin(theta_trunc)) / size_param**2, theta_trunc
         )
 
     # Integrate scattering efficiencies over the z-axis to get total
     # efficiencies
-    trunc = trapz(qsca_trunc, z_axis)
-    ideal = trapz(qsca_ideal, z_axis)
+    trunc = trapezoid(qsca_trunc, z_axis)
+    ideal = trapezoid(qsca_ideal, z_axis)
 
     # Apply calibration factor to truncation correction if requested
     trunc_corr = (
