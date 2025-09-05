@@ -27,7 +27,7 @@ dependencies = [
     "pint", "hypersolver==0.0.8", "pandas",
     "netCDF4", "shapely", "tqdm", "pytz",
     "matplotlib", "torch", "scikit-learn", "taichi", "pytest",
-    "PyMieScatt @ git+https://github.com/bsumlin/PyMieScatt.git@main"
+    "PyMieScatt @ git+https://github.com/bsumlin/PyMieScatt.git"
 ]
 
 # This is set automatically by flit using `particula_beta.__version__`
