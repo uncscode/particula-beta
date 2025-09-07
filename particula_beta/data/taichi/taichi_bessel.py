@@ -20,13 +20,11 @@ Accuracy is sufficient for typical Lorenz‑Mie half‑integer orders (n + ½)
 |z| ≲ 20; kernel‑side tolerance is **1 × 10⁻¹²** or *max_iter* = 50.
 """
 
-import math
-from typing import Tuple
 
 import numpy as np
 import taichi as ti
 from scipy.special import jv, yv  # still used for CPU‑side prep where needed
-from math import gamma, pi  # host Gamma for pre‑factor
+from math import gamma  # host Gamma for pre‑factor
 
 
 ti.init(arch=ti.cpu)
