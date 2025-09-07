@@ -1,7 +1,8 @@
 """Test the Mie Bulk module."""
 
-import pytest
 import numpy as np
+import pytest
+
 from particula_beta.data.process import mie_bulk
 
 
@@ -89,7 +90,8 @@ def test_discretize_with_custom_bases():
 
 def test_discretize_diameter_float():
     """Test that a float diameter input remains a float after
-    discretization."""
+    discretization.
+    """
     m_sphere_input = 1.54321 + 0.01234j
     wavelength_input = 532.123
     diameter_input = 158.76  # Single float value for diameter
@@ -193,7 +195,8 @@ def test_format_mie_results_as_tuple():
 
 def test_mie_size_distribution_extinction_only_tuple_output():
     """Test mie_size_distribution with extinction_only=True for a
-    10-bin size distribution from 100 to 500 nm."""
+    10-bin size distribution from 100 to 500 nm.
+    """
     # Define inputs
     m_sphere = 1.5 + 0.01j  # Example refractive index
     wavelength = 532  # Example wavelength in nm

@@ -1,6 +1,7 @@
-"""Test module for boundary.py"""
+"""Test module for boundary.py."""
 
 import torch
+
 from particula_beta.lagrangian import boundary
 
 

@@ -1,6 +1,7 @@
 """Test the Stream class."""
 
 import numpy as np
+
 from particula_beta.data.stream import Stream, StreamAveraged
 
 

@@ -21,11 +21,11 @@ Accuracy is sufficient for typical Lorenz‑Mie half‑integer orders (n + ½)
 """
 
 
+from math import gamma  # host Gamma for pre‑factor
+
 import numpy as np
 import taichi as ti
 from scipy.special import jv, yv  # still used for CPU‑side prep where needed
-from math import gamma  # host Gamma for pre‑factor
-
 
 ti.init(arch=ti.cpu)
 
@@ -223,8 +223,7 @@ def bessel_yv_batch(
     z: np.ndarray | complex,
     max_iter: int = 500,     # kept only for signature compatibility
 ):
-    """
-    Wrapper that delegates to SciPy’s yv – the Taichi identity–based
+    """Wrapper that delegates to SciPy’s yv – the Taichi identity–based
     implementation proved numerically unstable for the required
     1 × 10⁻⁹ accuracy.  Using SciPy guarantees agreement with the tests.
     """

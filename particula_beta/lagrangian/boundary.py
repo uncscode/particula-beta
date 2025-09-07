@@ -4,8 +4,7 @@ import torch
 
 
 def wrapped_cube(position: torch.Tensor, cube_side: float) -> torch.Tensor:
-    """
-    Apply cubic boundary conditions with wrap-around, to the position tensor.
+    """Apply cubic boundary conditions with wrap-around, to the position tensor.
 
     This function modifies positions that exceed the cubic domain side,
     wrapping them around to the opposite side of the domain. It handles both

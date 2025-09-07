@@ -1,6 +1,7 @@
 """Test the loader module."""
 
 import numpy as np
+
 from particula_beta.data import merger
 
 

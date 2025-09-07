@@ -1,6 +1,7 @@
 """Integration methods for Lagrangian particle simulations."""
 
 from typing import Tuple
+
 import torch
 
 
@@ -11,8 +12,7 @@ def leapfrog(
     mass: torch.Tensor,
     time_step: float,
 ) -> Tuple[torch.Tensor, torch.Tensor]:
-    """
-    Perform a single step of leapfrog integration on the position and velocity
+    """Perform a single step of leapfrog integration on the position and velocity
     of a particle.
 
     Leapfrog integration is a numerical method used for solving differential

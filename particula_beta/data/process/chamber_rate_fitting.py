@@ -1,20 +1,19 @@
-"""
-Functions for fitting the chamber rates to the observed rates.
-"""
+"""Functions for fitting the chamber rates to the observed rates."""
 
-from typing import Tuple, List, Optional, Callable, Union
 import copy
 from dataclasses import dataclass
 from functools import partial
+from typing import Callable, List, Optional, Tuple, Union
 
 import numpy as np
-from numpy.typing import NDArray
-from scipy.optimize import minimize  # type: ignore
-from sklearn.metrics import r2_score, mean_squared_error  # type: ignore
-from tqdm import tqdm
 
 # from particula.dynamics import dilution, wall_loss, coagulation
 import particula as par
+from numpy.typing import NDArray
+from scipy.optimize import minimize  # type: ignore
+from sklearn.metrics import mean_squared_error, r2_score  # type: ignore
+from tqdm import tqdm
+
 from particula_beta.data.stream import Stream
 
 
@@ -23,8 +22,7 @@ def chi_squared_error(
     predicted: np.ndarray,
     fractional_uncertainty: np.ndarray,
 ) -> float:
-    """
-    Calculate the chi-squared error between the observed and predicted values,
+    """Calculate the chi-squared error between the observed and predicted values,
     accounting for uncertainties.
 
     Arguments:
@@ -53,8 +51,7 @@ def hessian_standard_error(
     epsilon: float = 1e-4,
     regularization: float = 1e-8,
 ) -> np.ndarray:
-    """
-    Calculate the standard error for the optimized parameters using Hessian
+    """Calculate the standard error for the optimized parameters using Hessian
     estimation with regularization and fallback to diagonal approximation.
 
     Arguments:
@@ -137,8 +134,7 @@ def calculate_pmf_rates(
     NDArray[np.float64],
     NDArray[np.float64],
 ]:
-    """
-    Calculate the coagulation, dilution, and wall loss rates,
+    """Calculate the coagulation, dilution, and wall loss rates,
     and return the net rate.
 
     Arguments:
@@ -237,8 +233,8 @@ def coagulation_rates_cost_function(
     chamber_dimensions: Tuple[float, float, float] = (1, 1, 1),  # m
 ) -> float:
     """Cost function for the optimization of the eddy diffusivity
-    and alpha collision efficiency."""
-
+    and alpha collision efficiency.
+    """
     # Unpack the parameters
     wall_eddy_diffusivity = parameters[0]
     alpha_collision_efficiency = parameters[1]
@@ -304,8 +300,7 @@ def create_guess_and_bounds(
     guess_w_correction: float,
     bounds_w_correction: Tuple[float, float],
 ) -> Tuple[NDArray[np.float64], List[Tuple[float, float]]]:
-    """
-    Create the initial guess array and bounds list for the optimization.
+    """Create the initial guess array and bounds list for the optimization.
 
     Arguments:
         guess_eddy_diffusivity: Initial guess for eddy diffusivity.
@@ -366,8 +361,7 @@ def optimize_chamber_parameters(
     minimize_method: str = "L-BFGS-B",
     epsilon_hessian_estimation: float = 1e-4,
 ) -> Union[Tuple[float, float, float], Tuple[float, float, float]]:
-    """
-    Optimize the eddy diffusivity and alpha collision efficiency parameters
+    """Optimize the eddy diffusivity and alpha collision efficiency parameters
     for a given particle size distribution and its time derivative.
 
     Arguments:
@@ -436,8 +430,7 @@ def calculate_optimized_rates(
     chamber_parameters: ChamberParameters,
     time_derivative_concentration_pmf: Optional[NDArray[np.float64]] = None,
 ) -> Tuple[float, float, float, float, float, float]:
-    """
-    Calculate the coagulation rates using the optimized parameters and return
+    """Calculate the coagulation rates using the optimized parameters and return
     the rates and R2 score.
 
     Arguments:
@@ -520,8 +513,7 @@ def optimize_and_calculate_rates_looped(
     fractional_uncertainty: NDArray[np.float64],
     epsilon_hessian_estimation: float = 1e-4,
 ) -> Tuple[Stream, Stream, Stream, Stream, Stream, Stream, Stream]:
-    """
-    Perform optimization and calculate rates for each time point in the stream.
+    """Perform optimization and calculate rates for each time point in the stream.
 
     Arguments:
         pmf_stream: Stream object containing the fitted PMF data.

@@ -2,18 +2,19 @@
 
 import logging
 import warnings
-from typing import Tuple, Optional, List, Any
-import numpy as np
-from numpy.typing import NDArray
-from tqdm import tqdm
+from typing import Any, List, Optional, Tuple
 
+import numpy as np
+import particula as par
+from numpy.typing import NDArray
 from scipy.optimize import minimize  # type: ignore
 from sklearn.metrics import mean_squared_error, r2_score  # type: ignore
-import particula as par
-from particula_beta.data.stream import Stream
+from tqdm import tqdm
+
 from particula_beta.data.process.ml_analysis import (
     generate_and_train_2mode_sizer,
 )
+from particula_beta.data.stream import Stream
 
 # Set up logging
 logger = logging.getLogger("particula")
@@ -27,8 +28,7 @@ def cost_function(
     x_values: NDArray[np.float64],
     concentration_pdf: NDArray[np.float64],
 ) -> float:
-    """
-    Cost function for the lognormal distribution with 2 modes.
+    """Cost function for the lognormal distribution with 2 modes.
 
     Arguments:
         params: Combined array of mode_values, geometric_standard_deviation,
@@ -176,8 +176,7 @@ def optimize_fit(
     float,
     dict[str, Any],
 ]:
-    """
-    Optimize the lognormal 2-mode distribution parameters using multiple
+    """Optimize the lognormal 2-mode distribution parameters using multiple
     optimization methods.
     """
     if bounds is None:
@@ -242,8 +241,7 @@ def optimize_fit_looped(
     NDArray[np.float64],
     NDArray[np.float64],
 ]:
-    """
-    Loop through the concentration PDFs to get the best optimization.
+    """Loop through the concentration PDFs to get the best optimization.
 
     Arguments:
         mode_guess: Array of mode values.
@@ -305,8 +303,7 @@ def guess_and_optimize_looped(
     radius_m: NDArray[np.float64],
     concentration_m3_pdf: NDArray[np.float64],
 ) -> Stream:
-    """
-    Generate initial guesses using a machine learning model, optimize them,
+    """Generate initial guesses using a machine learning model, optimize them,
     and return a Stream object with the results.
 
     Arguments:
@@ -388,8 +385,7 @@ def create_lognormal_2mode_from_fit(
     radius_max: float = 1e-6,
     num_radius_bins: int = 250,
 ) -> Tuple[Stream, NDArray[np.float64]]:
-    """
-    Create a fitted PMF stream and concentration matrix based on
+    """Create a fitted PMF stream and concentration matrix based on
     optimized parameters.
 
     Arguments:

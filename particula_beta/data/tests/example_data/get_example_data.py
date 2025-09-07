@@ -1,4 +1,4 @@
-"""get location of data folder"""
+"""get location of data folder."""
 
 import os
 

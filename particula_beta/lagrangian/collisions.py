@@ -1,6 +1,7 @@
 """Operations for handling collisions between particles."""
 
 from typing import Tuple
+
 import torch
 
 from particula_beta.lagrangian import particle_pairs
@@ -12,8 +13,7 @@ def find_collisions(
     mass: torch.Tensor,
     k: int = 1,
 ) -> torch.Tensor:
-    """
-    Find the collision pairs from a distance matrix, given the mass and
+    """Find the collision pairs from a distance matrix, given the mass and
     indices of particles.
 
     This function identifies pairs of particles that are within a certain
@@ -76,8 +76,7 @@ def coalescence(
     radius: torch.Tensor,
     collision_indices_pairs: torch.Tensor,
 ) -> Tuple[torch.Tensor, torch.Tensor]:
-    """
-    Update mass and velocity of particles based on collision pairs, conserving
+    """Update mass and velocity of particles based on collision pairs, conserving
     mass and momentum.
 
     This function processes collision pairs, sorts them to avoid duplicate
@@ -99,6 +98,7 @@ def coalescence(
     Returns:
     - torch.Tensor: A 2D tensor of shape [n_dimensions, n_particles]
         representing the updated velocities of particles.
+
     Note:
     - This function modifies the `velocity` and `mass` tensors in-place.
     - It assumes that the mass and momentum are transferred from the right
@@ -141,8 +141,7 @@ def elastic_collision(
     mass: torch.Tensor,
     collision_indices_pairs: torch.Tensor,
 ) -> torch.Tensor:
-    """
-    Update velocities of particles based on elastic collision pairs using
+    """Update velocities of particles based on elastic collision pairs using
     matrix operations, conserving kinetic energy and momentum.
 
     Args:

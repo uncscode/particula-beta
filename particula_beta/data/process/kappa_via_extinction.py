@@ -7,11 +7,12 @@
 # pylint: disable=too-many-locals
 
 
-from typing import Union, Tuple
+from typing import Tuple, Union
+
 import numpy as np
-from scipy.optimize import fminbound
-from numpy.typing import NDArray
 import particula as par
+from numpy.typing import NDArray
+from scipy.optimize import fminbound
 
 from particula_beta.data.process import mie_bulk
 from particula_beta.data.util.convert_length import (
@@ -34,8 +35,7 @@ def extinction_ratio_wet_dry(
     return_coefficients: bool = False,
     return_all_optics: bool = False,
 ) -> Union[float, Tuple[NDArray, NDArray]]:
-    """
-    Calculate the extinction ratio between wet and dry aerosols, considering
+    """Calculate the extinction ratio between wet and dry aerosols, considering
     water uptake through the kappa parameter.
 
     This function uses Mie theory to determine the optical properties of
@@ -152,8 +152,7 @@ def fit_extinction_ratio_with_kappa(
     kappa_tolerance: float = 1e-6,
     kappa_maxiter: int = 200,
 ) -> Union[float, np.float64]:
-    """
-    Fit the kappa parameter based on the measured extinction ratios of dry
+    """Fit the kappa parameter based on the measured extinction ratios of dry
     and wet aerosols, considering water uptake effects.
 
     This method uses Mie theory to optimize kappa by minimizing the difference
@@ -190,8 +189,7 @@ def fit_extinction_ratio_with_kappa(
     """
 
     def objective_function(kappa_guess):
-        """
-        Objective function to minimize: the difference between the guessed
+        """Objective function to minimize: the difference between the guessed
         extinction ratio (based on the current kappa guess) and the observed
         extinction ratio (wet/dry).
         """
@@ -243,8 +241,7 @@ def kappa_from_extinction_looped(
     wavelength: float = 450,
     discretize: bool = True,
 ) -> NDArray[np.float64]:
-    """
-    Fit the extinction ratio to the kappa value for a set of measurements,
+    """Fit the extinction ratio to the kappa value for a set of measurements,
     looping over time indexes in `number_per_cm3`.
 
     This function is designed for analyzing data from a CAPS (Cavity Attenuated

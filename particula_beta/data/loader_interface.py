@@ -1,13 +1,14 @@
-"""interface to import data to a data stream"""
+"""interface to import data to a data stream."""
 
-from typing import Optional
 import os
+from typing import Optional
+
 import numpy as np
 import particula as par
 
 from particula_beta.data import loader, merger
-from particula_beta.data.stream import Stream
 from particula_beta.data.lake import Lake
+from particula_beta.data.stream import Stream
 
 
 def get_new_files(
@@ -15,8 +16,7 @@ def get_new_files(
     import_settings: dict,
     loaded_list: Optional[list] = None,
 ) -> tuple:
-    """
-    Scan a directory for new files based on import settings and stream status.
+    """Scan a directory for new files based on import settings and stream status.
 
     This function looks for files in a specified path using import settings.
     It compares the new list of files with a pre-loaded list in the stream
@@ -48,6 +48,7 @@ def get_new_files(
         pass), and a list of lists with new file names and sizes.
 
     Returns:
+
     Raises:
     ------
     YourErrorType
@@ -114,8 +115,7 @@ def load_files_interface(
     stream: Optional[Stream] = None,
     sub_sample: Optional[int] = None,
 ) -> Stream:
-    """
-    Load files into a stream object based on settings.
+    """Load files into a stream object based on settings.
 
     Args:
     ----------
@@ -190,8 +190,7 @@ def load_folders_interface(
     folder_settings: dict,
     lake: Optional[Lake] = None,
 ) -> Lake:
-    """
-    Load files into a lake object based on settings.
+    """Load files into a lake object based on settings.
 
     Args:
     ----------
@@ -230,8 +229,7 @@ def get_1d_stream(
     first_pass: bool = True,
     stream: Optional[Stream] = None,
 ) -> Stream:
-    """
-    Loads and formats a 1D data stream from a file and initializes or updates
+    """Loads and formats a 1D data stream from a file and initializes or updates
     a Stream object.
 
     Args:
@@ -349,8 +347,7 @@ def get_2d_stream(
     first_pass: bool = True,
     stream: Optional[Stream] = None,
 ) -> Stream:
-    """
-    Initializes a 2D stream using the settings in the DataLake object.
+    """Initializes a 2D stream using the settings in the DataLake object.
 
     Args:
     ----------
@@ -443,10 +440,10 @@ def get_netcdf_stream(
     first_pass: bool = True,
     stream: Optional[Stream] = None,
 ) -> Stream:
-    """
-    Initialise a netcdf stream using the settings in the DataLake
+    """Initialise a netcdf stream using the settings in the DataLake
     object. This can load either 1D or 2D data, as specified in the
     settings.
+
     Args:
     ----------
         key (str): The key of the stream to initialise.

@@ -1,6 +1,7 @@
-"""test module for particle_property.py"""
+"""test module for particle_property.py."""
 
 import torch
+
 from particula_beta.lagrangian import particle_property
 
 
@@ -14,8 +15,9 @@ def test_radius_vector():
 
 
 def test_friction_factor_runs():
-    """testing if the friction factor function runs
-    correct values are checked by untls tests"""
+    """Testing if the friction factor function runs
+    correct values are checked by untls tests.
+    """
     radius = torch.tensor([1.0, 2.0, 3.0])
     temperature = 300.0
     pressure = 1e5
@@ -28,7 +30,7 @@ def test_friction_factor_runs():
 
 
 def test_generate_mass():
-    """test generating masses"""
+    """Test generating masses."""
     mean_radius = 100  # example value
     std_dev_radius = 15  # example value
     density = torch.tensor(1e3)  # example density
@@ -45,8 +47,9 @@ def test_generate_mass():
 
 
 def test_thermal_speed_calculation():
-    """test calculating thermal velocity
-    should check the values"""
+    """Test calculating thermal velocity
+    should check the values.
+    """
     temperature = 273.0  # example value
     mass = particle_property.mass_calculation(
         radius=torch.tensor([1e-6]), density=torch.tensor([1e3])
@@ -60,7 +63,7 @@ def test_thermal_speed_calculation():
 
 
 def test_speed_calculation():
-    """test calculating speed"""
+    """Test calculating speed."""
     velocity = torch.tensor([1.0, 2.0, 3.0])
     expected_speed = torch.tensor(3.7417)
     result = particle_property.speed(velocity)
@@ -68,7 +71,7 @@ def test_speed_calculation():
 
 
 def test_random_thermal_velocity():
-    """test generating thermal velocity"""
+    """Test generating thermal velocity."""
     temperature = 300  # example value
     mass = torch.tensor(1e-20)  # example mass
     num_particles = 1000
@@ -82,7 +85,7 @@ def test_random_thermal_velocity():
 
 
 def test_nearest_match():
-    """test nearest match function"""
+    """Test nearest match function."""
     # Example usage
     x = torch.tensor([0.0, 1.0, 2.0, 3.0, 4.0], dtype=torch.float)
     y = torch.tensor([0.0, 0.5, 1.0, 1.5, 2.0], dtype=torch.float)

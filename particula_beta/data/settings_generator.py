@@ -3,10 +3,10 @@
 # pylint: disable=dangerous-default-value, too-many-locals, too-many-positional-arguments, too-many-arguments
 
 
-from typing import List, Optional
 import json
-import warnings
 import os
+import warnings
+from typing import List, Optional
 
 from particula_beta.data.loader import get_files_in_folder_with_size
 
@@ -17,16 +17,15 @@ def for_general_1d_load(
     file_min_size_bytes: int = 10,
     header_row: int = 0,
     data_checks: Optional[dict] = None,
-    data_column: list = [3, 5],
-    data_header: List[str] = ["data 1", "data 3"],
-    time_column: List[int] = [0, 1],
+    data_column: list = None,
+    data_header: List[str] = None,
+    time_column: List[int] = None,
     time_format: str = "%Y-%m-%d %H:%M:%S.%f",
     delimiter: str = ",",
     time_shift_seconds: int = 0,
     timezone_identifier: str = "UTC",
 ) -> dict:
-    """
-    Generate a settings dictionary for loading and checking 1D data from CSV
+    """Generate a settings dictionary for loading and checking 1D data from CSV
     files.
 
     Args:
@@ -62,6 +61,12 @@ def for_general_1d_load(
         file paths, size requirements, header information, and data check
         parameters.
     """
+    if time_column is None:
+        time_column = [0, 1]
+    if data_header is None:
+        data_header = ["data 1", "data 3"]
+    if data_column is None:
+        data_column = [3, 5]
     if data_checks is None:
         data_checks = {
             "characters": [10, 100],
@@ -92,19 +97,18 @@ def for_general_sizer_1d_2d_load(
     file_min_size_bytes: int = 10,
     header_row: int = 0,
     data_checks: Optional[dict] = None,
-    data_1d_column: list = [3, 5],
-    data_1d_header: List[str] = ["data 1", "data 3"],
+    data_1d_column: list = None,
+    data_1d_header: List[str] = None,
     data_2d_dp_start_keyword: str = "Date Time",
     data_2d_dp_end_keyword: str = "Total Conc",
     data_2d_convert_concentration_from: str = "dw/dlogdp",  # or dw
-    time_column: List[int] = [0, 1],
+    time_column: List[int] = None,
     time_format: str = "%Y-%m-%d %H:%M:%S.%f",
     delimiter: str = ",",
     time_shift_seconds: int = 0,
     timezone_identifier: str = "UTC",
 ) -> tuple:
-    """
-    Generate settings for the 1D general file loader and the 2D general sizer
+    """Generate settings for the 1D general file loader and the 2D general sizer
         file loader.
 
     Args:
@@ -140,6 +144,12 @@ def for_general_sizer_1d_2d_load(
         1D and 2D data loaders, which include file paths, size checks, and
         data parsing rules.
     """
+    if time_column is None:
+        time_column = [0, 1]
+    if data_1d_header is None:
+        data_1d_header = ["data 1", "data 3"]
+    if data_1d_column is None:
+        data_1d_column = [3, 5]
     if data_checks is None:
         data_checks = {
             "characters": [10, 100],
@@ -186,8 +196,7 @@ def for_general_sizer_1d_2d_load(
 def load_settings_for_stream(
     path: str, subfolder: str, settings_suffix: str = ""
 ) -> dict:
-    """
-    Load settings for Stream data from a JSON file.
+    """Load settings for Stream data from a JSON file.
 
     Given a path and subfolder, this function searches for a JSON file
     named 'stream_settings' with an optional suffix. It returns the settings
@@ -222,7 +231,7 @@ def load_settings_for_stream(
     if len(file_size_in_bytes) > 1:
         warnings.warn(
             f"More than one stream_settings file found in {path}/{subfolder}. "
-            "Using the first one found."
+            "Using the first one found.", stacklevel=2
         )
 
     with open(full_path[0], "r", encoding="utf-8") as file:
@@ -232,8 +241,7 @@ def load_settings_for_stream(
 def save_settings_for_stream(
     settings: dict, path: str, subfolder: str, settings_suffix: str = ""
 ) -> None:
-    """
-    Save settings for lake data to a JSON file.
+    """Save settings for lake data to a JSON file.
 
     Given a dictionary of settings, this function saves it to a JSON file
     named 'stream_settings' with an optional suffix in the specified filename.
@@ -260,8 +268,7 @@ def save_settings_for_stream(
 def load_settings_for_lake(
     path: str, subfolder: str = "", settings_suffix: str = ""
 ) -> dict:
-    """
-    Load settings for Lake data from a JSON file. The settings file is
+    """Load settings for Lake data from a JSON file. The settings file is
     a dictionary of stream settings dictionaries.
 
     Given a path and subfolder, this function searches for a JSON file
@@ -297,7 +304,7 @@ def load_settings_for_lake(
     if len(file_size_in_bytes) > 1:
         warnings.warn(
             f"More than one lake_settings file found in {path}/{subfolder}. "
-            "Using the first one found."
+            "Using the first one found.", stacklevel=2
         )
 
     with open(full_path[0], "r", encoding="utf-8") as file:
@@ -307,8 +314,7 @@ def load_settings_for_lake(
 def save_settings_for_lake(
     settings: dict, path: str, subfolder: str = "", settings_suffix: str = ""
 ) -> None:
-    """
-    Save settings for lake data to a JSON file.
+    """Save settings for lake data to a JSON file.
 
     Given a dictionary of settings, this function saves it to a JSON file
     named 'lake_settings' with an optional suffix in the specified filename.
