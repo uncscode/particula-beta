@@ -6,7 +6,6 @@ This function allows you to draw random samples from a 1-D PDF that is
 
 import numpy as np
 from numpy.typing import NDArray
-from typing import Union, Sequence
 
 
 def get_samples_from_tabulated_pdf(
