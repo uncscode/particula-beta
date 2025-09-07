@@ -1,14 +1,15 @@
-"""
-Merge or adds processed data to the data stream. Accounts for data shape mis
+"""Merge or adds processed data to the data stream. Accounts for data shape mis
 matches and duplicate timestamps. If the data is a different shape than the
 data stream, it will interpolate the data to the data stream's time array.
 If the data has duplicate timestamps, it will remove the duplicates and
 interpolate the data to the data stream's time array.
 """
 
-from typing import Tuple, Optional
+from typing import Optional, Tuple
+
 import numpy as np
-from particula.util import convert
+import particula as par
+
 from particula_beta.data.process import stats
 from particula_beta.data.stream import Stream
 
@@ -51,8 +52,7 @@ def combine_data(
         a dictionary mapping the header names to their corresponding indices in
         the data stream.
     """
-
-    data_new = convert.data_shape_check(
+    data_new = par.util.get_shape_check(
         time=time_new, data=data_new, header=header_new
     )
 
@@ -104,11 +104,10 @@ def stream_add_data(
     header_check: Optional[bool] = False,
     header_new: Optional[list] = None,
 ) -> Stream:
-    """
-    Adds a new data stream and corresponding time stream to the
+    """Adds a new data stream and corresponding time stream to the
     existing data.
 
-    Args
+    Args:
     ----------
     stream : object
         A Stream object, containing the existing data.
@@ -123,20 +122,19 @@ def stream_add_data(
         A list of header names for the new data stream. Required if
         header_check is True.
 
-    Returns
+    Returns:
     -------
     stream : object
         A Stream object, containing the updated data.
 
-    Raises
+    Raises:
     ------
     ValueError
         If header_check is True and header is not provided or
         header does not match the existing header.
 
-    Notes
+    Notes:
     -----
-
     If header_check is True, the method checks whether the header in the
     new data matches the header in the existing data. If they do not match,
     the method attempts to merge the headers and updates the header
@@ -148,7 +146,6 @@ def stream_add_data(
     The function also checks whether the time stream is increasing, and if
     not, sorts the time stream and corresponding data.
     """
-
     if stream.data.size == 0:
         stream.data = data_new
         stream.time = time_new

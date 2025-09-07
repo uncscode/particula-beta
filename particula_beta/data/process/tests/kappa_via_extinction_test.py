@@ -1,9 +1,9 @@
-"""Test initialize"""
+"""Test initialize."""
 
 import numpy as np
 import pytest
-from particula_beta.data.process import kappa_via_extinction
 
+from particula_beta.data.process import kappa_via_extinction
 
 # Global parameters for the aerosol distribution and optics
 GLOBAL_KAPPA = 0.8
@@ -19,7 +19,8 @@ GLOBAL_WAVELENGTH = 450
 
 def test_extinction_ratio_wet_dry():
     """Test the calculation of the extinction ratio between wet and
-    dry aerosols."""
+    dry aerosols.
+    """
     exp_b_ext_wet = 1011.068479965262
     exp_b_ext_dry = 137.73807395245075
     exp_ratio = exp_b_ext_wet / exp_b_ext_dry
@@ -65,7 +66,8 @@ def test_extinction_ratio_wet_dry():
 
 def test_fit_extinction_ratio_with_kappa():
     """Test fitting kappa based on simulated dry and wet aerosol extinction
-    values."""
+    values.
+    """
     # Simulate extinction values for dry and wet conditions
     b_ext_wet = 1011.068479965262
     b_ext_dry = 137.73807395245075

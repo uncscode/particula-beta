@@ -7,12 +7,18 @@
 # pylint: disable=too-many-locals
 
 
-from typing import Union, Tuple
+from typing import Tuple, Union
+
 import numpy as np
-from scipy.optimize import fminbound
+import particula as par
 from numpy.typing import NDArray
-from particula.util import convert
+from scipy.optimize import fminbound
+
 from particula_beta.data.process import mie_bulk
+from particula_beta.data.util.convert_length import (
+    get_length_from_volume,
+    get_volume_from_length,
+)
 
 
 def extinction_ratio_wet_dry(
@@ -29,8 +35,7 @@ def extinction_ratio_wet_dry(
     return_coefficients: bool = False,
     return_all_optics: bool = False,
 ) -> Union[float, Tuple[NDArray, NDArray]]:
-    """
-    Calculate the extinction ratio between wet and dry aerosols, considering
+    """Calculate the extinction ratio between wet and dry aerosols, considering
     water uptake through the kappa parameter.
 
     This function uses Mie theory to determine the optical properties of
@@ -68,27 +73,27 @@ def extinction_ratio_wet_dry(
         respectively.
     """
     # Convert particle diameters to volumes for dry aerosol calculations
-    volume_sizer = convert.length_to_volume(diameters, length_type="diameter")
+    volume_sizer = get_volume_from_length(diameters, dimension="diameter")
 
     # Calculate volumes for solute and water in dry and wet conditions
-    volume_dry = convert.kappa_volume_solute(
+    volume_dry = par.particles.get_solute_volume_from_kappa(
         volume_sizer, kappa, water_activity_sizer
     )
-    volume_water_dry = convert.kappa_volume_water(
+    volume_water_dry = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_dry
     )
-    volume_water_wet = convert.kappa_volume_water(
+    volume_water_wet = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_wet
     )
 
     # Determine effective refractive indices for dry and wet aerosols
-    n_effective_dry = convert.effective_refractive_index(
+    n_effective_dry = par.util.get_effective_refractive_index(
         refractive_index_dry,
         water_refractive_index,
         volume_dry[-1],  # pyright: ignore[reportIndexIssue]
         volume_water_dry[-1],  # pyright: ignore[reportIndexIssue]
     )
-    n_effective_wet = convert.effective_refractive_index(
+    n_effective_wet = par.util.get_effective_refractive_index(
         refractive_index_dry,
         water_refractive_index,
         volume_dry[-1],  # pyright: ignore[reportIndexIssue]
@@ -97,11 +102,11 @@ def extinction_ratio_wet_dry(
 
     # Adjust diameters for wet and dry conditions and calculate optical
     # properties
-    diameters_dry = convert.volume_to_length(
-        volume_dry + volume_water_dry, length_type="diameter"
+    diameters_dry = get_length_from_volume(
+        volume_dry + volume_water_dry, dimension="diameter"
     )
-    diameters_wet = convert.volume_to_length(
-        volume_dry + volume_water_wet, length_type="diameter"
+    diameters_wet = get_length_from_volume(
+        volume_dry + volume_water_wet, dimension="diameter"
     )
 
     optics_dry = mie_bulk.mie_size_distribution(
@@ -147,8 +152,7 @@ def fit_extinction_ratio_with_kappa(
     kappa_tolerance: float = 1e-6,
     kappa_maxiter: int = 200,
 ) -> Union[float, np.float64]:
-    """
-    Fit the kappa parameter based on the measured extinction ratios of dry
+    """Fit the kappa parameter based on the measured extinction ratios of dry
     and wet aerosols, considering water uptake effects.
 
     This method uses Mie theory to optimize kappa by minimizing the difference
@@ -185,8 +189,7 @@ def fit_extinction_ratio_with_kappa(
     """
 
     def objective_function(kappa_guess):
-        """
-        Objective function to minimize: the difference between the guessed
+        """Objective function to minimize: the difference between the guessed
         extinction ratio (based on the current kappa guess) and the observed
         extinction ratio (wet/dry).
         """
@@ -238,8 +241,7 @@ def kappa_from_extinction_looped(
     wavelength: float = 450,
     discretize: bool = True,
 ) -> NDArray[np.float64]:
-    """
-    Fit the extinction ratio to the kappa value for a set of measurements,
+    """Fit the extinction ratio to the kappa value for a set of measurements,
     looping over time indexes in `number_per_cm3`.
 
     This function is designed for analyzing data from a CAPS (Cavity Attenuated

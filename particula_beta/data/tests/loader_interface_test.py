@@ -1,18 +1,20 @@
-"""test for import_interface.py"""
+"""test for import_interface.py."""
 
-import tempfile
 import os
 import random
-import string
 import shutil
+import string
+import tempfile
+
 import numpy as np
+
 from particula_beta.data import loader_interface
 
 
 def generate_files(
     file_count=10,
 ):
-    """generate temp files for testing"""
+    """Generate temp files for testing."""
     # create temp folder
     temp_folder = tempfile.mkdtemp(prefix="interfaces_")
     # create a subfolder
@@ -39,13 +41,12 @@ def generate_files(
 
 
 def delete_temp_files(temp_folder):
-    """delete temp files"""
+    """Delete temp files."""
     shutil.rmtree(temp_folder)
 
 
 def test_get_new_files():
-    """test for get_new_files function"""
-
+    """Test for get_new_files function."""
     # generate temp files
     subfolder_name, temp_folder, _, file_names = generate_files()
 

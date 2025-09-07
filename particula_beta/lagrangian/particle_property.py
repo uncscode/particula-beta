@@ -1,27 +1,17 @@
 """Particle self calculation. e.g. radius, surface area, volume, etc."""
 
 import numpy as np
+import particula as par
 import torch
-
 from particula.util.constants import BOLTZMANN_CONSTANT
-from particula.particles.properties import (
-    friction_factor, calculate_knudsen_number,
-    cunningham_slip_correction
-)
-from particula.gas.properties import (
-    get_dynamic_viscosity,
-    molecule_mean_free_path,
-)
 
 from particula_beta.units import convert_units
 
 
 def radius_calculation(
-        mass: torch.Tensor,
-        density: torch.Tensor
+    mass: torch.Tensor, density: torch.Tensor
 ) -> torch.Tensor:
-    """
-    Calculate the radius of a sphere given its mass and density using the
+    """Calculate the radius of a sphere given its mass and density using the
     formula for the volume of a sphere.
 
     This function assumes a uniform density and spherical shape to compute the
@@ -49,11 +39,9 @@ def radius_calculation(
 
 
 def mass_calculation(
-        radius: torch.Tensor,
-        density: torch.Tensor
+    radius: torch.Tensor, density: torch.Tensor
 ) -> torch.Tensor:
-    """
-    Calculate the mass of a sphere given its radius and density using the
+    """Calculate the mass of a sphere given its radius and density using the
     formula for the volume of a sphere.
 
     This function assumes a uniform density and spherical shape to compute the
@@ -71,16 +59,15 @@ def mass_calculation(
     torch.Tensor: A tensor of the same shape as `radius` and `density`
         representing the mass of the sphere(s).
     """
-    return 4 * np.pi * radius ** 3 * density / 3
+    return 4 * np.pi * radius**3 * density / 3
 
 
 def friction_factor_wrapper(
-        radius_meter: torch.Tensor,
-        temperature_kelvin: float,
-        pressure_pascal: float,
+    radius_meter: torch.Tensor,
+    temperature_kelvin: float,
+    pressure_pascal: float,
 ) -> torch.Tensor:
-    """
-    Calculate the friction factor for a given radius, temperature, and
+    """Calculate the friction factor for a given radius, temperature, and
     pressure.
 
     This function wraps several underlying calculations related to
@@ -98,43 +85,42 @@ def friction_factor_wrapper(
         representing the particle friction factor.
     """
     # get dynamic viscosity
-    dynamic_viscosity_value = get_dynamic_viscosity(
+    dynamic_viscosity_value = par.gas.get_dynamic_viscosity(
         temperature=temperature_kelvin,
     )
 
     # get mean free path
-    mean_free_path_meter = molecule_mean_free_path(
+    mean_free_path_meter = par.gas.get_molecule_mean_free_path(
         temperature=temperature_kelvin,
         pressure=pressure_pascal,
         dynamic_viscosity=dynamic_viscosity_value,
     )
 
     # get knudsen number
-    knudsen = calculate_knudsen_number(
+    knudsen = par.particles.get_knudsen_number(
         mean_free_path=mean_free_path_meter,
-        particle_radius=radius_meter.numpy()
+        particle_radius=radius_meter.numpy(),
     )
     # get slip correction factor
-    slip_correction_factor = cunningham_slip_correction(
+    slip_correction_factor = par.particles.get_cunningham_slip_correction(
         knudsen_number=knudsen
     )
 
-    return friction_factor(
-        radius=radius_meter,
+    return par.particles.get_friction_factor(
+        particle_radius=radius_meter,
         dynamic_viscosity=dynamic_viscosity_value,
         slip_correction=slip_correction_factor,
     )
 
 
 def generate_particle_masses(
-        mean_radius: float,
-        std_dev_radius: float,
-        density: torch.Tensor,
-        num_particles: int,
-        radius_input_units: str = "nm",
+    mean_radius: float,
+    std_dev_radius: float,
+    density: torch.Tensor,
+    num_particles: int,
+    radius_input_units: str = "nm",
 ) -> torch.Tensor:
-    """
-    Generate an array of particle masses based on a log-normal distribution of
+    """Generate an array of particle masses based on a log-normal distribution of
     particle radii and a given density.
 
     Args:
@@ -156,7 +142,8 @@ def generate_particle_masses(
     """
     if mean_radius <= 0 or std_dev_radius <= 0:
         raise ValueError(
-            "Mean radius and standard deviation must be positive.")
+            "Mean radius and standard deviation must be positive."
+        )
 
     # Convert mean and standard deviation from the specified units to meters
     mean_log = np.log(mean_radius)
@@ -165,24 +152,24 @@ def generate_particle_masses(
         # need to check on this error, not clear why this happens
         raise ValueError(
             "log of Mean radius and standard deviation must be positive for"
-            + " torch.distributions.log_normal.LogNormal")
+            + " torch.distributions.log_normal.LogNormal"
+        )
 
     # Sample radii from the log-normal distribution
     radius_samples = torch.distributions.log_normal.LogNormal(
-        mean_log, std_dev_log).sample((num_particles,))
-    radius_samples *= torch.asarray(
-        convert_units(radius_input_units, "m"))
+        mean_log, std_dev_log
+    ).sample((num_particles,))
+    radius_samples *= torch.asarray(convert_units(radius_input_units, "m"))
 
     # Calculate mass of each particle
     return mass_calculation(radius=radius_samples, density=density)
 
 
 def thermal_speed(
-        temperature_kelvin: float,
-        mass_kg: torch.Tensor,
+    temperature_kelvin: float,
+    mass_kg: torch.Tensor,
 ) -> torch.Tensor:
-    """
-    Calculate the thermal speed of a particle based on its temperature and
+    """Calculate the thermal speed of a particle based on its temperature and
     mass.
 
     The thermal speed is computed using the formula: sqrt(8 * k * T / (pi * m))
@@ -206,15 +193,15 @@ def thermal_speed(
     if torch.any(mass_kg <= 0):
         raise ValueError("All mass values must be positive.")
 
-    return torch.sqrt(8 * BOLTZMANN_CONSTANT *
-                      temperature_kelvin / (np.pi * mass_kg))
+    return torch.sqrt(
+        8 * BOLTZMANN_CONSTANT * temperature_kelvin / (np.pi * mass_kg)
+    )
 
 
 def speed(
     velocity: torch.Tensor,
 ) -> torch.Tensor:
-    """
-    Calculate the speed of a particle.
+    """Calculate the speed of a particle.
 
     Args:
         velocity (torch.Tensor): Velocity of the particle.
@@ -232,8 +219,7 @@ def random_thermal_velocity(
     t_type=torch.float,
     random_seed: int = 0,
 ) -> torch.Tensor:
-    """
-    Generate a random thermal velocity for each particle.
+    """Generate a random thermal velocity for each particle.
 
     Args:
         temperature_kelvin (torch.Tensor): Temperature of the fluid in Kelvin.
@@ -263,8 +249,7 @@ def nearest_match(
     y_values: torch.Tensor,
     x_new: torch.Tensor,
 ) -> torch.Tensor:
-    """
-    Perform nearest neighbor interpolation (on torch objects) to find y-values
+    """Perform nearest neighbor interpolation (on torch objects) to find y-values
     corresponding to new x-values. The function identifies the nearest x-value
     for each value in x_new and returns the corresponding y-value.
 

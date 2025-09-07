@@ -1,6 +1,4 @@
-"""
-Test for optical instrument module.
-"""
+"""Test for optical instrument module."""
 
 from particula_beta.data.process.optical_instrument import (
     CapsInstrumentKeywordBuilder,

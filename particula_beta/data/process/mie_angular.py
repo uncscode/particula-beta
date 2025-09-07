@@ -7,8 +7,9 @@
 # pylint: disable=too-many-locals
 
 
-from typing import Union, Tuple
 from functools import lru_cache
+from typing import Tuple, Union
+
 import numpy as np
 import PyMieScatt as ps
 
@@ -22,8 +23,7 @@ def discretize_scattering_angles(
     max_angle: int = 180,
     angular_resolution: float = 1,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Discretize and cache the scattering function for a spherical particle
+    """Discretize and cache the scattering function for a spherical particle
     with specified material properties and size.
 
     This function optimizes the performance of scattering calculations by
@@ -65,8 +65,7 @@ def calculate_scattering_angles(
     integrate_sphere_diameter_cm: float,
     tube_diameter_cm: float,
 ) -> Tuple[float, float]:
-    """
-    Calculate forward and backward scattering angles for a given position
+    """Calculate forward and backward scattering angles for a given position
     along the z-axis within the CAPS instrument geometry.
 
     Parameters:
@@ -105,8 +104,7 @@ def assign_scattering_thetas(
     z_position: Union[float, np.float64],
     integrate_sphere_diameter_cm: float,
 ) -> Tuple[float, float, float]:
-    """
-    Assign scattering angles and efficiencies based on the z-axis position
+    """Assign scattering angles and efficiencies based on the z-axis position
     within the CAPS instrument.
 
     Parameters:

@@ -1,6 +1,12 @@
 # ignore .DS_Store on macs
 .DS_Store
 
+# Aider ignore
+.aider*
+architect
+
+uv.lock
+
 # ignore local mkdocs source folder
 *Source-Code*
 *API*

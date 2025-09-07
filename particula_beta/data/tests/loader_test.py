@@ -3,9 +3,11 @@
 import os
 import tempfile
 from datetime import datetime
+
+import numpy as np
 import pytest
 import pytz
-import numpy as np
+
 from particula_beta.data import loader
 from particula_beta.data.stream import Stream
 
@@ -77,7 +79,7 @@ def test_parse_time_column():
     time_column_invalid = 3
     try:
         loader.parse_time_column(time_column_invalid, time_format, line)
-        assert False, "Expected ValueError"
+        raise AssertionError("Expected ValueError")
     except ValueError:
         assert True
 
@@ -85,13 +87,13 @@ def test_parse_time_column():
     time_format_invalid = "%Y"
     try:
         loader.parse_time_column(time_column_int, time_format_invalid, line)
-        assert False, "Expected ValueError"
+        raise AssertionError("Expected ValueError")
     except ValueError:
         assert True
 
 
 def test_data_raw_loader():
-    """Test data loader"""
+    """Test data loader."""
     # Define the expected data
     expected_data = ["line 1", "line 2", "line 3"]
 
@@ -120,7 +122,8 @@ def test_data_raw_loader():
 
 def test_data_format_checks():
     """Checks the rows of data, filtering out invalid rows based on
-    predefined checks."""
+    predefined checks.
+    """
     # Extended data with a mix of valid and invalid rows based on the criteria
     data = [
         "row, 1",  # Invalid: Only 1 comma
@@ -154,7 +157,7 @@ def test_data_format_checks():
 
 
 def test_sample_data():
-    """test sampling of data rows"""
+    """Test sampling of data rows."""
     # Input data setup
     data = ["2022-01-01 12:00:00,1,2", "2022-01-01 12:01:00,3,4"]
     time_column = 0
@@ -198,7 +201,8 @@ def test_sample_data():
 )
 def test_keyword_to_index_variations(keyword, expected, raises_exception):
     """Test the keyword_to_index function with various keyword types
-    and values."""
+    and values.
+    """
     header = ["A", "B", "C"]
 
     if raises_exception:
@@ -209,7 +213,7 @@ def test_keyword_to_index_variations(keyword, expected, raises_exception):
 
 
 def test_save_stream_to_csv(tmpdir):
-    """Test save to csv"""
+    """Test save to csv."""
     # Create a temporary directory for testing
     output_dir = tmpdir.mkdir("output")
     # Define the expected file path
@@ -231,7 +235,7 @@ def test_save_stream_to_csv(tmpdir):
 
 
 def test_save_stream(tmpdir):
-    """ "Test saving a stream to a pickle"""
+    """ "Test saving a stream to a pickle."""
     # Create a temporary directory for testing
     test_dir = tmpdir.mkdir("output")
 

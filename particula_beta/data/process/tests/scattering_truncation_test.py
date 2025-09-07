@@ -1,4 +1,4 @@
-"""Test initialize"""
+"""Test initialize."""
 
 import numpy as np
 import pytest
@@ -19,7 +19,8 @@ WAVELENGTH = 450
 
 def test_get_truncated_scattering():
     """Test the truncation of scattering data based on specified
-    angle bounds."""
+    angle bounds.
+    """
     # Example scattering intensities and corresponding angles
     scattering_unpolarized = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     theta = np.linspace(0, np.pi, 10)  # Angles from 0 to pi radians
@@ -50,7 +51,6 @@ def test_get_truncated_scattering():
 
 def test_trunc_mono_basic():
     """Test the basic functionality of trunc_mono without full output."""
-
     # No discretization
     # Execute the function under test with minimal parameters
     trunc_corr = scattering_truncation.trunc_mono(
@@ -86,7 +86,6 @@ def test_trunc_mono_basic():
 
 def test_trunc_mono_full_output():
     """Test trunc_mono with full output enabled."""
-
     # Execute the function under test with full_output enabled
     (
         trunc_corr,
@@ -154,8 +153,8 @@ def test_truncation_for_diameters():
 
 def test_correction_for_distribution():
     """Test the calculation of the scattering correction factor for
-    an aerosol size distribution."""
-
+    an aerosol size distribution.
+    """
     # Execute the function under test
     correction_factor = scattering_truncation.correction_for_distribution(
         m_sphere=REFRACTIVE_INDEX_DRY,
@@ -181,7 +180,6 @@ def test_correction_for_distribution():
 
 def test_correction_for_humidified():
     """Test the scattering correction calculation for humidified aerosols."""
-
     # Execute the function under test with global parameters
     bsca_correction = scattering_truncation.correction_for_humidified(
         kappa=KAPPA,

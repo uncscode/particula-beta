@@ -1,13 +1,13 @@
 """test the initialization of the Lake class."""
 
 import numpy as np
+
 from particula_beta.data.lake import Lake
 from particula_beta.data.stream import Stream
 
 
 def test_lake_initialization():
     """Test the initialization of the Lake class."""
-
     header = ["header11", "header12"]
     data = np.array([1, 2, 3])
     time = np.array([1.0, 2.0, 3.0])

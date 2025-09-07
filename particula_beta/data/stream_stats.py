@@ -1,27 +1,27 @@
 """Functions to operate on stream objects."""
 
-from typing import Optional, Union
 import copy
+from typing import Optional, Union
 
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
 from particula_beta import time_manage
 from particula_beta.data.process import stats
-from particula_beta.data.stream import StreamAveraged, Stream
+from particula_beta.data.stream import Stream, StreamAveraged
 
 
 def drop_masked(stream: Stream, mask: np.ndarray) -> Stream:  # type: ignore
     """Drop rows where mask is false, and return data stream.
 
-    Args
+    Args:
     ----------
     stream : object
         data stream object
     mask : np.ndarray
         mask to apply to data stream
 
-    Returns
+    Returns:
     -------
     object
         stream object
@@ -36,8 +36,7 @@ def average_std(
     average_interval: Union[float, int] = 60,
     new_time_array: Optional[np.ndarray] = None,
 ) -> StreamAveraged:
-    """
-    Calculate the average and standard deviation of data within a given
+    """Calculate the average and standard deviation of data within a given
     'stream' object over specified intervals.
 
     This function takes a 'stream' object, which should contain time-series
@@ -93,6 +92,7 @@ def average_std(
         data=average,
         time=new_time_array,
         files=stream.files,
+        info=getattr(stream, "info", {}),
         average_interval=average_interval,
         start_time=new_time_array[0],
         stop_time=new_time_array[-1],
@@ -112,11 +112,10 @@ def filtering(
     drop: Optional[bool] = False,
     header: Optional[Union[list, int, str]] = None,
 ) -> Stream:
-    """
-    Filters the data of the given 'stream' object based on the specified
+    """Filters the data of the given 'stream' object based on the specified
     bounds or specific value. The filtered data can be either dropped or
     replaced with a specified value.  Note, not all parameters need to be
-    specified, but at least one must be provided (top, bottom, value)
+    specified, but at least one must be provided (top, bottom, value).
 
     Args:
     - stream (Stream): The input stream object containing 'data' and 'time'
@@ -179,8 +178,7 @@ def remove_time_window(
     epoch_start: Union[float, int],
     epoch_end: Optional[Union[float, int]] = None,
 ) -> Stream:
-    """
-    Remove a time window from a stream object.
+    """Remove a time window from a stream object.
 
     Args:
         stream: The input stream object containing 'data' and 'time'
@@ -215,8 +213,7 @@ def select_time_window(
     epoch_end: Optional[Union[float, int]] = None,
     clone: Optional[bool] = True,
 ) -> Stream:
-    """
-    Keep only a specified time window in a stream object and remove all other
+    """Keep only a specified time window in a stream object and remove all other
     data.
 
     Arguments:
@@ -236,8 +233,8 @@ def select_time_window(
 
     if epoch_end is None:
         # If no end time provided, keep only the closest time point
-        stream.time = stream.time[index_start: index_start + 1]
-        stream.data = stream.data[index_start: index_start + 1, :]
+        stream.time = stream.time[index_start : index_start + 1]
+        stream.data = stream.data[index_start : index_start + 1, :]
     else:
         # Get index of end time
         index_end = np.argmin(np.abs(stream.time - epoch_end)) + 1
@@ -251,8 +248,7 @@ def select_time_window(
 def time_derivative_of_stream(
     stream: Stream, liner_slope_window_size: int = 12
 ) -> Stream:
-    """
-    Calculate the rate of change of the concentration PMF over time and
+    """Calculate the rate of change of the concentration PMF over time and
     return a new stream.
 
     Uses a linear regression model to fit the slope over a time window.

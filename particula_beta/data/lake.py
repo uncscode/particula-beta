@@ -1,7 +1,8 @@
-"""creates the lake class, a collection of streams"""
+"""creates the lake class, a collection of streams."""
 
 from dataclasses import dataclass, field
-from typing import Dict, Iterator, Any, Tuple
+from typing import Any, Dict, Iterator, Tuple
+
 from particula_beta.data.stream import Stream
 
 
@@ -38,6 +39,7 @@ class Lake:
 
     def __getattr__(self, name: str) -> Any:
         """Allow accessing streams as an attributes.
+
         Raises:
             AttributeError: If the stream name is not in the lake.
         Example: lake.stream_name
@@ -49,12 +51,13 @@ class Lake:
 
     def __dir__(self) -> list:
         """List available streams.
-        Example: dir(lake)"""
+        Example: dir(lake).
+        """
         return list(self.streams.keys())
 
     def __iter__(self) -> Iterator[Any]:
         """Iterate over the streams in the lake.
-        Example: [stream.header for stream in lake]""
+        Example: [stream.header for stream in lake]"".
         """
         return iter(self.streams.items())
 
@@ -72,17 +75,20 @@ class Lake:
 
     def __len__(self) -> int:
         """Return the number of streams in the lake.
-        Example: len(lake)"""
+        Example: len(lake).
+        """
         return len(self.streams)
 
     def __getitem__(self, key: str) -> Any:
         """Get a stream by name.
-        Example: lake['stream_name']"""
+        Example: lake['stream_name'].
+        """
         return self.streams[key]
 
     def __setitem__(self, key: str, value: Stream) -> None:
         """Set a stream by name.
-        Example: lake['stream_name'] = new_stream"""
+        Example: lake['stream_name'] = new_stream.
+        """
         # verify it is a stream object
         if not isinstance(value, Stream):
             raise ValueError(f"This is not a Stream object, {value}")
@@ -90,7 +96,8 @@ class Lake:
 
     def __delitem__(self, key: str) -> None:
         """Remove a stream by name.
-        Example: del lake['stream_name']"""
+        Example: del lake['stream_name'].
+        """
         if key in self.streams:
             del self.streams[key]
         else:
@@ -98,14 +105,15 @@ class Lake:
 
     def __repr__(self) -> str:
         """Return a string representation of the lake.
-        Example: print(lake)"""
+        Example: print(lake).
+        """
         return f"Lake with streams: {list(self.streams.keys())}"
 
     @property
     def summary(self) -> None:
         """Return a string summary iterating over each stream
             and print Stream.header.
-        Example: lake.summary
+        Example: lake.summary.
         """
         for stream in self.streams:
             print(f"{stream} Headers:")

@@ -2,15 +2,17 @@
 
 import copy
 from datetime import datetime
+
 import numpy as np
 import pytz
+
 from particula_beta.units import convert_units
 
 
 def time_str_to_epoch(
-        time: str,
-        time_format: str,
-        timezone_identifier: str = 'UTC',
+    time: str,
+    time_format: str,
+    timezone_identifier: str = "UTC",
 ) -> float:
     """Convert to UTC (epoch) timezone from all inputs. Using pytz library,
     which implements the Olson time zone database. tz identifiers are strings
@@ -45,7 +47,8 @@ def time_str_to_epoch(
     - %S: Second as a zero-padded decimal number.
     - %f: Microsecond as a decimal number, zero-padded on the left.
     - %p: Locales equivalent of either AM or PM.
-    # """
+    #
+    """
     time_zone = pytz.timezone(timezone_identifier)
     time_obj = datetime.strptime(time, time_format)
 
@@ -55,10 +58,9 @@ def time_str_to_epoch(
 
 
 def datetime64_from_epoch_array(
-        epoch_array: np.ndarray,
-        delta: int = 0) -> np.ndarray:
-    """
-    Converts an array of epoch times to a numpy array of datetime64 objects.
+    epoch_array: np.ndarray, delta: int = 0
+) -> np.ndarray:
+    """Converts an array of epoch times to a numpy array of datetime64 objects.
 
     Args:
     -----------
@@ -78,13 +80,13 @@ def datetime64_from_epoch_array(
 
     # Convert epoch times to datetime64 objects with an optional offset
     return np.array(
-        [np.datetime64(int(epoch + delta), 's') for epoch in epoch_array]
+        [np.datetime64(int(epoch + delta), "s") for epoch in epoch_array]
     )
 
 
 def relative_time(
-        epoch_array: np.ndarray,
-        units: str = 'hours',
+    epoch_array: np.ndarray,
+    units: str = "hours",
 ) -> np.ndarray:
     """Cacluates the relative time from the start of the epoch
     array in the specified units.
@@ -101,5 +103,5 @@ def relative_time(
     assert len(epoch_array) > 0, "Input epoch_array must not be empty."
 
     epoch_array -= epoch_array[0]
-    epoch_array *= convert_units('seconds', units)
+    epoch_array *= convert_units("seconds", units)
     return epoch_array

@@ -1,6 +1,7 @@
 """Tests for particle_pairs.py."""
 
 import torch
+
 from particula_beta.lagrangian import particle_pairs
 
 
@@ -15,7 +16,8 @@ def test_remove_duplicates():
 
 def test_calculate_pairwise_distance():
     """Test calculating pairwise distances between points
-    in a position tensor."""
+    in a position tensor.
+    """
     position = torch.tensor([[1, 1, 1], [1, 1, 2], [-1, 1, 1]])
     expected_output = torch.tensor(
         [[0.0, 2.0, 2.2361], [2.0, 0.0, 1.0], [2.2361, 1.0, 0.0]]

@@ -1,12 +1,14 @@
-"""interface to import data to a data stream"""
+"""interface to import data to a data stream."""
 
-from typing import Optional
 import os
+from typing import Optional
+
 import numpy as np
-from particula.util import convert
+import particula as par
+
 from particula_beta.data import loader, merger
-from particula_beta.data.stream import Stream
 from particula_beta.data.lake import Lake
+from particula_beta.data.stream import Stream
 
 
 def get_new_files(
@@ -14,8 +16,7 @@ def get_new_files(
     import_settings: dict,
     loaded_list: Optional[list] = None,
 ) -> tuple:
-    """
-    Scan a directory for new files based on import settings and stream status.
+    """Scan a directory for new files based on import settings and stream status.
 
     This function looks for files in a specified path using import settings.
     It compares the new list of files with a pre-loaded list in the stream
@@ -47,6 +48,7 @@ def get_new_files(
         pass), and a list of lists with new file names and sizes.
 
     Returns:
+
     Raises:
     ------
     YourErrorType
@@ -113,8 +115,7 @@ def load_files_interface(
     stream: Optional[Stream] = None,
     sub_sample: Optional[int] = None,
 ) -> Stream:
-    """
-    Load files into a stream object based on settings.
+    """Load files into a stream object based on settings.
 
     Args:
     ----------
@@ -165,11 +166,14 @@ def load_files_interface(
                 settings=settings,
                 stream=stream,
             )
+        elif settings["data_loading_function"] == "netcdf_load":
+            stream = get_netcdf_stream(
+                file_path=file_path,
+                first_pass=first_pass,
+                settings=settings,
+                stream=stream,
+            )
 
-        # elif (self.settings[key]['data_loading_function'] ==
-        #         'netcdf_load'):
-        #     self.initialise_netcdf_stream(key, path, first_pass)
-        #     first_pass = False
         else:
             raise ValueError(
                 "Data loading function not recognized",
@@ -186,8 +190,7 @@ def load_folders_interface(
     folder_settings: dict,
     lake: Optional[Lake] = None,
 ) -> Lake:
-    """
-    Load files into a lake object based on settings.
+    """Load files into a lake object based on settings.
 
     Args:
     ----------
@@ -226,8 +229,7 @@ def get_1d_stream(
     first_pass: bool = True,
     stream: Optional[Stream] = None,
 ) -> Stream:
-    """
-    Loads and formats a 1D data stream from a file and initializes or updates
+    """Loads and formats a 1D data stream from a file and initializes or updates
     a Stream object.
 
     Args:
@@ -321,7 +323,7 @@ def get_1d_stream(
     )
 
     # check data shape
-    data = convert.data_shape_check(
+    data = par.util.get_shape_check(
         time=epoch_time, data=data, header=settings["data_header"]
     )
     if first_pass:
@@ -345,8 +347,7 @@ def get_2d_stream(
     first_pass: bool = True,
     stream: Optional[Stream] = None,
 ) -> Stream:
-    """
-    Initializes a 2D stream using the settings in the DataLake object.
+    """Initializes a 2D stream using the settings in the DataLake object.
 
     Args:
     ----------
@@ -362,7 +363,10 @@ def get_2d_stream(
         stream = Stream(
             header=[], data=np.array([]), time=np.array([]), files=[]
         )
-    # Input validation
+    if stream is None:
+        stream = Stream(
+            header=[], data=np.array([]), time=np.array([]), files=[]
+        )
     if not isinstance(settings, dict):
         raise TypeError("The setting parameters must be in a dictionary.")
 
@@ -414,7 +418,7 @@ def get_2d_stream(
     )
 
     # check data shape
-    data = convert.data_shape_check(time=epoch_time, data=data, header=header)
+    data = par.util.get_shape_check(time=epoch_time, data=data, header=header)
     if first_pass:
         stream.header = header
         stream.data = data
@@ -430,71 +434,83 @@ def get_2d_stream(
     return stream
 
 
-# def initialise_netcdf_stream(
-#     self,
-#     key: str,
-#     path: str,
-#     first_pass: bool
-# ) -> None:
-#     """
-#     Initialise a netcdf stream using the settings in the DataLake
-#     object. This can load either 1D or 2D data, as specified in the
-#     settings.
-#     Args:
-#     ----------
-#         key (str): The key of the stream to initialise.
-#         path (str): The path of the file to load data from.
-#         first_pass (bool): Whether this is the first time loading data.
+def get_netcdf_stream(
+    file_path: str,
+    settings: dict,
+    first_pass: bool = True,
+    stream: Optional[Stream] = None,
+) -> Stream:
+    """Initialise a netcdf stream using the settings in the DataLake
+    object. This can load either 1D or 2D data, as specified in the
+    settings.
 
-#     Returns:
-#     ----------
-#         None.
-#     """
-#     # ValueKey error if netcdf_reader not in settings
-#     if 'netcdf_reader' not in self.settings[key]:
-#         raise ValueError('netcdf_reader not in settings')
+    Args:
+    ----------
+        key (str): The key of the stream to initialise.
+        path (str): The path of the file to load data from.
+        first_pass (bool): Whether this is the first time loading data.
 
-#     # Load the data 1d data
-#     if 'data_1d' in self.settings[key]['netcdf_reader']:
-#         epoch_time, header_1d, data_1d = loader.netcdf_data_1d_load(
-#             file_path=path,
-#             settings=self.settings[key])
+    Returns:
+    ----------
+        None.
+    """
+    # Input validation
+    if not isinstance(settings, dict):
+        raise TypeError("The setting parameters must be in a dictionary.")
 
-#         if first_pass:  # create the stream
-#             self.streams[
-#                 self.settings[key]['data_stream_name'][0]
-#             ] = stream(
-#                 header_list=header_1d,
-#                 average_times=[600],
-#                 average_base=self.settings[key]['base_interval_sec']
-#             )
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(
+            f"The file path specified does not exist: {file_path}"
+        )
 
-#         self.streams[
-#             self.settings[key]['data_stream_name'][0]
-#         ].add_data(
-#             time_stream=epoch_time,
-#             data_stream=data_1d,
-#         )
+    if not isinstance(first_pass, bool):
+        raise TypeError("The first_pass parameter must be a boolean.")
+    if "netcdf_reader" not in settings:
+        raise ValueError("netcdf_reader not in settings")
 
-#     if 'data_2d' in self.settings[key]['netcdf_reader']:
-#         epoch_time, header_2d, data_2d = loader.netcdf_data_2d_load(
-#             file_path=path,
-#             settings=self.settings[key])
+    # Load the data 1d data
+    if "data_1d" in settings["netcdf_reader"]:
+        epoch_time, header_1d, data_1d = loader.netcdf_data_1d_load(
+            file_path=file_path, settings=settings
+        )
 
-#         if first_pass:  # create the stream
-#             self.streams[
-#                 self.settings[key]['data_stream_name'][1]
-#             ] = stream(
-#                 header_list=header_2d,
-#                 average_times=[600],
-#                 average_base=self.settings[key]['base_interval_sec']
-#             )
+        data_1d = par.util.get_shape_check(
+            time=epoch_time, data=data_1d, header=header_1d
+        )
 
-#         self.streams[
-#             self.settings[key]['data_stream_name'][1]
-#         ].add_data(
-#             time_stream=epoch_time,
-#             data_stream=data_2d,
-#             header_check=True,
-#             header=header_2d
-#         )
+        if first_pass:
+            stream.header = header_1d
+            stream.data = data_1d
+            stream.time = epoch_time
+        else:
+            stream = merger.stream_add_data(
+                stream=stream,
+                time_new=epoch_time,
+                data_new=data_1d,
+                header_check=True,
+                header_new=header_1d,
+            )
+
+    if "data_2d" in settings["netcdf_reader"]:
+        epoch_time, header_2d, data_2d = loader.netcdf_data_2d_load(
+            file_path=file_path, settings=settings
+        )
+
+        data_2d = par.util.get_shape_check(
+            time=epoch_time, data=data_2d, header=header_2d
+        )
+
+        if first_pass:
+            stream.header = header_2d
+            stream.data = data_2d
+            stream.time = epoch_time
+        else:
+            stream = merger.stream_add_data(
+                stream=stream,
+                time_new=epoch_time,
+                data_new=data_2d,
+                header_check=True,
+                header_new=header_2d,
+            )
+
+    return stream

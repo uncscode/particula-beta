@@ -1,14 +1,15 @@
 """Functions for processing optical data."""
 
-from typing import Optional, Union
 import logging
+from typing import Optional, Union
+
 import numpy as np
 
-from particula_beta.data.stream import Stream
 from particula_beta.data.process import (
-    scattering_truncation,
     kappa_via_extinction,
+    scattering_truncation,
 )
+from particula_beta.data.stream import Stream
 
 logger = logging.getLogger("particula")
 
@@ -108,8 +109,7 @@ def caps_processing(
     stream_caps: Stream,
     keywords: dict[str, Union[str, float, int, bool]],
 ):
-    """
-    Process CAPS data and SMPS data for kappa fitting, apply truncation
+    """Process CAPS data and SMPS data for kappa fitting, apply truncation
     corrections, and add the results to the caps stream.
 
     Arguments:
@@ -122,7 +122,6 @@ def caps_processing(
         Stream with processed CAPS data, including kappa fitting results
         and truncation corrections.
     """
-
     # Log the start of CAPS data processing
     logger.info("Processing CAPS data")
 
@@ -254,8 +253,7 @@ def albedo_from_ext_scat(
     new_absorption_key: str,
     new_albedo_key: str,
 ) -> Stream:
-    """
-    Calculate the albedo from the extinction and scattering data in the stream.
+    """Calculate the albedo from the extinction and scattering data in the stream.
 
     This function computes the absorption as the difference between extinction
     and scattering, and the single-scattering albedo as the ratio of scattering
@@ -319,8 +317,7 @@ def enhancement_ratio(
     denominator_key: str,
     new_key: str,
 ) -> Stream:
-    """
-    Calculate the enhancement ratio from two data keys in the stream.
+    """Calculate the enhancement ratio from two data keys in the stream.
 
     This is the ratio between the numerator and the denominator. If the
     denominator is zero, then the ratio is set to `np.nan`. This function

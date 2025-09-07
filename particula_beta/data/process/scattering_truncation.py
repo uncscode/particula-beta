@@ -1,17 +1,22 @@
-"""Scattering Truncation Correction Functions"""
+"""Scattering Truncation Correction Functions."""
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments, too-many-locals
 
-from typing import Union, Tuple
 from functools import lru_cache
-import numpy as np
-from numpy.typing import NDArray
+from typing import Tuple, Union
 
-from tqdm import tqdm
+import numpy as np
+import particula as par
 import PyMieScatt as ps
-from scipy.integrate import trapezoid as trapz
-from particula.util import convert
+from numpy.typing import NDArray
+from scipy.integrate import trapezoid
+from tqdm import tqdm
+
 from particula_beta.data.process import mie_angular, mie_bulk
+from particula_beta.data.util.convert_length import (
+    get_length_from_volume,
+    get_volume_from_length,
+)
 
 
 def get_truncated_scattering(
@@ -20,8 +25,7 @@ def get_truncated_scattering(
     theta1: float,
     theta2: float,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Extracts the truncated scattering intensity and corresponding angles based
+    """Extracts the truncated scattering intensity and corresponding angles based
     on the given truncation angles.
 
     Arguments:
@@ -56,8 +60,7 @@ def trunc_mono(
     float,
     Tuple[float, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray],
 ]:
-    """
-    Truncation correction for monodisperse aerosol particle.
+    """Truncation correction for monodisperse aerosol particle.
 
     Calculates the single scattering albedo (SSA) correction due to truncation
     for monodisperse aerosol measurements using the CAPS-PM-SSA instrument. The
@@ -137,7 +140,7 @@ def trunc_mono(
         )
 
     # Integrate the Mie scattering efficiency over all angles
-    q_mie = trapz((2 * su * np.sin(theta)) / size_param**2, theta)
+    q_mie = trapezoid((2 * su * np.sin(theta)) / size_param**2, theta)
 
     # Initialize arrays for z-axis positions, angles, and scattering
     # efficiencies
@@ -165,14 +168,14 @@ def trunc_mono(
         su_trunc, theta_trunc = get_truncated_scattering(
             su, theta, theta1[i], theta2[i]
         )
-        qsca_trunc[i] = trapz(
+        qsca_trunc[i] = trapezoid(
             (2 * su_trunc * np.sin(theta_trunc)) / size_param**2, theta_trunc
         )
 
     # Integrate scattering efficiencies over the z-axis to get total
     # efficiencies
-    trunc = trapz(qsca_trunc, z_axis)
-    ideal = trapz(qsca_ideal, z_axis)
+    trunc = trapezoid(qsca_trunc, z_axis)
+    ideal = trapezoid(qsca_ideal, z_axis)
 
     # Apply calibration factor to truncation correction if requested
     trunc_corr = (
@@ -195,8 +198,7 @@ def truncation_for_diameters(
     discretize: bool = True,
     calibrated_trunc: bool = True,
 ) -> NDArray[np.float64]:
-    """
-    Truncation correction for an array of particle diameters.
+    """Truncation correction for an array of particle diameters.
 
     Calculates the truncation correction for an array of particle diameters
     given a specific refractive index and wavelength. This function is
@@ -354,24 +356,24 @@ def correction_for_humidified(
             coefficients to account for truncation effects due to humidity.
     """
     # calculate the volume of the dry aerosol
-    volume_sizer = convert.length_to_volume(diameter, length_type="diameter")
-    volume_dry = convert.kappa_volume_solute(
+    volume_sizer = get_volume_from_length(diameter, dimension="diameter")
+    volume_dry = par.particles.get_solute_volume_from_kappa(
         volume_sizer, kappa, water_activity_sizer
     )
-    volume_water_sample = convert.kappa_volume_water(
+    volume_water_sample = par.particles.get_water_volume_from_kappa(
         volume_dry, kappa, water_activity_sample
     )
 
     # calculate the effective refractive index of the dry+water aerosol
-    m_sphere = convert.effective_refractive_index(
+    m_sphere = par.util.get_effective_refractive_index(
         refractive_index_dry,
         water_refractive_index,
         volume_water_sample[-1],
         volume_dry[-1],
     )
     # wet diameter sizes
-    diameter_sizes = convert.volume_to_length(
-        volume_dry + volume_water_sample, length_type="diameter"
+    diameter_sizes = get_length_from_volume(
+        volume_dry + volume_water_sample, dimension="diameter"
     )
     # calculate the b_sca correction
     bsca_correction = correction_for_distribution(

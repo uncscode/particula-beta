@@ -1,14 +1,15 @@
 """Functions to operate on stream objects."""
 
 from typing import Optional, Union
+
 import numpy as np
 from numpy.typing import NDArray
 
-from particula_beta.data.lake import Lake
 from particula_beta.data import stream_stats
+from particula_beta.data.lake import Lake
 
 
-def average_std(
+def get_lake_average_std(
     lake: Lake,
     average_interval: Union[float, int] = 60,
     new_time_array: Optional[NDArray[np.float64]] = None,
