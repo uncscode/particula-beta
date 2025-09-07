@@ -974,18 +974,19 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#args" class="md-nav__link">
+    <nav class="md-nav" aria-label="stream_add_data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Args
+      Arguments
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#returns_1" class="md-nav__link">
     <span class="md-ellipsis">
       Returns
@@ -993,8 +994,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#raises" class="md-nav__link">
     <span class="md-ellipsis">
       Raises
@@ -1002,16 +1003,15 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       Notes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Notes">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#signature_1" class="md-nav__link">
@@ -3489,18 +3489,19 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#args" class="md-nav__link">
+    <nav class="md-nav" aria-label="stream_add_data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Args
+      Arguments
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#returns_1" class="md-nav__link">
     <span class="md-ellipsis">
       Returns
@@ -3508,8 +3509,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#raises" class="md-nav__link">
     <span class="md-ellipsis">
       Raises
@@ -3517,16 +3518,15 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       Notes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Notes">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#signature_1" class="md-nav__link">
@@ -3614,10 +3614,11 @@ header_new : List[str]
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="stream_add_data">stream_add_data<a class="headerlink" href="#stream_add_data" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/merger.py#L101">Show source in merger.py:101</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/merger.py#L100">Show source in merger.py:100</a></p>
 <p>Adds a new data stream and corresponding time stream to the
 existing data.</p>
-<h2 id="args">Args<a class="headerlink" href="#args" title="Permanent link">&para;</a></h2>
+<h4 id="arguments_1">Arguments<a class="headerlink" href="#arguments_1" title="Permanent link">&para;</a></h4>
+<hr />
 <p>stream : object
     A Stream object, containing the existing data.
 new_time : np.ndarray (m,)
@@ -3630,14 +3631,17 @@ header_check : bool, optional
 new_header : list of str, optional
     A list of header names for the new data stream. Required if
     header_check is True.</p>
-<h2 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h2>
+<h4 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h4>
+<hr />
 <p>stream : object
     A Stream object, containing the updated data.</p>
-<h2 id="raises">Raises<a class="headerlink" href="#raises" title="Permanent link">&para;</a></h2>
+<h4 id="raises">Raises<a class="headerlink" href="#raises" title="Permanent link">&para;</a></h4>
+<hr />
 <p>ValueError
     If header_check is True and header is not provided or
     header does not match the existing header.</p>
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<h4 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h4>
+<hr />
 <p>If header_check is True, the method checks whether the header in the
 new data matches the header in the existing data. If they do not match,
 the method attempts to merge the headers and updates the header

@@ -3439,7 +3439,7 @@
 </blockquote>
 <h2 id="calculate_pairwise_distance">calculate_pairwise_distance<a class="headerlink" href="#calculate_pairwise_distance" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L48">Show source in particle_pairs.py:48</a></p>
-<p>need to test this:</p>
+<p>Need to test this:</p>
 <p>Calculate the pairwise Euclidean distances between points in a given
 position tensor.</p>
 <p>This function computes the pairwise distances between points represented
@@ -3464,7 +3464,7 @@ between the i-th and j-th points in the input tensor.</li>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_pairwise_distance</span><span class="p">(</span><span class="n">position</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="full_sweep_and_prune">full_sweep_and_prune<a class="headerlink" href="#full_sweep_and_prune" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L165">Show source in particle_pairs.py:165</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L161">Show source in particle_pairs.py:161</a></p>
 <p>Sweep and prune algorithm for collision detection along all three axes
 (x, y, z). This function identifies pairs of particles that are close
 enough to potentially collide in 3D space.</p>
@@ -3485,7 +3485,7 @@ enough to potentially collide in 3D space.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="full_sweep_and_prune_simplified">full_sweep_and_prune_simplified<a class="headerlink" href="#full_sweep_and_prune_simplified" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L250">Show source in particle_pairs.py:250</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L245">Show source in particle_pairs.py:245</a></p>
 <p>A simplified version of the full sweep and prune algorithm for collision
 written above, it is not working yet. there is an error in the update of
 the indices in the y and z axis.</p>
@@ -3509,7 +3509,7 @@ enough to potentially collide in 3D space.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="remove_duplicates">remove_duplicates<a class="headerlink" href="#remove_duplicates" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L7">Show source in particle_pairs.py:7</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L8">Show source in particle_pairs.py:8</a></p>
 <p>Removes duplicate entries from a specified column in a tensor of index
 pairs.</p>
 <p>This function is designed to work with tensors where each row represents a
@@ -3539,7 +3539,7 @@ index_to_remove = 0</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="single_axis_sweep_and_prune">single_axis_sweep_and_prune<a class="headerlink" href="#single_axis_sweep_and_prune" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L122">Show source in particle_pairs.py:122</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L120">Show source in particle_pairs.py:120</a></p>
 <p>Sweep and prune algorithm for collision detection along a single axis.
 This function identifies pairs of particles that are close enough to
 potentially collide.</p>
@@ -3560,7 +3560,7 @@ of potentially colliding particles.</li>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="validate_pair_distance">validate_pair_distance<a class="headerlink" href="#validate_pair_distance" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L79">Show source in particle_pairs.py:79</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/lagrangian/particle_pairs.py#L78">Show source in particle_pairs.py:78</a></p>
 <p>Validates if the Euclidean distances between pairs of points are smaller
 than the sum of their radii.</p>
 <h4 id="arguments_5">Arguments<a class="headerlink" href="#arguments_5" title="Permanent link">&para;</a></h4>

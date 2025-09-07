@@ -3939,9 +3939,9 @@ files.</p>
     <span class="n">file_min_size_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">header_row</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">data_checks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">data_column</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
-    <span class="n">data_header</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data 1&quot;</span><span class="p">,</span> <span class="s2">&quot;data 3&quot;</span><span class="p">],</span>
-    <span class="n">time_column</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">data_column</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">data_header</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_column</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
     <span class="n">time_shift_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -3949,9 +3949,9 @@ files.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="for_general_sizer_1d_2d_load">for_general_sizer_1d_2d_load<a class="headerlink" href="#for_general_sizer_1d_2d_load" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L89">Show source in settings_generator.py:89</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L94">Show source in settings_generator.py:94</a></p>
 <p>Generate settings for the 1D general file loader and the 2D general sizer
-    file loader.</p>
+file loader.</p>
 <h4 id="arguments_1">Arguments<a class="headerlink" href="#arguments_1" title="Permanent link">&para;</a></h4>
 <ul>
 <li>relative_data_folder (str): Path to the folder containing data files,
@@ -3993,12 +3993,12 @@ files.</p>
     <span class="n">file_min_size_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">header_row</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">data_checks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">data_1d_column</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
-    <span class="n">data_1d_header</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data 1&quot;</span><span class="p">,</span> <span class="s2">&quot;data 3&quot;</span><span class="p">],</span>
+    <span class="n">data_1d_column</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">data_1d_header</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">data_2d_dp_start_keyword</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Date Time&quot;</span><span class="p">,</span>
     <span class="n">data_2d_dp_end_keyword</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Total Conc&quot;</span><span class="p">,</span>
     <span class="n">data_2d_convert_concentration_from</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dw/dlogdp&quot;</span><span class="p">,</span>
-    <span class="n">time_column</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">time_column</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
     <span class="n">time_shift_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -4006,7 +4006,7 @@ files.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="load_settings_for_lake">load_settings_for_lake<a class="headerlink" href="#load_settings_for_lake" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L260">Show source in settings_generator.py:260</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L268">Show source in settings_generator.py:268</a></p>
 <p>Load settings for Lake data from a JSON file. The settings file is
 a dictionary of stream settings dictionaries.</p>
 <p>Given a path and subfolder, this function searches for a JSON file
@@ -4035,7 +4035,7 @@ appropriate errors or warnings are raised.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="load_settings_for_stream">load_settings_for_stream<a class="headerlink" href="#load_settings_for_stream" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L186">Show source in settings_generator.py:186</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L196">Show source in settings_generator.py:196</a></p>
 <p>Load settings for Stream data from a JSON file.</p>
 <p>Given a path and subfolder, this function searches for a JSON file
 named 'stream_settings' with an optional suffix. It returns the settings
@@ -4063,7 +4063,7 @@ appropriate errors or warnings are raised.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="save_settings_for_lake">save_settings_for_lake<a class="headerlink" href="#save_settings_for_lake" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L307">Show source in settings_generator.py:307</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L314">Show source in settings_generator.py:314</a></p>
 <p>Save settings for lake data to a JSON file.</p>
 <p>Given a dictionary of settings, this function saves it to a JSON file
 named 'lake_settings' with an optional suffix in the specified filename.
@@ -4086,7 +4086,7 @@ The JSON file is formatted with a 4-space indentation.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="save_settings_for_stream">save_settings_for_stream<a class="headerlink" href="#save_settings_for_stream" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L232">Show source in settings_generator.py:232</a></p>
+<p><a href="https://github.com/uncscode/particula-beta/blob/main/particula_beta/data/settings_generator.py#L241">Show source in settings_generator.py:241</a></p>
 <p>Save settings for lake data to a JSON file.</p>
 <p>Given a dictionary of settings, this function saves it to a JSON file
 named 'stream_settings' with an optional suffix in the specified filename.
