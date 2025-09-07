@@ -41,7 +41,7 @@ jobs:
       if: ${{ matrix.linter == 'pylint' }}
       name: Lint with pylint
       run: |
-        pylint $(find particula/ -name "*.py" | xargs)
+        pylint $(find particula_beta/ -name "*.py" | xargs)
 
     -
       if: ${{ matrix.linter == 'ruff' }}
