@@ -47,4 +47,4 @@ jobs:
       if: ${{ matrix.linter == 'ruff' }}
       name: Ruff Check
       run: |
-        ruff check particula
+        ruff check particula_beta
