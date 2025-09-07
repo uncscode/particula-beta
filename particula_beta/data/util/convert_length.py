@@ -1,18 +1,16 @@
-"""
-General volume to length conversion
-"""
+"""General volume to length conversion."""
 
 from typing import Union
-from numpy.typing import NDArray
+
 import numpy as np
+from numpy.typing import NDArray
 
 
 def get_length_from_volume(
     volume: Union[float, NDArray[np.float64]],
     dimension: str = "radius",
 ) -> float:
-    """
-    Calculates a length (radius or diameter) from a given volume for a sphere.
+    """Calculates a length (radius or diameter) from a given volume for a sphere.
 
     Args:
         volume: The volume of the shape.
@@ -30,8 +28,7 @@ def get_volume_from_length(
     length: Union[float, NDArray[np.float64]],
     dimension: str = "radius",
 ) -> float:
-    """
-    Calculates a volume from a given length (radius or diameter) for a sphere.
+    """Calculates a volume from a given length (radius or diameter) for a sphere.
 
     Args:
         length: The length specifying the shape's size (radius or diameter).

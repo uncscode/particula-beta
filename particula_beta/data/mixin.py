@@ -2,7 +2,7 @@
 
 # pylint: disable=too-few-public-methods
 
-from typing import Union, List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional, Union
 
 
 class RelativeFolderMixin:
@@ -300,7 +300,7 @@ class DelimiterMixin:
         self.delimiter = None
 
     def set_delimiter(self, delimiter: str):
-        """Set the delimiter for the data files to load.
+        r"""Set the delimiter for the data files to load.
 
         Args:
             delimiter (str): Delimiter for the data columns in the data files.
@@ -387,7 +387,6 @@ class TimezoneIdentifierMixin:
             [List of Timezones](
             https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
         """
-
         self.timezone_identifier = timezone
         return self
 
@@ -512,7 +511,7 @@ class ChecksReplaceCharsMixin:
         self.replace_chars = {}
 
     def set_replace_chars(self, replace_chars: dict[str, str]):
-        """Set the characters to replace in the data lines.
+        r"""Set the characters to replace in the data lines.
 
         This is useful to replace unwanted characters from the data lines
         before converting the data to the required format. Each key in the
@@ -617,7 +616,8 @@ class SizerEndKeywordMixin:
 
 class SizerConcentrationConvertFromMixin:
     """Mixin class for setting to convert the sizer concentration to
-    a different scale."""
+    a different scale.
+    """
 
     def __init__(self):
         self.sizer_concentration_convert_from = None
@@ -668,8 +668,7 @@ class SizerDataReaderMixin:
 
 
 class DateLocationMixin:
-    """
-    Mixin class for setting the location of the date in the data files.
+    """Mixin class for setting the location of the date in the data files.
     When the date is not in each row of the data file, but in a different
     location, e.g. in the first row of the file only.
     """

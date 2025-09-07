@@ -1,14 +1,14 @@
 """Lagrangian particle pairwise distances and pairwise operations."""
 
 from typing import Tuple
+
 import torch
 
 
 def remove_duplicates(
     index_pairs: torch.Tensor, index_to_remove: int
 ) -> torch.Tensor:
-    """
-    Removes duplicate entries from a specified column in a tensor of index
+    """Removes duplicate entries from a specified column in a tensor of index
     pairs.
 
     This function is designed to work with tensors where each row represents a
@@ -46,8 +46,7 @@ def remove_duplicates(
 
 
 def calculate_pairwise_distance(position: torch.Tensor) -> torch.Tensor:
-    """
-    need to test this:
+    """Need to test this:
 
     Calculate the pairwise Euclidean distances between points in a given
     position tensor.
@@ -81,8 +80,7 @@ def validate_pair_distance(
     position: torch.Tensor,
     radius: torch.Tensor,
 ) -> torch.Tensor:
-    """
-    Validates if the Euclidean distances between pairs of points are smaller
+    """Validates if the Euclidean distances between pairs of points are smaller
     than the sum of their radii.
 
     Args:
@@ -122,8 +120,7 @@ def validate_pair_distance(
 def single_axis_sweep_and_prune(
     position_axis: torch.Tensor, radius: torch.Tensor
 ) -> Tuple[torch.Tensor, torch.Tensor]:
-    """
-    Sweep and prune algorithm for collision detection along a single axis.
+    """Sweep and prune algorithm for collision detection along a single axis.
     This function identifies pairs of particles that are close enough to
     potentially collide.
 
@@ -136,7 +133,6 @@ def single_axis_sweep_and_prune(
         Tuple[torch.Tensor, torch.Tensor]: Two tensors containing the indices
         of potentially colliding particles.
     """
-
     # Fast return if there are no particles
     if position_axis.shape[0] == 0:
         return torch.tensor([], dtype=torch.int64), torch.tensor(
@@ -165,8 +161,7 @@ def single_axis_sweep_and_prune(
 def full_sweep_and_prune(
     position: torch.Tensor, radius: torch.Tensor
 ) -> torch.Tensor:
-    """
-    Sweep and prune algorithm for collision detection along all three axes
+    """Sweep and prune algorithm for collision detection along all three axes
     (x, y, z). This function identifies pairs of particles that are close
     enough to potentially collide in 3D space.
 
@@ -250,8 +245,7 @@ def full_sweep_and_prune(
 def full_sweep_and_prune_simplified(
     position: torch.Tensor, radius: torch.Tensor, working_yet: bool = False
 ) -> torch.Tensor:
-    """
-    A simplified version of the full sweep and prune algorithm for collision
+    """A simplified version of the full sweep and prune algorithm for collision
     written above, it is not working yet. there is an error in the update of
     the indices in the y and z axis.
 

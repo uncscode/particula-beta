@@ -1,5 +1,4 @@
-"""
-Pint Unit Conversion Wrapper
+"""Pint Unit Conversion Wrapper.
 
 This is the only module that uses the pint library.
 """
@@ -19,7 +18,7 @@ def convert_units(
     new: str,
     value: Optional[float] = None,
 ) -> float:
-    """Generic wrapper for pint to convert units
+    """Generic wrapper for pint to convert units.
 
     Args:
         - old : old units defined by pint, e.g., "m", "ft", "Km", "kg/m^3"

@@ -1,5 +1,6 @@
 """Calculate Mie optical properties for a size distribution of
-spherical particles. With discretization options."""
+spherical particles. With discretization options.
+"""
 
 # pyright: reportReturnType=false, reportAssignmentType=false
 # pyright: reportIndexIssue=false
@@ -8,12 +9,13 @@ spherical particles. With discretization options."""
 # pylint: disable=too-many-locals
 
 
-from typing import Union, Tuple, Optional
 from functools import lru_cache
+from typing import Optional, Tuple, Union
+
 import numpy as np
-from numpy.typing import NDArray
-import PyMieScatt as ps
 import particula as par
+import PyMieScatt as ps
+from numpy.typing import NDArray
 
 
 @lru_cache(maxsize=100000)
@@ -23,8 +25,7 @@ def discretize_auto_mieq(
     diameter: float,
     m_medium: float = 1.0,
 ) -> Tuple[float, ...]:
-    """
-    Compute Mie coefficients for a spherical particle based on its material
+    """Compute Mie coefficients for a spherical particle based on its material
     properties, size, and the properties of the surrounding medium.
 
     This function uses the PyMieScatt library to calculate various Mie
@@ -69,8 +70,7 @@ def discretize_mie_parameters(
     base_wavelength: float = 1,
     base_diameter: float = 5,
 ) -> Tuple[Union[complex, float], float, Union[float, list[float]]]:
-    """
-    Discretize the refractive index, wavelength, and diameters for Mie
+    """Discretize the refractive index, wavelength, and diameters for Mie
     scattering calculations.
 
     This function improves numerical stability and performance by discretizing
@@ -137,8 +137,7 @@ def compute_bulk_optics(
     pms: bool,
     dp: NDArray[np.float64],
 ) -> Union[NDArray[np.float64], tuple[NDArray[np.float64], ...]]:
-    """
-    Compute bulk optical properties from size-dependent efficiency factors for
+    """Compute bulk optical properties from size-dependent efficiency factors for
     a size distribution.
 
     This function calculates various bulk optical properties such as
@@ -201,8 +200,7 @@ def format_mie_results(
     b_ratio: NDArray[np.float64],
     as_dict: bool,
 ) -> Union[dict[str, NDArray[np.float64]], tuple[NDArray[np.float64], ...]]:
-    """
-    Format the output results of the Mie scattering calculations.
+    """Format the output results of the Mie scattering calculations.
 
     Arguments:
         b_ext: Array of bulk extinction coefficients.
@@ -253,8 +251,7 @@ def mie_size_distribution(
     dict[str, NDArray[np.float64]],
     Tuple[NDArray[np.float64], ...],
 ]:
-    """
-    Calculate Mie scattering parameters for a size distribution of spherical
+    """Calculate Mie scattering parameters for a size distribution of spherical
     particles.
 
     This function computes optical properties such as extinction, scattering,

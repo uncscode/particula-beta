@@ -1,15 +1,16 @@
 """Size distribution processing functions to calculate mean properties and
-merge distributions."""
+merge distributions.
+"""
 
 # pylint: disable=too-many-locals
 
-from typing import Optional, List, Tuple
-
 import copy
 from math import pi
+from typing import List, Optional, Tuple
+
 import numpy as np
-from scipy.stats.mstats import gmean
 import particula as par
+from scipy.stats.mstats import gmean
 
 from particula_beta.data.stream import Stream
 from particula_beta.units import convert_units
@@ -21,8 +22,7 @@ def mean_properties(
     total_concentration: Optional[float] = None,
     sizer_limits: Optional[list] = None,
 ) -> Tuple[float, float, float, float, float, float, float]:
-    """
-    Calculate the mean properties of the size distribution.
+    """Calculate the mean properties of the size distribution.
 
     Arguments:
         sizer_dndlogdp: Array of particle concentrations in each bin.
@@ -42,7 +42,6 @@ def mean_properties(
         - Mode diameter of the distribution by number.
         - Mode diameter of the distribution by volume.
     """
-
     # convert to dn from dn/dlogDp
     sizer_dn = par.particles.get_distribution_in_dn(
         sizer_diameter, sizer_dndlogdp
@@ -114,8 +113,7 @@ def sizer_mean_properties(
     density: float = 1.5,
     diameter_units: str = "nm",
 ) -> Stream:
-    """
-    Calculate the mean properties of the size distribution and return the
+    """Calculate the mean properties of the size distribution and return the
     updated stream.
 
     Arguments:
@@ -276,8 +274,7 @@ def merge_distributions(
     concentration_upper: np.ndarray,
     diameters_upper: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Merge two particle size distributions using linear weighting,
+    """Merge two particle size distributions using linear weighting,
     accounting for mobility versus aerodynamic diameters.
 
     Arguments:
@@ -365,8 +362,7 @@ def iterate_merge_distributions(
     concentration_upper: np.ndarray,
     diameters_upper: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Merge two sets of particle size distributions using linear weighting.
+    """Merge two sets of particle size distributions using linear weighting.
 
     Arguments:
         concentration_lower: The concentration of particles in the lower
@@ -411,8 +407,7 @@ def merge_size_distribution(
     lower_units: str = "nm",
     upper_units: str = "um",
 ) -> object:
-    """
-    Merge two particle size distributions using linear weighting.
+    """Merge two particle size distributions using linear weighting.
     The concentrations should be in dN/dlogDp.
 
     Arguments:
@@ -454,8 +449,7 @@ def resample_distribution(
     concentration_scale: str = "dn/dlogdp",
     clone: bool = False,
 ) -> Stream:
-    """
-    Resample a particle size distribution to a new set of diameters using
+    """Resample a particle size distribution to a new set of diameters using
     numpy interpolation. Extrapolated values will be set to NaN.
 
     Arguments:

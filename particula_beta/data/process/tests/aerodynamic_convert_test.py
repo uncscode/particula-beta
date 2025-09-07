@@ -1,6 +1,4 @@
-"""
-Tests for the aerodynamic_convert module.
-"""
+"""Tests for the aerodynamic_convert module."""
 
 import numpy as np
 

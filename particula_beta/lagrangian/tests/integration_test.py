@@ -1,6 +1,7 @@
 """Test the integration module."""
 
 import torch
+
 from particula_beta.lagrangian import integration
 
 

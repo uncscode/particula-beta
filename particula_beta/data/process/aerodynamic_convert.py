@@ -1,14 +1,12 @@
-"""
-Convert between aerodynamic and physical radii of particles.
-"""
+"""Convert between aerodynamic and physical radii of particles."""
 
-from typing import Union
 from functools import partial
+from typing import Union
+
 import numpy as np
+import particula as par
 from numpy.typing import NDArray
 from scipy.optimize import fsolve
-
-import particula as par
 
 
 def _cost_aerodynamic_radius(
@@ -17,8 +15,7 @@ def _cost_aerodynamic_radius(
     particle_radius: Union[float, NDArray[np.float64]],
     **kwargs,
 ) -> Union[float, NDArray[np.float64]]:
-    """
-    Optimization cost function to determine the aerodynamic radius of a
+    """Optimization cost function to determine the aerodynamic radius of a
     particle.
 
     Arguments:
@@ -78,8 +75,7 @@ def _cost_physical_radius(
     aerodynamic_radius: Union[float, NDArray[np.float64]],
     **kwargs,
 ) -> Union[float, NDArray[np.float64]]:
-    """
-    Optimization cost function to determine the physical radius of a particle.
+    """Optimization cost function to determine the physical radius of a particle.
 
     Arguments:
         guess_physical_radius: The initial guess for the physical radius.
@@ -141,8 +137,7 @@ def convert_aerodynamic_to_physical_radius(
     aerodynamic_shape_factor: float = 1.0,
     reference_density: float = 1000.0,
 ) -> Union[float, NDArray[np.float64]]:
-    """
-    Convert aerodynamic radius to physical radius for a particle or an array
+    """Convert aerodynamic radius to physical radius for a particle or an array
     of particles.
 
     Arguments:
@@ -199,8 +194,7 @@ def convert_physical_to_aerodynamic_radius(
     aerodynamic_shape_factor: float = 1.0,
     reference_density: float = 1000.0,
 ) -> Union[float, NDArray[np.float64]]:
-    """
-    Convert physical radius to aerodynamic radius for a particle or an array
+    """Convert physical radius to aerodynamic radius for a particle or an array
     of particles.
 
     Arguments:

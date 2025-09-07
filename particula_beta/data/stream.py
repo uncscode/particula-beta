@@ -1,8 +1,9 @@
 """A module for the Stream and StreamAveraged(Stream) classes."""
 
-from typing import List, Union, Dict
 import logging
 from dataclasses import dataclass, field
+from typing import Dict, List, Union
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -98,8 +99,7 @@ class Stream:
         self.data[:, index] = value
 
     def __len__(self) -> int:
-        """
-        Returns the number of time points in the data stream.
+        """Returns the number of time points in the data stream.
 
         Returns:
             int: Length of the time stream.
@@ -209,7 +209,7 @@ class StreamAveraged(Stream):
             raise ValueError(message)
 
     def get_std(self, index: Union[int, str]) -> NDArray[np.float64]:
-        """Retrieves the standard deviation
+        """Retrieves the standard deviation.
 
         In the averaged data stream, the standard deviation of the data is
         stored in a separate array that mirrors the same indices as the data

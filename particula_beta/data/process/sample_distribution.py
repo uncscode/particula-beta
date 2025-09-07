@@ -1,6 +1,5 @@
-"""
-Sample from a tabulated probability density function (PDF).
-This function allows you to draw random samples from a 1-D PDF that is
+"""Sample from a tabulated probability density function (PDF).
+This function allows you to draw random samples from a 1-D PDF that is.
 
 """
 
@@ -14,8 +13,7 @@ def get_samples_from_tabulated_pdf(
     number_of_samples: int,
     random_generator: np.random.Generator | None = None,
 ) -> np.ndarray:
-    """
-    Draw random samples from a 1-D PDF that is supplied as tabulated values.
+    """Draw random samples from a 1-D PDF that is supplied as tabulated values.
 
     The function assumes `x` is strictly increasing and `pdf` ≥ 0 for all
     points.  If `pdf` is not already normalised, it is normalised internally.

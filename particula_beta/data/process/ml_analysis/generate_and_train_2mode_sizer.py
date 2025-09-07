@@ -1,26 +1,24 @@
-"""
-Prototype for generating and training a neural network to predict the
+"""Prototype for generating and training a neural network to predict the
 parameters of a 2-mode lognormal distribution from a concentration PDF.
 """
 
-import os
 import logging
+import os
 import warnings
-from typing import Tuple, Optional
-import numpy as np
-from numpy.typing import NDArray
+from typing import Optional, Tuple
+
 import joblib  # type: ignore
-from tqdm import tqdm
-
-
+import numpy as np
+import particula as par
+from numpy.typing import NDArray
 from scipy.interpolate import interp1d  # type: ignore
-from sklearn.utils import shuffle  # type: ignore
-from sklearn.model_selection import train_test_split  # type: ignore
 from sklearn.metrics import mean_squared_error  # type: ignore
+from sklearn.model_selection import train_test_split  # type: ignore
 from sklearn.neural_network import MLPRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
-import particula as par
+from sklearn.utils import shuffle  # type: ignore
+from tqdm import tqdm
 
 from particula_beta.data.process.ml_analysis.get_ml_folder import (
     get_ml_analysis_folder,
@@ -59,8 +57,7 @@ def generate_simulated_data(
     NDArray[np.float64],
     NDArray[np.float64],
 ]:
-    """
-    Generate simulated lognormal aerosol particle size distributions.
+    """Generate simulated lognormal aerosol particle size distributions.
 
     Arguments:
         total_number_simulated: Total number of simulated distributions.
@@ -131,8 +128,7 @@ def generate_simulated_data(
 
 
 def normalize_max(x_input: NDArray[np.float64]) -> NDArray[np.float64]:
-    """
-    Normalize each sample in X by dividing by its maximum value.
+    """Normalize each sample in X by dividing by its maximum value.
 
     Arguments:
         X: The input array to be normalized.
@@ -151,8 +147,7 @@ def normalize_targets(
     lower_bound_gsd: float,
     upper_bound_gsd: float,
 ) -> NDArray[np.float64]:
-    """
-    Normalize the mode index, GSD, and relative number concentration.
+    """Normalize the mode index, GSD, and relative number concentration.
 
     Arguments:
         mode_index_sim: Array of mode indices.
@@ -179,8 +174,7 @@ def normalize_targets(
 
 
 def create_pipeline() -> Pipeline:
-    """
-    Create a pipeline with normalization and MLPRegressor model.
+    """Create a pipeline with normalization and MLPRegressor model.
 
     Returns:
         A scikit-learn Pipeline object.
@@ -217,8 +211,7 @@ def train_pipeline(
     NDArray[np.float64],
     NDArray[np.float64],
 ]:
-    """
-    Train the pipeline and return the trained model along with train/test data.
+    """Train the pipeline and return the trained model along with train/test data.
 
     Arguments:
         X: The feature array.
@@ -258,8 +251,7 @@ def train_pipeline_with_progress(
     NDArray[np.float64],
     NDArray[np.float64],
 ]:
-    """
-    Train the pipeline in batches with progress tracking, and return the
+    """Train the pipeline in batches with progress tracking, and return the
     trained model along with train/test data.
 
     Arguments:
@@ -318,8 +310,7 @@ def evaluate_pipeline(
     x_test: NDArray[np.float64],
     y_test: NDArray[np.float64],
 ) -> None:
-    """
-    Evaluate the pipeline and print the mean squared error for each target.
+    """Evaluate the pipeline and print the mean squared error for each target.
 
     Arguments:
         pipeline: The trained pipeline.
@@ -342,8 +333,7 @@ def evaluate_pipeline(
 
 
 def save_pipeline(pipeline: Pipeline, filename: str) -> None:
-    """
-    Save the trained pipeline to a file.
+    """Save the trained pipeline to a file.
 
     Arguments:
         pipeline: The trained pipeline.
@@ -353,8 +343,7 @@ def save_pipeline(pipeline: Pipeline, filename: str) -> None:
 
 
 def load_pipeline(filename: str) -> Pipeline:
-    """
-    Load a pipeline from a file.
+    """Load a pipeline from a file.
 
     Arguments:
         filename: The filename to load the pipeline from.
@@ -366,8 +355,7 @@ def load_pipeline(filename: str) -> Pipeline:
 
 
 def load_and_cache_pipeline(filename: str) -> Pipeline:
-    """
-    Load and cache the ML pipeline if not already loaded.
+    """Load and cache the ML pipeline if not already loaded.
 
     Arguments:
         filename: Path to the pipeline file.
@@ -456,8 +444,7 @@ def lognormal_2mode_ml_guess(
     logspace_x: NDArray[np.float64],
     concentration_pdf: NDArray[np.float64],
 ) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
-    """
-    Load the machine learning pipeline, interpolate the concentration PDF,
+    """Load the machine learning pipeline, interpolate the concentration PDF,
     and predict lognormal parameters.
 
     Arguments:
@@ -541,8 +528,7 @@ def looped_lognormal_2mode_ml_guess(
     logspace_x: NDArray[np.float64],
     concentration_pdf: NDArray[np.float64],
 ) -> Tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
-    """
-    Loop through the concentration PDFs to get the best guess.
+    """Loop through the concentration PDFs to get the best guess.
 
     Arguments:
         logspace_x: Array of x-values (particle sizes).

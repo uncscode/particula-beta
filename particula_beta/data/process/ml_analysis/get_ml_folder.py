@@ -1,4 +1,4 @@
-"""get machine learning location of data folder"""
+"""get machine learning location of data folder."""
 
 import os
 

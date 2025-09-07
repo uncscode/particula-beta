@@ -7,11 +7,8 @@ both inside and outside the Rayleigh regime (x ≤ 0.05) is included.
 """
 
 import numpy as np
-import pytest
-
-
 import PyMieScatt as ps  # reference implementation
-
+import pytest
 
 from particula_beta.data.taichi.taichi_mie import (  # noqa: E402
     compute_mie_efficiencies,

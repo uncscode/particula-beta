@@ -3,7 +3,8 @@
 # linting disabled until reformatting of this file
 
 
-from typing import Tuple, Optional
+from typing import Optional, Tuple
+
 import numpy as np
 
 
@@ -13,8 +14,7 @@ def merge_formatting(
     data_new: np.ndarray,
     header_new: list,
 ) -> Tuple[np.ndarray, list, np.ndarray, list]:
-    """
-    Formats two data arrays and their headers so that the data new can be
+    """Formats two data arrays and their headers so that the data new can be
     subsiqently added to data current.
 
     Args:
@@ -107,8 +107,7 @@ def average_to_interval(
     average_data: np.ndarray,
     average_data_std: np.ndarray,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculate the average of the data stream over the specified time intervals.
+    """Calculate the average of the data stream over the specified time intervals.
 
     This function calculates the average of the data stream over a series of
     time intervals specified by `average_interval_array`. The average and
@@ -226,8 +225,7 @@ def mask_outliers(
     value: Optional[float] = None,
     invert: Optional[bool] = False,
 ) -> np.ndarray:
-    """
-    Create a boolean mask for outliers in a data array. Outliers are defined as
+    """Create a boolean mask for outliers in a data array. Outliers are defined as
     values that are either above or below a specified threshold, or that are
     equal to a specified value. Not all parameters need to be specified. If
     `invert` is True, the mask will be inverted. The mask will be True for
@@ -247,7 +245,6 @@ def mask_outliers(
             True for non-outliers and False for outliers, and the same shape as
             the data array.
     """
-
     # initialize the mask
     mask = np.zeros(data.shape, dtype=bool)
 
@@ -277,8 +274,7 @@ def distribution_integration(
     x_array: Optional[np.ndarray] = None,
     axis: int = 0,
 ) -> np.ndarray:
-    """
-    Performs either PDF integration or PMS integration based on the input.
+    """Performs either PDF integration or PMS integration based on the input.
     This function supports broadcasting where x_array has shape (m,) and
     distribution has shape (n, m).
 

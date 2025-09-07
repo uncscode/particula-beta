@@ -3,30 +3,32 @@
 # pylint: disable=too-few-public-methods
 
 from typing import Any, Dict, Tuple
+
 from particula.abc_builder import BuilderABC
+
 from particula_beta.data.mixin import (
-    RelativeFolderMixin,
-    FilenameRegexMixin,
-    FileMinSizeBytesMixin,
-    HeaderRowMixin,
+    ChecksCharactersMixin,
+    ChecksCharCountsMixin,
+    ChecksReplaceCharsMixin,
+    ChecksSkipEndMixin,
+    ChecksSkipRowsMixin,
     DataChecksMixin,
     DataColumnMixin,
     DataHeaderMixin,
+    DateLocationMixin,
+    DelimiterMixin,
+    FileMinSizeBytesMixin,
+    FilenameRegexMixin,
+    HeaderRowMixin,
+    RelativeFolderMixin,
+    SizerConcentrationConvertFromMixin,
+    SizerDataReaderMixin,
+    SizerEndKeywordMixin,
+    SizerStartKeywordMixin,
     TimeColumnMixin,
     TimeFormatMixin,
-    DelimiterMixin,
     TimeShiftSecondsMixin,
     TimezoneIdentifierMixin,
-    ChecksCharactersMixin,
-    ChecksCharCountsMixin,
-    ChecksSkipRowsMixin,
-    ChecksSkipEndMixin,
-    ChecksReplaceCharsMixin,
-    SizerConcentrationConvertFromMixin,
-    SizerStartKeywordMixin,
-    SizerEndKeywordMixin,
-    SizerDataReaderMixin,
-    DateLocationMixin,
 )
 
 
@@ -256,7 +258,8 @@ class LoaderSizerSettingsBuilder(
     DateLocationMixin,
 ):
     """Builder class for creating settings for loading and checking sizer
-    1D and 2D data from CSV files."""
+    1D and 2D data from CSV files.
+    """
 
     def __init__(self):
         required_parameters = [
@@ -292,7 +295,8 @@ class LoaderSizerSettingsBuilder(
 
     def build(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """Build and return the two dictionaries for 1D and 2D sizer data
-        loading ."""
+        loading .
+        """
         self.pre_build_check()
         dict_1d = {
             "relative_data_folder": self.relative_data_folder,
@@ -392,7 +396,7 @@ class NetcdfReader2dBuilder(
 
     def set_header_2d(self, header_2d: list[str] | str):
         """Set the header for 2D data for the Stream file.
-            set to str("None") to used a 0-nth index for the header.
+        set to str("None") to used a 0-nth index for the header.
         """
         if not isinstance(header_2d, list | str):
             raise ValueError("header_2d must be a list of strings.")
@@ -421,7 +425,8 @@ class NetcdfSettingsBuilder(
     TimezoneIdentifierMixin,
 ):
     """Builder class for creating settings for loading and checking data
-    from ARM NetCDF files."""
+    from ARM NetCDF files.
+    """
 
     def __init__(self):
         required_parameters = [

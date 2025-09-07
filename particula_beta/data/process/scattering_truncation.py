@@ -1,16 +1,16 @@
-"""Scattering Truncation Correction Functions"""
+"""Scattering Truncation Correction Functions."""
 
 # pylint: disable=too-many-positional-arguments, too-many-arguments, too-many-locals
 
-from typing import Union, Tuple
 from functools import lru_cache
-import numpy as np
-from numpy.typing import NDArray
+from typing import Tuple, Union
 
-from tqdm import tqdm
-import PyMieScatt as ps
-from scipy.integrate import trapezoid
+import numpy as np
 import particula as par
+import PyMieScatt as ps
+from numpy.typing import NDArray
+from scipy.integrate import trapezoid
+from tqdm import tqdm
 
 from particula_beta.data.process import mie_angular, mie_bulk
 from particula_beta.data.util.convert_length import (
@@ -25,8 +25,7 @@ def get_truncated_scattering(
     theta1: float,
     theta2: float,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Extracts the truncated scattering intensity and corresponding angles based
+    """Extracts the truncated scattering intensity and corresponding angles based
     on the given truncation angles.
 
     Arguments:
@@ -61,8 +60,7 @@ def trunc_mono(
     float,
     Tuple[float, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray],
 ]:
-    """
-    Truncation correction for monodisperse aerosol particle.
+    """Truncation correction for monodisperse aerosol particle.
 
     Calculates the single scattering albedo (SSA) correction due to truncation
     for monodisperse aerosol measurements using the CAPS-PM-SSA instrument. The
@@ -200,8 +198,7 @@ def truncation_for_diameters(
     discretize: bool = True,
     calibrated_trunc: bool = True,
 ) -> NDArray[np.float64]:
-    """
-    Truncation correction for an array of particle diameters.
+    """Truncation correction for an array of particle diameters.
 
     Calculates the truncation correction for an array of particle diameters
     given a specific refractive index and wavelength. This function is

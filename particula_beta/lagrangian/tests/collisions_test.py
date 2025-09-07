@@ -1,6 +1,7 @@
 """Contains tests for the collisions module."""
 
 import torch
+
 from particula_beta.lagrangian import collisions
 
 

@@ -1,4 +1,4 @@
-"""Test initialize"""
+"""Test initialize."""
 
 import numpy as np
 import pytest
@@ -8,7 +8,8 @@ from particula_beta.data.process import mie_angular
 
 def test_discretize_scattering_angles():
     """Test that discretize_scattering_angles returns arrays with correct
-    shapes and values."""
+    shapes and values.
+    """
     # Define inputs
     m_sphere = 1.5  # Example refractive index
     wavelength = 532  # Example wavelength in nm
@@ -64,7 +65,8 @@ def test_discretize_scattering_angles():
 
 def test_calculate_scattering_angles():
     """Test scattering angles calculation for a position inside the sphere,
-    not at the edges."""
+    not at the edges.
+    """
     # Define inputs not at the edge of the sphere
     z_position = 5.0
     integrate_sphere_diameter_cm = 20.0
@@ -120,7 +122,8 @@ def test_calculate_scattering_angles_outside_sphere():
 
 def test_calculate_scattering_angles_at_edge():
     """Test scattering angles calculation for a position at the
-    edge of the sphere."""
+    edge of the sphere.
+    """
     # Define inputs for a position at the edge of the sphere
     z_position_edge = 10.0  # Exactly at the sphere's edge
     integrate_sphere_diameter_cm = 20.0
